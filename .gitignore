@@ -2,6 +2,8 @@
 *
 
 # Include only necessary files
+!src/common/org
+!src/common/apache
 !src/common/tiin57
 !.gitignore
 !README.md
