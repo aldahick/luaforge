@@ -1,0 +1,6 @@
+# Ignore everything
+*
+
+# Include only necessary files
+!src/common/tiin57
+!.gitignore
