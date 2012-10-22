@@ -5,6 +5,7 @@
 !src
 !src/common
 !src/common/org
+!Resources
 
 !src/common/org/luaj
 !src/common/org/luaj/*
@@ -23,5 +24,6 @@
 !src/common/tiin57/*/*/*/*/*/*
 !src/common/tiin57/*/*/*/*/*/*/*
 
+!Resources/mcmod.info
 !.gitignore
 !README.md
