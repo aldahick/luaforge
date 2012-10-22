@@ -15,7 +15,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 	)
 public class Core {
 	public static boolean[] plugins = new boolean[1];
-	
+    
 	@PreInit
 	public void PreLoad(FMLPreInitializationEvent event) {
 		
@@ -24,7 +24,7 @@ public class Core {
 		if (folder.exists() && folder.isDirectory()) {
 				File[] listOfFiles = folder.listFiles();
 				String[] mods = new String[listOfFiles.length];
-				System.out.println("[LuaForge] " + listOfFiles.length + " mods found in /lua-mods");
+                Log.info(listOfFiles.length + " mods found in /lua-mods");
 				for (int i=0; i<listOfFiles.length; i++) {
 					if (listOfFiles[i].toString().endsWith(".lua")) {
 						ModLoad.loadMod(listOfFiles[i]);
@@ -34,10 +34,9 @@ public class Core {
 		else {
 			folder.mkdirs();
 			if (folder.exists() && folder.isDirectory()) {
-				System.out.println("[LuaForge] /lua-mods created");
-			}
-			else {
-				System.out.println("[LuaForge] Error creating /lua-mods");
+                Log.info("/lua-mods created");
+			} else {
+                Log.info("Error creating /lua-mods");
 			}
 		}
 	}
