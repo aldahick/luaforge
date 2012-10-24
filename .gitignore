@@ -25,3 +25,13 @@
 
 !.gitignore
 !README.md
+src/.gitignore
+src/README.md
+src/common/tiin57/.DS_Store
+src/common/tiin57/holo/.DS_Store
+src/common/tiin57/holo/client/ClientProxy.java
+src/common/tiin57/holo/common/BlockProjector.java
+src/common/tiin57/holo/common/CommonProxy.java
+src/common/tiin57/holo/common/Core.java
+src/common/tiin57/holo/common/TileProjector.java
+src/common/tiin57/holo/res/holo.png
