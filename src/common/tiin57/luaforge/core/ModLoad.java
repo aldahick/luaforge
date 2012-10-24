@@ -3,6 +3,7 @@ package tiin57.luaforge.core;
 import java.io.File;
 
 import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.compiler.LuaC;
 import org.luaj.vm2.lib.Bit32Lib;
@@ -22,8 +23,15 @@ public class ModLoad {
 	public static void loadMod(File modFile) {
 		String modPath = modFile.getPath();
 		Globals _G = globals();
-		LuaValue chunk = _G.loadFile(modPath);
-		chunk.call(LuaValue.valueOf(modPath));
+		LuaValue chunk;
+		try {
+			chunk = _G.loadFile(modPath);
+			chunk.call(LuaValue.valueOf(modPath));
+		}
+		catch (LuaError e) {
+			e.printStackTrace();
+			Log.severe(modPath.toString() + " not loaded properly!");
+		}
 	}
     
     public static Globals globals() {

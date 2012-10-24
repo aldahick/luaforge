@@ -24,12 +24,13 @@ public class Core {
 		File folder = new File(Minecraft.getMinecraftDir() + "/lcp-mods");
 		
 		if (folder.exists() && folder.isDirectory()) {
-				File[] listOfFiles = folder.listFiles();
-				String[] mods = new String[listOfFiles.length];
-                Log.info(listOfFiles.length + " mods found in /lua-mods");
-				for (int i=0; i<listOfFiles.length; i++) {
-					if (listOfFiles[i].toString().endsWith(".lua")) {
-						ModLoad.loadMod(listOfFiles[i]);
+			File[] listOfFiles = folder.listFiles();
+			String[] mods = new String[listOfFiles.length];
+			Log.info(listOfFiles.length + " mods found in /lua-mods");
+			for (int i=0; i<listOfFiles.length; i++) {
+				if (listOfFiles[i].toString().endsWith(".lua")) {
+					ModLoad.loadMod(listOfFiles[i]);
+					Log.info(listOfFiles[i].toString());
 				}
 			}
 		}
@@ -38,7 +39,7 @@ public class Core {
 			if (folder.exists() && folder.isDirectory()) {
                 Log.info("/lua-mods created");
 			} else {
-                Log.info("Error creating /lua-mods");
+                Log.severe("Error creating /lua-mods");
 			}
 		}
 	}
