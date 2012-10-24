@@ -10,7 +10,7 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
-@Mod (modid = "LuaForge", name = "LuaForge", version = "1.0.0.0")
+@Mod (modid = "LuaForge", name = "LuaForge", version = "1.0.0.0", useMetadata = true)
 @NetworkMod (
 	clientSideRequired = true,
 	serverSideRequired = false

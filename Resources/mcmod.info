@@ -1,0 +1,21 @@
+[
+{
+  "modid": "LuaForge",
+  "name": "LuaForge",
+  "description": "Mods written in Lua",
+  "version": "1.0.0",
+  "mcversion": "1.3.2",
+  "url": "",
+  "updateUrl": "",
+  "authors": [
+    "tiin57"
+  ],
+  "credits": "Founded by tiin57",
+  "logoFile": "",
+  "screenshots": [],
+  "parent":"",
+
+  "dependencies": [
+  ]
+}
+]
