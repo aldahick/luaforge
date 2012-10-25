@@ -13,7 +13,7 @@ public class Log {
     }
     
     public static void severe(String msg) {
-        System.out.println(name + "[SEVERE]" + msg);
+        System.out.println(name + "[SEVERE] " + msg);
     }
     
 }
