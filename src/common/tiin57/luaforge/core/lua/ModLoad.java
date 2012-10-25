@@ -24,15 +24,15 @@ public class ModLoad {
     
 	public static void loadMod(File modFile) {
 		String modPath = modFile.getPath();
-		Globals _G = globals();
-		LuaValue chunk;
 		try {
+            Globals _G = globals();
+            LuaValue chunk;
 			chunk = _G.loadFile(modPath);
 			chunk.call(LuaValue.valueOf(modPath));
 		}
 		catch (LuaError e) {
-			e.printStackTrace();
 			Log.severe(modPath.toString() + " not loaded properly!");
+            Log.severe(e.getMessage());
 		}
 	}
     
