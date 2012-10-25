@@ -17,21 +17,22 @@ import cpw.mods.fml.common.network.NetworkMod;
 	serverSideRequired = false
 	)
 public class Core {
+    
 	public static boolean[] plugins = new boolean[1];
+    public static final String dirName = "/lcp-mods";
     
 	@PreInit
 	public void PreLoad(FMLPreInitializationEvent event) {
 		
-		File folder = new File(Minecraft.getMinecraftDir() + "/lcp-mods");
+		File folder = new File(Minecraft.getMinecraftDir() + dirName);
 		
 		if (folder.exists() && folder.isDirectory()) {
 			File[] listOfFiles = folder.listFiles();
 			String[] mods = new String[listOfFiles.length];
-			Log.info(listOfFiles.length + " mods found in /lua-mods");
+			Log.info(listOfFiles.length + " mods found in " + dirName +" now loading");
 			for (int i=0; i<listOfFiles.length; i++) {
 				if (listOfFiles[i].toString().endsWith(".lua")) {
 					ModLoad.loadMod(listOfFiles[i]);
-					Log.info(listOfFiles[i].toString());
 				}
 			}
 		}
