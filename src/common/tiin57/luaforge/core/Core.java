@@ -1,5 +1,6 @@
 package tiin57.luaforge.core;
 
+import tiin57.luaforge.core.lua.ModLoad;
 import java.io.File;
 
 import net.minecraft.client.Minecraft;

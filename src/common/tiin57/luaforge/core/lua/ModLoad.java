@@ -1,4 +1,4 @@
-package tiin57.luaforge.core;
+package tiin57.luaforge.core.lua;
 
 import java.io.File;
 
@@ -17,6 +17,8 @@ import org.luaj.vm2.lib.jse.JseMathLib;
 import org.luaj.vm2.lib.jse.JseOsLib;
 import org.luaj.vm2.lib.jse.JsePlatform;
 import org.luaj.vm2.lib.jse.LuajavaLib;
+import tiin57.luaforge.core.Log;
+import tiin57.luaforge.core.lua.libs.LogLib;
 
 public class ModLoad {
     
@@ -46,6 +48,10 @@ public class ModLoad {
 		_G.load(new JseIoLib());
 		_G.load(new JseOsLib());
 		_G.load(new LuajavaLib());
+        
+        // Custom libs
+        _G.load(new LogLib());
+        
 		LuaC.install();
 		_G.compiler = LuaC.instance;
 		return _G;		
