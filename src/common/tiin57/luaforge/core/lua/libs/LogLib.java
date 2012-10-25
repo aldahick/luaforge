@@ -1,5 +1,6 @@
 package tiin57.luaforge.core.lua.libs;
 
+import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
@@ -7,48 +8,44 @@ import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 import tiin57.luaforge.core.Log;
 
-public class LogLib extends OneArgFunction{
+public class LogLib extends OneArgFunction {
     
-    private static final int INIT      = 0;
-    private static final int INFO      = 1;
-    private static final int WARNING   = 2;
-    private static final int SEVERE    = 3;
-
-    private static final String[] NAMES = {
-            "info",
-            "warning",
-            "severe",
-    };
+    public Globals globals;
     
     @Override
-    public LuaValue call(LuaValue env){
-        LuaTable t = new LuaTable();
-        bind(t, this.getClass(), NAMES, INFO);
-        env.get("server").set("log", t);
+    public LuaValue call(LuaValue env) {
+        globals = env.checkglobals();
+        LuaTable log = new LuaTable();
         
-        return t;
+        log.set("info", new info());
+        log.set("warning", new warning());
+        log.set("severe", new severe());
+        
+        env.set("log", log);
+        return log;
     }
     
-    @Override
-    public Varargs invoke(Varargs args) {
-        try {
-            switch(opcode){
-                case INIT:
-                    return call();
-                case INFO:
-                    Log.info(args.arg1().tojstring());
-                    return NONE;
-                case WARNING:
-                    Log.warning(args.arg1().tojstring());
-                    return NONE;
-                case SEVERE:
-                    Log.severe(args.arg1().tojstring());
-                    return NONE;
-                default:
-                    return NONE;
-            }
-        }catch(Exception e){
-            return varargsOf(NIL, valueOf(e.getMessage()));
+    final class info extends VarArgFunction{
+        @Override
+        public Varargs invoke(Varargs args){
+            Log.info(args.tojstring());
+            return LuaValue.NONE;
+        }
+    }
+    
+    final class warning extends VarArgFunction{
+        @Override
+        public Varargs invoke(Varargs args){
+            Log.warning(args.tojstring());
+            return LuaValue.NONE;
+        }
+    }
+    
+    final class severe extends VarArgFunction{
+        @Override
+        public Varargs invoke(Varargs args){
+            Log.severe(args.tojstring());
+            return LuaValue.NONE;
         }
     }
     
