@@ -36,10 +36,12 @@ public class Core {
 			}
 		}
 		else {
-			folder.mkdirs();
 			if (folder.exists() && folder.isDirectory()) {
-                Log.info("/lua-mods created");
+                Log.info("/lua-mods found");
 			} else {
+                if(folder.mkdirs()){
+                    Log.info("/lua-mods created");
+                }
                 Log.severe("Error creating /lua-mods");
 			}
 		}
