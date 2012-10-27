@@ -77,8 +77,10 @@ public class Core {
 
     @Init
     public void load(FMLInitializationEvent event) {
-        Log.info("Sucessfully loaded");
+        proxy.registerRenderers();
         loadLuaMod(LuaStartup.STARTUP);
+        Log.info("Sucessfully loaded");
+        
     }
 
     @PostInit
