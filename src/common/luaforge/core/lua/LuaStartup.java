@@ -6,5 +6,4 @@ public enum LuaStartup {
     STARTUP,
     POSTSTARTUP,
     SERVERSTARTUP;
-    
 }

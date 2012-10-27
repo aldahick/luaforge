@@ -45,6 +45,7 @@ public class Core {
                     LuaEnvironment env = new LuaEnvironment(listOfFiles[i], listOfFiles[i].getName());
                     LuaMods.add(env);
                 }
+				((LuaEnvironment) LuaMods.toArray()[i]).load();
 			}
 		} else {
             if (folder.mkdirs()) {
