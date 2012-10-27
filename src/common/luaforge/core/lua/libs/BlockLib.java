@@ -1,12 +1,12 @@
-package tiin57.luaforge.core.lua.libs;
+package luaforge.core.lua.libs;
+
+import luaforge.core.api.LuaClassRegistry;
+import luaforge.core.api.LuaMethod;
 
 import org.luaj.vm2.LuaTable;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
-import tiin57.luaforge.core.api.LuaClassRegistry;
-import tiin57.luaforge.core.api.LuaMethod;
-import tiin57.luaforge.forgelibs.BlockCreate;
 
 public class BlockLib {
 	@LuaMethod(name = "block")

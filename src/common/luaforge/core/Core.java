@@ -1,4 +1,4 @@
-package tiin57.luaforge.core;
+package luaforge.core;
 
 import java.io.File;
 
@@ -14,8 +14,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import java.util.ArrayList;
-import tiin57.luaforge.core.lua.LuaEnvironment;
-import tiin57.luaforge.core.lua.LuaStartup;
+
+import luaforge.core.lua.LuaEnvironment;
+import luaforge.core.lua.LuaStartup;
 
 @Mod (modid = "LuaForge", name = "LuaForge", version = "1.0.0.0", useMetadata = true)
 @NetworkMod (

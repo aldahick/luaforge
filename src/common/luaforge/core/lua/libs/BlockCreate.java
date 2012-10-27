@@ -1,4 +1,4 @@
-package tiin57.luaforge.forgelibs;
+package luaforge.core.lua.libs;
 
 import org.luaj.vm2.Varargs;
 

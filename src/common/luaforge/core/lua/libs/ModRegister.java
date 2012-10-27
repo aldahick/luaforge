@@ -1,4 +1,4 @@
-package tiin57.luaforge.forgelibs;
+package luaforge.core.lua.libs;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -16,7 +16,6 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.versioning.ArtifactVersion;
 import cpw.mods.fml.common.versioning.VersionRange;
-import tiin57.luaforge.core.lua.libs.RegisterLib;
 
 public class ModRegister implements ModContainer {
 	public static Object[] obj = null;

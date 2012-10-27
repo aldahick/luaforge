@@ -1,8 +1,9 @@
-package tiin57.luaforge.core.lua.libs;
+package luaforge.core.lua.libs;
+
+import luaforge.core.api.LuaMethod;
 
 import org.luaj.vm2.Varargs;
 
-import tiin57.luaforge.core.api.LuaMethod;
 
 public class RegisterLib {
 	public static String modid = null;

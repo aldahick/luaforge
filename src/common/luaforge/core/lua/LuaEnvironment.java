@@ -1,10 +1,15 @@
-package tiin57.luaforge.core.lua;
+package luaforge.core.lua;
 
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
+
+import luaforge.core.Log;
+import luaforge.core.api.LuaClassRegistry;
+import luaforge.core.lua.libs.LogLib;
+
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaString;
@@ -21,9 +26,6 @@ import org.luaj.vm2.lib.jse.JseIoLib;
 import org.luaj.vm2.lib.jse.JseMathLib;
 import org.luaj.vm2.lib.jse.JseOsLib;
 import org.luaj.vm2.lib.jse.LuajavaLib;
-import tiin57.luaforge.core.Log;
-import tiin57.luaforge.core.api.LuaClassRegistry;
-import tiin57.luaforge.core.lua.libs.LogLib;
 
 public class LuaEnvironment {
     

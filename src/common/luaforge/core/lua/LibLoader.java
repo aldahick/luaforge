@@ -1,7 +1,7 @@
-package tiin57.luaforge.core.lua;
+package luaforge.core.lua;
 
-import tiin57.luaforge.core.api.LuaClassRegistry;
-import tiin57.luaforge.core.lua.libs.*;
+import luaforge.core.api.LuaClassRegistry;
+import luaforge.core.lua.libs.*;
 
 public class LibLoader {
 	public static void loadLibs() {
