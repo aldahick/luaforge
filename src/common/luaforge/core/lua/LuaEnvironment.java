@@ -117,7 +117,6 @@ public class LuaEnvironment {
         
         // Custom libs
         _G.load(new LogLib());
-        
         for(String s : LuaClassRegistry.methods.keySet()){
             Method[] methodsArray = new Method[LuaClassRegistry.methods.get(s).size()];
             _G.load(new LuaMethodLoader(s, LuaClassRegistry.methods.get(s).toArray(methodsArray)));

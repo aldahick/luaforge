@@ -10,10 +10,8 @@ import org.luaj.vm2.Varargs;
 
 public class BlockLib {
 	@LuaMethod(name = "block")
-	public static Varargs create (Varargs args) {
-		if (args.istable(0)) {
-			new BlockCreate(args);
-		}
+	public static Varargs createBlock (Varargs args) {
+		new BlockCreate(args);
 		return null;
 	}
 }
