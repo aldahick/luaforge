@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 public @interface LuaMethod {
 
-    public String name();
+    public String name() default "";
 }

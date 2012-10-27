@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import luaforge.core.Log;
-import luaforge.core.lua.LuaMethodLoader;
+import luaforge.core.lua.LuaIndexMethodLoader;
 import luaforge.core.lua.libs.LogLib;
 
 import org.luaj.vm2.Globals;
