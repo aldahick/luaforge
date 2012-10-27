@@ -84,5 +84,4 @@ public class Core {
             loadLuaMod(e, startup);
         }
     }
-    
 }
