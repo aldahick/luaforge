@@ -1,6 +1,10 @@
 package tiin57.luaforge.core.lua;
 
 import java.io.File;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaString;
@@ -18,6 +22,7 @@ import org.luaj.vm2.lib.jse.JseMathLib;
 import org.luaj.vm2.lib.jse.JseOsLib;
 import org.luaj.vm2.lib.jse.LuajavaLib;
 import tiin57.luaforge.core.Log;
+import tiin57.luaforge.core.api.LuaClassRegistry;
 import tiin57.luaforge.core.lua.libs.LogLib;
 
 public class LuaEnvironment {
@@ -110,6 +115,11 @@ public class LuaEnvironment {
         
         // Custom libs
         _G.load(new LogLib());
+        
+        for(String s : LuaClassRegistry.methods.keySet()){
+            Method[] methodsArray = new Method[LuaClassRegistry.methods.get(s).size()];
+            _G.load(new LuaMethodLoader(s, LuaClassRegistry.methods.get(s).toArray(methodsArray)));
+        }
         
 		LuaC.install();
 		_G.compiler = LuaC.instance;
