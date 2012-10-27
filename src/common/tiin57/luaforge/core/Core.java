@@ -17,72 +17,70 @@ import java.util.ArrayList;
 import tiin57.luaforge.core.lua.LuaEnvironment;
 import tiin57.luaforge.core.lua.LuaStartup;
 
-@Mod (modid = "LuaForge", name = "LuaForge", version = "1.0.0.0", useMetadata = true)
-@NetworkMod (
+@Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0.0", useMetadata = true)
+@NetworkMod(
 	clientSideRequired = true,
-	serverSideRequired = false
-	)
+serverSideRequired = false)
 public class Core {
-    
-	public static boolean[] plugins = new boolean[1];
+
+    public static boolean[] plugins = new boolean[1];
     public static final String dirName = "/lcp-mods";
     public static ArrayList<LuaEnvironment> LuaMods = new ArrayList<LuaEnvironment>();
-    
-	@PreInit
-	public void PreLoad(FMLPreInitializationEvent event) {
-		
-		File folder = new File(Minecraft.getMinecraftDir() + dirName);
-		
-		if (folder.exists() && folder.isDirectory()) {
-			File[] listOfFiles = folder.listFiles();
-			Log.info(listOfFiles.length + " mods found in " + dirName + " now loading");
-			for (int i=0; i<listOfFiles.length; i++) {
-				if (listOfFiles[i].toString().endsWith(".lua") && !listOfFiles[i].isDirectory()) {
+
+    @PreInit
+    public void PreLoad(FMLPreInitializationEvent event) {
+
+        File folder = new File(Minecraft.getMinecraftDir() + dirName);
+
+        if (folder.exists() && folder.isDirectory()) {
+            File[] listOfFiles = folder.listFiles();
+            Log.info(listOfFiles.length + " mods found in " + dirName + " now loading");
+            for (int i = 0; i < listOfFiles.length; i++) {
+                if (listOfFiles[i].toString().endsWith(".lua") && !listOfFiles[i].isDirectory()) {
                     LuaEnvironment env = new LuaEnvironment(listOfFiles[i]);
                     LuaMods.add(env);
-				} else if (listOfFiles[i].isDirectory()) {
+                } else if (listOfFiles[i].isDirectory()) {
                     LuaEnvironment env = new LuaEnvironment(listOfFiles[i], listOfFiles[i].getName());
                     LuaMods.add(env);
                 }
-			}
-		} else {
+            }
+        } else {
             if (folder.mkdirs()) {
                 Log.info("/lua-mods created");
             } else {
                 Log.severe("Error creating /lua-mods");
             }
-		}
-        
+        }
+
         loadLuaMod(LuaStartup.PRESTARTUP);
-        
-	}
-    
+
+    }
+
     @Init
     public void load(FMLInitializationEvent event) {
         Log.info("Sucessfully loaded");
         loadLuaMod(LuaStartup.STARTUP);
     }
-    
+
     @PostInit
-    public void postLoad(FMLPostInitializationEvent event){
+    public void postLoad(FMLPostInitializationEvent event) {
         loadLuaMod(LuaStartup.POSTSTARTUP);
     }
-    
+
     @ServerStarting
-    public void serverStarting(FMLServerStartingEvent event){
+    public void serverStarting(FMLServerStartingEvent event) {
         loadLuaMod(LuaStartup.SERVERSTARTUP);
     }
-    
-    public void loadLuaMod(LuaEnvironment env, LuaStartup startup){
-        if(env.startup == startup){
+
+    public void loadLuaMod(LuaEnvironment env, LuaStartup startup) {
+        if (env.startup == startup) {
             env.call();
         }
     }
-    
-    public void loadLuaMod(LuaStartup startup){
-        for(LuaEnvironment e : LuaMods){
+
+    public void loadLuaMod(LuaStartup startup) {
+        for (LuaEnvironment e : LuaMods) {
             loadLuaMod(e, startup);
         }
     }
-    
 }

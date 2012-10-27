@@ -26,104 +26,99 @@ import tiin57.luaforge.core.api.LuaClassRegistry;
 import tiin57.luaforge.core.lua.libs.LogLib;
 
 public class LuaEnvironment {
-    
+
     public LuaStartup startup;
-    
     private Globals _G = globals();
     private LuaValue chunk;
-    
     private String modPath;
     private String modName;
-    
-    public LuaEnvironment(File modFile){
+
+    public LuaEnvironment(File modFile) {
         modPath = modFile.getPath();
         modName = modFile.getName();
         load();
     }
-    
-    public LuaEnvironment(File modFile, String name){
+
+    public LuaEnvironment(File modFile, String name) {
         modPath = new File(modFile + "/main.lua").getPath();
         modName = name;
-        
+
         callPropertiesFile(new File(modFile + "/properties.lua").getPath());
         startup = determineStartup();
-        
+
         load();
     }
-    
-    public void load(){
+
+    public void load() {
         chunk = _G.loadFile(modPath);
     }
-    
-    public void call(){
+
+    public void call() {
         try {
-			chunk.call(LuaValue.valueOf(modPath));
-		}
-		catch (LuaError e) {
-			Log.severe(modName + " not loaded properly!");
+            chunk.call(LuaValue.valueOf(modPath));
+        } catch (LuaError e) {
+            Log.severe(modName + " not loaded properly!");
             Log.severe(e.getMessage());
-		}
-        
+        }
+
     }
-    
-    private void callPropertiesFile(String path){
+
+    private void callPropertiesFile(String path) {
         try {
             LuaValue c = _G.loadFile(path);
-			c.call(LuaValue.valueOf(path));
-		}
-		catch (LuaError e) {
-			Log.severe(modName + " not loaded properly!");
+            c.call(LuaValue.valueOf(path));
+        } catch (LuaError e) {
+            Log.severe(modName + " not loaded properly!");
             Log.severe(e.getMessage());
-		}
+        }
     }
-    
-    public String getModName(){
+
+    public String getModName() {
         return modName;
     }
-    
-    private LuaStartup determineStartup(){
-        try{
+
+    private LuaStartup determineStartup() {
+        try {
             String s = _G.get("startup").tojstring();
-            if(s.equals("PRESTARTUP")){
+            if (s.equals("PRESTARTUP")) {
                 return LuaStartup.PRESTARTUP;
-            } else if(s.equals("STARTUP")) {
+            } else if (s.equals("STARTUP")) {
                 return LuaStartup.STARTUP;
-            } else if(s.equals("POSTSTARTUP")) {
+            } else if (s.equals("POSTSTARTUP")) {
                 return LuaStartup.POSTSTARTUP;
-            } else if(s.equals("SERVERSTARTUP")) {
+            } else if (s.equals("SERVERSTARTUP")) {
                 return LuaStartup.SERVERSTARTUP;
-            }else{
+            } else {
                 return LuaStartup.STARTUP;
             }
-        }catch(LuaError e){
+        } catch (LuaError e) {
             return LuaStartup.STARTUP;
         }
     }
-    
+
     private static Globals globals() {
-		Globals _G = new Globals();
-		_G.load(new JseBaseLib());
-		_G.load(new PackageLib());
-		_G.load(new Bit32Lib());
-		_G.load(new TableLib());
-		_G.load(new StringLib());
-		_G.load(new CoroutineLib());
-		_G.load(new JseMathLib());
-		_G.load(new JseIoLib());
-		_G.load(new JseOsLib());
+        Globals _G = new Globals();
+        _G.load(new JseBaseLib());
+        _G.load(new PackageLib());
+        _G.load(new Bit32Lib());
+        _G.load(new TableLib());
+        _G.load(new StringLib());
+        _G.load(new CoroutineLib());
+        _G.load(new JseMathLib());
+        _G.load(new JseIoLib());
+        _G.load(new JseOsLib());
         _G.load(new DebugLib());
-        
+
         // Custom libs
         _G.load(new LogLib());
-        
-        for(String s : LuaClassRegistry.methods.keySet()){
+
+        for (String s : LuaClassRegistry.methods.keySet()) {
             Method[] methodsArray = new Method[LuaClassRegistry.methods.get(s).size()];
             _G.load(new LuaMethodLoader(s, LuaClassRegistry.methods.get(s).toArray(methodsArray)));
         }
-        
-		LuaC.install();
-		_G.compiler = LuaC.instance;
-		return _G;
-	}
-    
+
+        LuaC.install();
+        _G.compiler = LuaC.instance;
+        return _G;
+    }
 }

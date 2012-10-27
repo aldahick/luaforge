@@ -9,63 +9,57 @@ import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 import tiin57.luaforge.core.Log;
 
-public class LuaMethodLoader extends OneArgFunction{
-    
+public class LuaMethodLoader extends OneArgFunction {
+
     public Globals globals;
-    
     private String indexName;
     private String[] methodNames;
     private Method[] methods;
-    
-    public LuaMethodLoader(String name, Method... methods){
+
+    public LuaMethodLoader(String name, Method... methods) {
         indexName = name;
-        
+
         methodNames = new String[methods.length];
-        for(int i=0; i < methods.length; i++){
+        for (int i = 0; i < methods.length; i++) {
             methodNames[i] = methods[i].getName();
         }
         this.methods = methods;
     }
-    
+
     @Override
     public LuaValue call(LuaValue env) {
         globals = env.checkglobals();
         LuaTable t = new LuaTable();
-        
-        for(int i=0; i < methodNames.length; i++){
+
+        for (int i = 0; i < methodNames.length; i++) {
             t.set(methodNames[i], new LuaFunctionLoader(i, methodNames[i]));
         }
-        
+
         env.set(indexName, t);
         return t;
     }
-    
-    final class LuaFunctionLoader extends VarArgFunction{
-        
+
+    final class LuaFunctionLoader extends VarArgFunction {
+
         public LuaFunctionLoader(int opcode, String name) {
-			this.opcode = opcode;
-			this.name = name;
-		}
-        
+            this.opcode = opcode;
+            this.name = name;
+        }
+
         @Override
-        public Varargs invoke(Varargs args){
-            for(int i=0; i < methodNames.length; i++){
-                if(i == opcode){
-                    try{
+        public Varargs invoke(Varargs args) {
+            for (int i = 0; i < methodNames.length; i++) {
+                if (i == opcode) {
+                    try {
                         return (Varargs) methods[i].invoke(null, args);
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         Log.severe("invocation exception");
                         Log.severe(e.getMessage());
                     }
                     break;
-                    
-                    
                 }
             }
             return NONE;
         }
-        
     }
-    
-
 }

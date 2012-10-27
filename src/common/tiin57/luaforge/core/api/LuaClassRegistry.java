@@ -25,7 +25,7 @@ import tiin57.luaforge.core.lua.LuaMethodLoader;
 import tiin57.luaforge.core.lua.libs.LogLib;
 
 public class LuaClassRegistry {
-    
+
     public static HashMap<String, ArrayList<Method>> methods = new HashMap<String, ArrayList<Method>>();
 
     public static void register(Object target) {
@@ -33,24 +33,24 @@ public class LuaClassRegistry {
         for (Method method : target.getClass().getDeclaredMethods()) {
             if (method.isAnnotationPresent(LuaMethod.class)) {
                 if (method.getReturnType().equals(Varargs.class)) {
-                    
+
                     String indexName = method.getAnnotation(LuaMethod.class).name();
                     String methodName = method.getName();
-                    
-                    if(!Modifier.isStatic(method.getModifiers())){
+
+                    if (!Modifier.isStatic(method.getModifiers())) {
                         throw new IllegalArgumentException(methodName + " is not declared static");
                     }
-                    
-                    if(method.getParameterTypes().length != 1){
-                        throw new IllegalArgumentException(methodName + " requires 1 parameter with type Varargs");
-                    }
-                    
-                    Class<?> paramType = method.getParameterTypes()[0];
-                    if(!paramType.equals(Varargs.class)){
+
+                    if (method.getParameterTypes().length != 1) {
                         throw new IllegalArgumentException(methodName + " requires 1 parameter with type Varargs");
                     }
 
-                    if(methods.get(indexName) == null){
+                    Class<?> paramType = method.getParameterTypes()[0];
+                    if (!paramType.equals(Varargs.class)) {
+                        throw new IllegalArgumentException(methodName + " requires 1 parameter with type Varargs");
+                    }
+
+                    if (methods.get(indexName) == null) {
                         methods.put(indexName, new ArrayList<Method>());
                     }
                     methods.get(indexName).add(method);
@@ -59,5 +59,4 @@ public class LuaClassRegistry {
             }
         }
     }
-
 }
