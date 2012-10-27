@@ -25,7 +25,7 @@ import tiin57.luaforge.core.lua.LuaStartup;
 public class Core {
     
 	public static boolean[] plugins = new boolean[1];
-    public static final String dirName = "/lcp-mods";
+    public static final String dirName = "/luaforge-mods";
     public static ArrayList<LuaEnvironment> LuaMods = new ArrayList<LuaEnvironment>();
     
 	@PreInit

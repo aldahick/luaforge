@@ -9,9 +9,8 @@ import tiin57.luaforge.core.api.LuaMethod;
 import tiin57.luaforge.forgelibs.BlockCreate;
 
 public class BlockLib {
-	@LuaMethod(name = "create")
-	public static Varargs code (Varargs args) {
-		LuaClassRegistry.register(new BlockLib());
+	@LuaMethod(name = "block")
+	public static Varargs create (Varargs args) {
 		if (args.istable(0)) {
 			new BlockCreate(args);
 		}
