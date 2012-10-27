@@ -23,6 +23,13 @@
 !src/common/tiin57/*/*/*/*/*
 !src/common/tiin57/*/*/*/*/*/*
 !src/common/tiin57/*/*/*/*/*/*/*
+!src/common/luaforge/
+!src/common/luaforge/*
+!src/common/luaforge/*/*
+!src/common/luaforge/*/*/*
+!src/common/luaforge/*/*/*/*
+!src/common/luaforge/*/*/*/*/*
+!src/common/luaforge//*/*/*/*/*/*
 
 !Resources/mcmod.info
 !.gitignore
@@ -37,3 +44,9 @@ src/common/tiin57/holo/common/CommonProxy.java
 src/common/tiin57/holo/common/Core.java
 src/common/tiin57/holo/common/TileProjector.java
 src/common/tiin57/holo/res/holo.png
+src/common/tiin57/endercraft
+src/common/tiin57/luaforge/.DS_Store
+src/common/tiin57/luaforge/core/.DS_Store
+src/common/tiin57/luaforge/core/lua/.DS_Store
+src/common/luaforge/core/.DS_Store
+src/common/luaforge/core/lua/.DS_Store

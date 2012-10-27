@@ -1,4 +1,4 @@
-package tiin57.luaforge.core;
+package luaforge.core;
 
 import java.io.File;
 
@@ -14,8 +14,9 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import java.util.ArrayList;
-import tiin57.luaforge.core.lua.LuaEnvironment;
-import tiin57.luaforge.core.lua.LuaStartup;
+
+import luaforge.core.lua.LuaEnvironment;
+import luaforge.core.lua.LuaStartup;
 
 @Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0.0", useMetadata = true)
 @NetworkMod(
@@ -24,7 +25,7 @@ serverSideRequired = false)
 public class Core {
 
     public static boolean[] plugins = new boolean[1];
-    public static final String dirName = "/lcp-mods";
+    public static final String dirName = "/luaforge-mods";
     public static ArrayList<LuaEnvironment> LuaMods = new ArrayList<LuaEnvironment>();
 
     @PreInit
@@ -43,6 +44,7 @@ public class Core {
                     LuaEnvironment env = new LuaEnvironment(listOfFiles[i], listOfFiles[i].getName());
                     LuaMods.add(env);
                 }
+                ((LuaEnvironment) LuaMods.toArray()[i]).load();
             }
         } else {
             if (folder.mkdirs()) {

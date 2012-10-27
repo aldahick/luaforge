@@ -1,4 +1,4 @@
-package tiin57.luaforge.core.api;
+package luaforge.core.api;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -6,6 +6,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
+import luaforge.core.Log;
+import luaforge.core.lua.LuaMethodLoader;
+import luaforge.core.lua.libs.LogLib;
+
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
@@ -20,9 +25,6 @@ import org.luaj.vm2.lib.jse.JseBaseLib;
 import org.luaj.vm2.lib.jse.JseIoLib;
 import org.luaj.vm2.lib.jse.JseMathLib;
 import org.luaj.vm2.lib.jse.JseOsLib;
-import tiin57.luaforge.core.Log;
-import tiin57.luaforge.core.lua.LuaMethodLoader;
-import tiin57.luaforge.core.lua.libs.LogLib;
 
 public class LuaClassRegistry {
 

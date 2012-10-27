@@ -1,4 +1,6 @@
-package tiin57.luaforge.core.lua.libs;
+package luaforge.core.lua.libs;
+
+import luaforge.core.Log;
 
 import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaTable;
@@ -6,7 +8,6 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
-import tiin57.luaforge.core.Log;
 
 public class LogLib extends OneArgFunction {
 

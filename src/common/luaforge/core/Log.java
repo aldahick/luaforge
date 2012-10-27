@@ -1,4 +1,4 @@
-package tiin57.luaforge.core;
+package luaforge.core;
 
 public class Log {
 

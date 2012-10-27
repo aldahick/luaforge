@@ -1,4 +1,4 @@
-package tiin57.luaforge.core.api;
+package luaforge.core.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
