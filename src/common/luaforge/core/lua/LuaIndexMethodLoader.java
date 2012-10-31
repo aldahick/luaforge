@@ -15,7 +15,8 @@ public class LuaIndexMethodLoader extends LuaMethodLoader {
 
     private String indexName;
 
-    public LuaIndexMethodLoader(String name, Method... methods) {
+    public LuaIndexMethodLoader(LuaEnvironment luaEnv, String name, Method... methods) {
+        super(luaEnv);
         indexName = name;
         this.methods = methods;
     }

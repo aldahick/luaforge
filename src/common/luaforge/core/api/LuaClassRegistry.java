@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import luaforge.core.Log;
+import luaforge.core.lua.LuaEnvironment;
 import luaforge.core.lua.LuaIndexMethodLoader;
 import luaforge.core.lua.libs.LogLib;
 
@@ -42,9 +43,16 @@ public class LuaClassRegistry {
                     if (!Modifier.isStatic(method.getModifiers())) {
                         throw new IllegalArgumentException(methodName + " is not declared static");
                     }
-
-                    if (method.getParameterTypes().length != 1) {
-                        throw new IllegalArgumentException(methodName + " requires 1 parameter with type Varargs");
+                    int len = method.getParameterTypes().length;
+                    if (len == 2) {
+                        Class<?> paramType = method.getParameterTypes()[1];
+                        if (!paramType.equals(LuaEnvironment.class)) {
+                            throw new IllegalArgumentException(methodName + " requires the second parameter with type LuaEnvironment");
+                        }
+                    } else {
+                        if(len != 1){
+                            throw new IllegalArgumentException(method.getName() + " does not have at least 1 parameter or has to many parameters");
+                        }
                     }
 
                     Class<?> paramType = method.getParameterTypes()[0];

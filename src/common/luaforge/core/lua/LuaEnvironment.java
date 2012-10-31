@@ -29,7 +29,7 @@ import org.luaj.vm2.lib.jse.LuajavaLib;
 
 public class LuaEnvironment {
 
-    private Globals _G = globals();
+    private Globals _G = globals(this);
     private LuaValue chunk;
     private String modPath;
     
@@ -39,22 +39,18 @@ public class LuaEnvironment {
     private String version;
     private String author;
     /* * * * */
-    
-    public LuaEnvironment(File modFile) {
-        modPath = modFile.getPath();
-        modName = modFile.getName();
-    }
 
     public LuaEnvironment(File modFile, String name) {
-        modPath = new File(modFile + "/main.lua").getPath();
+        modPath = modFile.getPath();
         modName = name;
-        setupProperties(modFile);
+        setupProperties();
     }
 
     public void call() {
+        String modMainPath = new File(modPath + "/main.lua").getPath();
         try {
-            chunk = _G.loadFile(modPath);
-            chunk.call(LuaValue.valueOf(modPath));
+            chunk = _G.loadFile(modMainPath);
+            chunk.call(LuaValue.valueOf(modMainPath));
         } catch (LuaError e) {
             Log.severe(modName + " not loaded properly!");
             Log.severe(e.getMessage());
@@ -62,39 +58,39 @@ public class LuaEnvironment {
 
     }
 
-    private static Globals globals() {
-        Globals _G = new Globals();
-        _G.load(new JseBaseLib());
-        _G.load(new PackageLib());
-        _G.load(new Bit32Lib());
-        _G.load(new TableLib());
-        _G.load(new StringLib());
-        _G.load(new CoroutineLib());
-        _G.load(new JseMathLib());
-        _G.load(new JseIoLib());
-        _G.load(new JseOsLib());
-        _G.load(new DebugLib());
+    private static Globals globals(LuaEnvironment env) {
+        Globals globals = new Globals();
+        globals.load(new JseBaseLib());
+        globals.load(new PackageLib());
+        globals.load(new Bit32Lib());
+        globals.load(new TableLib());
+        globals.load(new StringLib());
+        globals.load(new CoroutineLib());
+        globals.load(new JseMathLib());
+        globals.load(new JseIoLib());
+        globals.load(new JseOsLib());
+        globals.load(new DebugLib());
 
         for (String s : LuaClassRegistry.methods.keySet()) {
             Method[] methodsArray = new Method[LuaClassRegistry.methods.get(s).size()];
             methodsArray = LuaClassRegistry.methods.get(s).toArray(methodsArray);
             if(s.isEmpty()){
-                _G.load(new LuaBaseMethodLoader(methodsArray));
+                globals.load(new LuaBaseMethodLoader(env, methodsArray));
             }else{
-                _G.load(new LuaIndexMethodLoader(s, methodsArray));
+                globals.load(new LuaIndexMethodLoader(env, s, methodsArray));
             }
             
         }
 
         LuaC.install();
-        _G.compiler = LuaC.instance;
-        return _G;
+        globals.compiler = LuaC.instance;
+        return globals;
     }
 
     /* Property methods */
     
-    private void setupProperties(File modFile) {
-        callPropertiesFile(new File(modFile + "/properties.lua").getPath());
+    private void setupProperties() {
+        callPropertiesFile(new File(modPath + "/properties.lua").getPath());
         startup = determineStartup();
         version = determineProperty("version");
         author = determineProperty("author");
@@ -138,6 +134,10 @@ public class LuaEnvironment {
     }
 
     /* Mod information */
+    
+    public String getModPath() {
+        return modPath;
+    }
     
     public String getModName() {
         return modName;

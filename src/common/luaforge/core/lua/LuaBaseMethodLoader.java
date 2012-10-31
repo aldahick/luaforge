@@ -10,7 +10,8 @@ import org.luaj.vm2.lib.VarArgFunction;
 
 public class LuaBaseMethodLoader extends LuaMethodLoader {
 
-    public LuaBaseMethodLoader(Method... methods) {
+    public LuaBaseMethodLoader(LuaEnvironment luaEnv, Method... methods) {
+        super(luaEnv);
         this.methods = methods;
     }
 

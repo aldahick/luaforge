@@ -15,12 +15,16 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import java.util.ArrayList;
 import luaforge.core.api.LuaClassRegistry;
 
 import luaforge.core.lua.LuaEnvironment;
 import luaforge.core.lua.LuaStartup;
 import luaforge.core.lua.libs.*;
+import luaforge.core.lua.libs.block.BlockLib;
+import luaforge.core.lua.libs.block.BlockTemplate;
 import luaforge.core.proxies.CommonProxy;
 
 @Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0.0", useMetadata = true)
@@ -29,7 +33,7 @@ import luaforge.core.proxies.CommonProxy;
 serverSideRequired = false)
 public class Core {
 
-    public static final String dirName = "/luaforge-mods";
+    public static final String dirName = "luaforge-mods";
     public static ArrayList<LuaEnvironment> LuaMods = new ArrayList<LuaEnvironment>();
     
     @Instance("LuaForge")
@@ -39,9 +43,9 @@ public class Core {
     public static CommonProxy proxy;
 
     @PreInit
-    public void PreLoad(FMLPreInitializationEvent event) {
+    public void preLoad(FMLPreInitializationEvent event) {
         registerDefaultLibs();
-        File folder = new File(Minecraft.getMinecraftDir() + dirName);
+        File folder = new File(Minecraft.getMinecraftDir(), dirName);
 
         if (folder.exists() && folder.isDirectory()) {
             File[] listOfFiles = folder.listFiles();
@@ -51,10 +55,7 @@ public class Core {
                 Log.info(listOfFiles.length + " mods found in " + dirName + " now loading");
             }
             for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].toString().endsWith(".lua") && !listOfFiles[i].isDirectory()) {
-                    LuaEnvironment env = new LuaEnvironment(listOfFiles[i]);
-                    LuaMods.add(env);
-                } else if (listOfFiles[i].isDirectory()) {
+                if (listOfFiles[i].isDirectory()) {
                     LuaEnvironment env = new LuaEnvironment(listOfFiles[i], listOfFiles[i].getName());
                     LuaMods.add(env);
                 }
@@ -77,10 +78,14 @@ public class Core {
 
     @Init
     public void load(FMLInitializationEvent event) {
-        proxy.registerRenderers();
         loadLuaMod(LuaStartup.STARTUP);
-        Log.info("Sucessfully loaded");
+        proxy.registerRenderers();
+        for(BlockTemplate bt : BlockLib.regularBlocks){
+            GameRegistry.registerBlock(bt);
+            LanguageRegistry.addName(bt, bt.getVisibleName());
+        }
         
+        Log.info("Sucessfully loaded");
     }
 
     @PostInit
@@ -108,5 +113,6 @@ public class Core {
     private static void registerDefaultLibs() {
         LuaClassRegistry.register(new LogLib());
         LuaClassRegistry.register(new ClientLib());
+        LuaClassRegistry.register(new BlockLib());
     }
 }

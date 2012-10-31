@@ -8,16 +8,23 @@ import net.minecraft.src.StepSound;
 public class BlockTemplate extends Block {
 
     private String textureFile;
+    private String visibleName;
 
     public BlockTemplate(int id, int iconIndex, Material material, String[] otherArgs) {
         super(id, iconIndex, material);
-        this.setBlockName(otherArgs[0]);
-        this.textureFile = otherArgs[1];
+        this.textureFile = otherArgs[0];
+        this.visibleName = otherArgs[1];
+        this.setBlockName(otherArgs[2]);
+        this.setTab(CreativeTabs.tabMisc); // DEBUG
     }
 
     @Override
     public String getTextureFile() {
         return textureFile;
+    }
+
+    public String getVisibleName() {
+        return visibleName;
     }
 
     public void setTab(CreativeTabs tab) {
