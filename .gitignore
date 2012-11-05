@@ -2,6 +2,7 @@
 *
 
 # Include only necessary files
+!build.xml
 !src
 !src/common
 !src/common/org
