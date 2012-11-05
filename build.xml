@@ -68,7 +68,7 @@
             <fileset dir="${reobf.dir}/luaforge" />
         </copy>
         <copy todir="reobf-copied">
-            <fileset file="${reobf.dir}/bai.class" />
+            <fileset file="Resources/bai.class" />
         </copy>
         <copy todir="reobf-copied/org/apache"><fileset dir="${reobf.dir}/org/apache" /></copy>
         <copy todir="reobf-copied/org/luaj"><fileset dir="${reobf.dir}/org/luaj" /></copy> 
