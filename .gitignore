@@ -6,6 +6,12 @@
 !src/common
 !src/common/org
 
+!src/minecraft
+!src/minecraft/net
+!src/minecraft/net/minecraft
+!src/minecraft/net/minecraft/src
+!src/minecraft/net/minecraft/src/RenderEngine.java
+
 !Resources
 !Resources/*
 !Resources/*/*
