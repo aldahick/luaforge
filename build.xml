@@ -60,4 +60,27 @@
         </jar>
     </target>
     
+    <target name="jenkins-build">
+        <antcall target="build" />
+        <antcall target="obfuscate" />
+        <delete dir="reobf-copied" />
+        <copy todir="reobf-copied/luaforge">
+            <fileset dir="${reobf.dir}/luaforge" />
+        </copy>
+        <copy todir="reobf-copied">
+            <fileset file="${reobf.dir}/bai.class" />
+        </copy>
+        <copy todir="reobf-copied/org/apache"><fileset dir="${reobf.dir}/org/apache" /></copy>
+        <copy todir="reobf-copied/org/luaj"><fileset dir="${reobf.dir}/org/luaj" /></copy> 
+            
+        <jar destfile="${jar.dir}/${jar.name}">
+            <fileset dir="reobf-copied" />
+            <fileset file="Resources/mcmod.info" />
+            <manifest>
+                <attribute name="Manifest-Version" value="1.0"/>
+                <attribute name="FMLCorePlugin" value="${loader.class}"/>
+            </manifest>
+        </jar>
+    </target>
+    
 </project>
