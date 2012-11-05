@@ -5,7 +5,12 @@
 !src
 !src/common
 !src/common/org
+
 !Resources
+!Resources/*
+!Resources/*/*
+!Resources/*/*/*
+!Resources/*/*/*/*
 
 !src/common/org/luaj
 !src/common/org/luaj/*
