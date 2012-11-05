@@ -1,14 +1,14 @@
 package luaforge.core;
 
-import java.io.File;
-
-import net.minecraft.client.Minecraft;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
+import java.io.File;
+
+import net.minecraft.client.Minecraft;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -27,10 +27,8 @@ import luaforge.core.lua.libs.block.BlockLib;
 import luaforge.core.lua.libs.block.BlockTemplate;
 import luaforge.core.proxies.CommonProxy;
 
-@Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0.0", useMetadata = true)
-@NetworkMod(
-	clientSideRequired = true,
-serverSideRequired = false)
+@Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0", useMetadata = true)
+@NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class Core {
 
     public static final String dirName = "luaforge-mods";
