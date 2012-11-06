@@ -2,20 +2,20 @@ package luaforge.core.lua.libs.block;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.Material;
-import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.StepSound;
 
 public class BlockTemplate extends Block {
 
     private String textureFile;
     private String visibleName;
+    private String hiddenName;
 
     public BlockTemplate(int id, int iconIndex, Material material, String[] otherArgs) {
         super(id, iconIndex, material);
         this.textureFile = otherArgs[0];
         this.visibleName = otherArgs[1];
         this.setBlockName(otherArgs[2]);
-        this.setTab(CreativeTabs.tabMisc); // DEBUG
+        this.hiddenName = otherArgs[2];
     }
 
     @Override
@@ -26,9 +26,9 @@ public class BlockTemplate extends Block {
     public String getVisibleName() {
         return visibleName;
     }
-
-    public void setTab(CreativeTabs tab) {
-        this.setCreativeTab(tab);
+    
+    public String getHiddenName() {
+        return hiddenName;
     }
 
     public void setSoundOnStep(StepSound sound) {
