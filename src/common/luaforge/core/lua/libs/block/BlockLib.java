@@ -2,6 +2,7 @@ package luaforge.core.lua.libs.block;
 
 import java.io.File;
 import java.util.ArrayList;
+import luaforge.core.Log;
 import net.minecraft.src.Material;
 
 import org.luaj.vm2.Varargs;
@@ -9,6 +10,7 @@ import org.luaj.vm2.Varargs;
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
 import luaforge.core.proxies.CommonProxy;
+import net.minecraft.src.CreativeTabs;
 import org.luaj.vm2.LuaValue;
 
 public class BlockLib {
@@ -27,7 +29,7 @@ public class BlockLib {
         String visibleName = args.arg(5).tojstring();
         String blockName = args.arg(6).tojstring();
 
-        Material material = null;
+        Material material;
         if(argMaterial.equalsIgnoreCase("air")) { material = Material.air; }
         else if(argMaterial.equalsIgnoreCase("cactus")) { material = Material.cactus; }
         else if(argMaterial.equalsIgnoreCase("cake")) { material = Material.cake; }
@@ -58,14 +60,37 @@ public class BlockLib {
         else if(argMaterial.equalsIgnoreCase("water")) { material = Material.water; }
         else if(argMaterial.equalsIgnoreCase("web")) { material = Material.web; }
         else if(argMaterial.equalsIgnoreCase("wood")) { material = Material.wood; }
+        else { return LuaValue.FALSE; }
 
-        if (material != null) {
-            regularBlocks.add(new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
-            return LuaValue.TRUE;
-        } else {
-            return LuaValue.FALSE;
-        }
-        
+        regularBlocks.add(new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+        return LuaValue.TRUE;
     }
+    
+    @LuaMethod(name = "block")
+    public static Varargs setCreativeTab(Varargs args, LuaEnvironment env) { // TODO: Document on the wiki
+        final String blockName = args.arg1().tojstring();
+        final String tabName = args.arg(2).tojstring();
+        for(BlockTemplate t : regularBlocks) { // TODO: Make this more efficient
+            if(t.getHiddenName().equals(blockName)) {
+                if(tabName.equalsIgnoreCase("tabAllSearch")) { t.setCreativeTab(CreativeTabs.tabAllSearch); }
+                else if(tabName.equalsIgnoreCase("tabBlock")) { t.setCreativeTab(CreativeTabs.tabBlock); }
+                else if(tabName.equalsIgnoreCase("tabBrewing")) { t.setCreativeTab(CreativeTabs.tabBrewing); }
+                else if(tabName.equalsIgnoreCase("tabCombat")) { t.setCreativeTab(CreativeTabs.tabCombat); }
+                else if(tabName.equalsIgnoreCase("tabDecorations")) { t.setCreativeTab(CreativeTabs.tabDecorations); }
+                else if(tabName.equalsIgnoreCase("tabFood")) { t.setCreativeTab(CreativeTabs.tabFood); }
+                else if(tabName.equalsIgnoreCase("tabInventory")) { t.setCreativeTab(CreativeTabs.tabInventory); }
+                else if(tabName.equalsIgnoreCase("tabMaterials")) { t.setCreativeTab(CreativeTabs.tabMaterials); }
+                else if(tabName.equalsIgnoreCase("tabMisc")) { t.setCreativeTab(CreativeTabs.tabMisc); }
+                else if(tabName.equalsIgnoreCase("tabMisc")) { t.setCreativeTab(CreativeTabs.tabRedstone); }
+                else if(tabName.equalsIgnoreCase("tabTools")) { t.setCreativeTab(CreativeTabs.tabTools); }
+                else if(tabName.equalsIgnoreCase("tabTransport")) { t.setCreativeTab(CreativeTabs.tabTransport); }
+                else { Log.warning(env.getModName() + " contains an invalid tab name"); }
+                break;
+            }
+        }
+        return LuaValue.NONE;
+    }
+    
+    
     
 }
