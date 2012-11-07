@@ -1,7 +1,7 @@
 package luaforge.core.lua.libs.block;
 
 import java.io.File;
-import java.util.ArrayList;
+import java.util.HashMap;
 import luaforge.core.Log;
 import net.minecraft.src.Material;
 
@@ -9,13 +9,13 @@ import org.luaj.vm2.Varargs;
 
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
-import luaforge.core.proxies.CommonProxy;
 import net.minecraft.src.CreativeTabs;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 
 public class BlockLib {
 
-    public static ArrayList<BlockTemplate> regularBlocks = new ArrayList<BlockTemplate>();
+    public static HashMap<String, BlockTemplate> regularBlocks = new HashMap<String, BlockTemplate>();
     
     @LuaMethod(name = "block")
     public static Varargs createBlock(Varargs args, LuaEnvironment env) {
@@ -62,31 +62,33 @@ public class BlockLib {
         else if(argMaterial.equalsIgnoreCase("wood")) { material = Material.wood; }
         else { return LuaValue.FALSE; }
 
-        regularBlocks.add(new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+        regularBlocks.put(blockName, new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
         return LuaValue.TRUE;
     }
     
     @LuaMethod(name = "block")
-    public static Varargs setCreativeTab(Varargs args, LuaEnvironment env) { // TODO: Document on the wiki
+    public static Varargs setCreativeTab(Varargs args, LuaEnvironment env) {
         final String blockName = args.arg1().tojstring();
         final String tabName = args.arg(2).tojstring();
-        for(BlockTemplate t : regularBlocks) { // TODO: Make this more efficient
-            if(t.getHiddenName().equals(blockName)) {
-                if(tabName.equalsIgnoreCase("tabAllSearch")) { t.setCreativeTab(CreativeTabs.tabAllSearch); }
-                else if(tabName.equalsIgnoreCase("tabBlock")) { t.setCreativeTab(CreativeTabs.tabBlock); }
-                else if(tabName.equalsIgnoreCase("tabBrewing")) { t.setCreativeTab(CreativeTabs.tabBrewing); }
-                else if(tabName.equalsIgnoreCase("tabCombat")) { t.setCreativeTab(CreativeTabs.tabCombat); }
-                else if(tabName.equalsIgnoreCase("tabDecorations")) { t.setCreativeTab(CreativeTabs.tabDecorations); }
-                else if(tabName.equalsIgnoreCase("tabFood")) { t.setCreativeTab(CreativeTabs.tabFood); }
-                else if(tabName.equalsIgnoreCase("tabInventory")) { t.setCreativeTab(CreativeTabs.tabInventory); }
-                else if(tabName.equalsIgnoreCase("tabMaterials")) { t.setCreativeTab(CreativeTabs.tabMaterials); }
-                else if(tabName.equalsIgnoreCase("tabMisc")) { t.setCreativeTab(CreativeTabs.tabMisc); }
-                else if(tabName.equalsIgnoreCase("tabMisc")) { t.setCreativeTab(CreativeTabs.tabRedstone); }
-                else if(tabName.equalsIgnoreCase("tabTools")) { t.setCreativeTab(CreativeTabs.tabTools); }
-                else if(tabName.equalsIgnoreCase("tabTransport")) { t.setCreativeTab(CreativeTabs.tabTransport); }
-                else { Log.warning(env.getModName() + " contains an invalid tab name"); }
-                break;
+        BlockTemplate bt = regularBlocks.get(blockName);
+        if (bt != null) {
+            if(bt.getHiddenName().equals(blockName)) {
+                if(tabName.equalsIgnoreCase("tabAllSearch")) { bt.setCreativeTab(CreativeTabs.tabAllSearch); }
+                else if(tabName.equalsIgnoreCase("tabBlock")) { bt.setCreativeTab(CreativeTabs.tabBlock); }
+                else if(tabName.equalsIgnoreCase("tabBrewing")) { bt.setCreativeTab(CreativeTabs.tabBrewing); }
+                else if(tabName.equalsIgnoreCase("tabCombat")) { bt.setCreativeTab(CreativeTabs.tabCombat); }
+                else if(tabName.equalsIgnoreCase("tabDecorations")) { bt.setCreativeTab(CreativeTabs.tabDecorations); }
+                else if(tabName.equalsIgnoreCase("tabFood")) { bt.setCreativeTab(CreativeTabs.tabFood); }
+                else if(tabName.equalsIgnoreCase("tabInventory")) { bt.setCreativeTab(CreativeTabs.tabInventory); }
+                else if(tabName.equalsIgnoreCase("tabMaterials")) { bt.setCreativeTab(CreativeTabs.tabMaterials); }
+                else if(tabName.equalsIgnoreCase("tabMisc")) { bt.setCreativeTab(CreativeTabs.tabMisc); }
+                else if(tabName.equalsIgnoreCase("tabMisc")) { bt.setCreativeTab(CreativeTabs.tabRedstone); }
+                else if(tabName.equalsIgnoreCase("tabTools")) { bt.setCreativeTab(CreativeTabs.tabTools); }
+                else if(tabName.equalsIgnoreCase("tabTransport")) { bt.setCreativeTab(CreativeTabs.tabTransport); }
+                else { Log.warning(env.getModName() + " contains an invalid tab name: " + tabName); }
             }
+        } else {
+            Log.warning(env.getModName() + " contains a reference to a block that doesnt exist: " + blockName);
         }
         return LuaValue.NONE;
     }

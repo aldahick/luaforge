@@ -78,7 +78,7 @@ public class Core {
     public void load(FMLInitializationEvent event) {
         loadLuaMod(LuaStartup.STARTUP);
         proxy.registerRenderers();
-        for(BlockTemplate bt : BlockLib.regularBlocks){
+        for (BlockTemplate bt : BlockLib.regularBlocks.values()) {
             GameRegistry.registerBlock(bt);
             LanguageRegistry.addName(bt, bt.getVisibleName());
         }

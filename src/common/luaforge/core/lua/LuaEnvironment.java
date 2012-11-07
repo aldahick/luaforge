@@ -79,7 +79,7 @@ public class LuaEnvironment {
             }else{
                 globals.load(new LuaIndexMethodLoader(env, s, methodsArray));
             }
-            
+
         }
 
         LuaC.install();
