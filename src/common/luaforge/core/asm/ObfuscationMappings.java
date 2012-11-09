@@ -8,7 +8,7 @@ public class ObfuscationMappings {
     public static final boolean isObfuscated = isObfuscated();
 
     public static void initialize() {
-        classMappings.put("net.minecraft.src.RenderEngine", "bai");
+        classMappings.put("net.minecraft.src.RenderEngine", "bap");
     }
 
     public static String getClassName(String name) {
