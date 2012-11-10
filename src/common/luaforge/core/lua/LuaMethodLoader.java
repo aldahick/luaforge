@@ -32,8 +32,10 @@ public abstract class LuaMethodLoader extends OneArgFunction {
                         int len = methods[i].getParameterTypes().length;
                         if(len == 1){
                             return (Varargs) methods[i].invoke(null, args);
-                        } else {
+                        } else if (len == 2) {
                             return (Varargs) methods[i].invoke(null, args, luaEnv);
+                        } else {
+                            throw new Exception("Invalid length of parameters in method " + methods[i].getName());
                         }
                         
                     } catch (Exception e) {

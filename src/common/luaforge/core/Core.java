@@ -25,6 +25,7 @@ import luaforge.core.lua.LuaStartup;
 import luaforge.core.lua.libs.*;
 import luaforge.core.lua.libs.block.BlockLib;
 import luaforge.core.lua.libs.block.BlockTemplate;
+import luaforge.core.lua.libs.item.ItemLib;
 import luaforge.core.proxies.CommonProxy;
 
 @Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0", useMetadata = true)
@@ -112,5 +113,6 @@ public class Core {
         LuaClassRegistry.register(new LogLib());
         LuaClassRegistry.register(new ClientLib());
         LuaClassRegistry.register(new BlockLib());
+        LuaClassRegistry.register(new ItemLib());
     }
 }

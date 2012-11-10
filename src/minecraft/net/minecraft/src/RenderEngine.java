@@ -479,17 +479,16 @@ public class RenderEngine
     public void updateDynamicTextures()
     {
         int var1 = -1;
-        TextureFX var3;
 
-        for (Iterator var2 = this.textureList.iterator(); var2.hasNext(); var1 = this.func_82772_a(var3, var1))
+        for (int var2 = 0; var2 < this.textureList.size(); ++var2)
         {
-            var3 = (TextureFX)var2.next();
+            TextureFX var3 = (TextureFX)this.textureList.get(var2);
             var3.anaglyphEnabled = this.options.anaglyph;
+            var3.onTick();
             if (TextureFXManager.instance().onUpdateTextureEffect(var3))
             {
                 var1 = this.func_82772_a(var3, var1);
             }
-            var3.onTick();
         }
     }
 
@@ -499,7 +498,7 @@ public class RenderEngine
         int tWidth  = dim.width >> 4;
         int tHeight = dim.height >> 4;
         int tLen = tWidth * tHeight << 2;
-        
+
         if (par1TextureFX.imageData.length == tLen)
         {
             this.imageData.clear();

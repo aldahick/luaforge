@@ -8,9 +8,9 @@ import net.minecraft.src.Material;
 import org.luaj.vm2.Varargs;
 
 import luaforge.core.api.LuaMethod;
+import luaforge.core.api.LuaTable;
 import luaforge.core.lua.LuaEnvironment;
 import net.minecraft.src.CreativeTabs;
-import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 
 public class BlockLib {
@@ -82,7 +82,7 @@ public class BlockLib {
                 else if(tabName.equalsIgnoreCase("tabInventory")) { bt.setCreativeTab(CreativeTabs.tabInventory); }
                 else if(tabName.equalsIgnoreCase("tabMaterials")) { bt.setCreativeTab(CreativeTabs.tabMaterials); }
                 else if(tabName.equalsIgnoreCase("tabMisc")) { bt.setCreativeTab(CreativeTabs.tabMisc); }
-                else if(tabName.equalsIgnoreCase("tabMisc")) { bt.setCreativeTab(CreativeTabs.tabRedstone); }
+                else if(tabName.equalsIgnoreCase("tabRedstone")) { bt.setCreativeTab(CreativeTabs.tabRedstone); }
                 else if(tabName.equalsIgnoreCase("tabTools")) { bt.setCreativeTab(CreativeTabs.tabTools); }
                 else if(tabName.equalsIgnoreCase("tabTransport")) { bt.setCreativeTab(CreativeTabs.tabTransport); }
                 else { Log.warning(env.getModName() + " contains an invalid tab name: " + tabName); }
@@ -93,6 +93,22 @@ public class BlockLib {
         return LuaValue.NONE;
     }
     
-    
+    @LuaTable
+    public static HashMap<String, LuaValue> material() { // TODO: Document on the wiki
+        HashMap<String, LuaValue> table = new HashMap<String, LuaValue>();
+        table.put("allSearch", LuaValue.valueOf("tabAllSearch"));
+        table.put("block", LuaValue.valueOf("tabBlock"));
+        table.put("brewing", LuaValue.valueOf("tabBrewing"));
+        table.put("combat", LuaValue.valueOf("tabCombat"));
+        table.put("decorations", LuaValue.valueOf("tabDecorations"));
+        table.put("food", LuaValue.valueOf("tabFood"));
+        table.put("inventory", LuaValue.valueOf("tabInventory"));
+        table.put("materials", LuaValue.valueOf("tabMaterials"));
+        table.put("misc", LuaValue.valueOf("tabMisc"));
+        table.put("redstone", LuaValue.valueOf("tabRedstone"));
+        table.put("tools", LuaValue.valueOf("tabTools"));
+        table.put("transport", LuaValue.valueOf("tabTransport"));
+        return table;
+    }
     
 }

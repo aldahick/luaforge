@@ -1,12 +1,7 @@
 package luaforge.core.lua;
 
 import java.lang.reflect.Method;
-import luaforge.core.Log;
-import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.Varargs;
-import org.luaj.vm2.lib.OneArgFunction;
-import org.luaj.vm2.lib.VarArgFunction;
 
 public class LuaBaseMethodLoader extends LuaMethodLoader {
 

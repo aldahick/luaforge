@@ -3,6 +3,7 @@ package luaforge.core.lua;
 import java.io.File;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public class LuaEnvironment {
         globals.load(new JseIoLib());
         globals.load(new JseOsLib());
         globals.load(new DebugLib());
-
+        
         for (String s : LuaClassRegistry.methods.keySet()) {
             Method[] methodsArray = new Method[LuaClassRegistry.methods.get(s).size()];
             methodsArray = LuaClassRegistry.methods.get(s).toArray(methodsArray);
@@ -80,6 +81,10 @@ public class LuaEnvironment {
                 globals.load(new LuaIndexMethodLoader(env, s, methodsArray));
             }
 
+        }
+        
+        for(String s : LuaClassRegistry.tables.keySet()) {
+            globals.load(new LuaTableLoader(env, LuaClassRegistry.tables.get(s)));
         }
 
         LuaC.install();
