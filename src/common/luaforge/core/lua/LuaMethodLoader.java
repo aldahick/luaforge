@@ -45,7 +45,14 @@ public abstract class LuaMethodLoader extends OneArgFunction {
                             return error(e.getCause().getMessage());
                         }
                         Log.severe("Invocation exception");
-                        Log.severe(e.getMessage());
+                        if(e.getMessage() == null) {
+                            Log.severe(e.getCause().getMessage());
+                            e.getCause().printStackTrace();
+                        } else {
+                            Log.severe(e.getMessage());
+                            e.printStackTrace();
+                        }
+                        
                     }
                     break;
                 }
