@@ -84,9 +84,6 @@ public class Core {
             GameRegistry.registerBlock(bt);
             LanguageRegistry.addName(bt, bt.getVisibleName());
         }
-        for(ItemStack shapelessRecipe : CraftingHandler.shapelessRecipes.keySet()) {
-            GameRegistry.addShapelessRecipe(shapelessRecipe, CraftingHandler.shapelessRecipes.get(shapelessRecipe));
-        }
         Log.info("Sucessfully loaded");
     }
 
