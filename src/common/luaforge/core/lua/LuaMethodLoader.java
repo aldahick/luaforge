@@ -1,8 +1,10 @@
 package luaforge.core.lua;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import luaforge.core.Log;
 import org.luaj.vm2.Globals;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.OneArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
@@ -39,6 +41,9 @@ public abstract class LuaMethodLoader extends OneArgFunction {
                         }
                         
                     } catch (Exception e) {
+                        if(e.getCause() instanceof LuaError) {
+                            return error(e.getCause().getMessage());
+                        }
                         Log.severe("Invocation exception");
                         Log.severe(e.getMessage());
                     }

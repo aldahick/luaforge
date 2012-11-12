@@ -10,16 +10,6 @@ import org.luaj.vm2.Varargs;
 public class ClientLib {
 
     @LuaMethod(name="client")
-    public static Varargs preloadItemTexture(Varargs args, LuaEnvironment env){
-        return preloadTexture(args, env);
-    }
-    
-    @LuaMethod(name="client")
-    public static Varargs preloadBlockTexture(Varargs args, LuaEnvironment env){
-        return preloadTexture(args, env);
-    }
-    
-    @LuaMethod(name="client")
     public static Varargs preloadTexture(Varargs args, LuaEnvironment env){
         CommonProxy.TEXTURES.add(new File(env.getModPath(), args.arg1().tojstring()).getPath());
         return LuaValue.NONE;

@@ -94,7 +94,7 @@ public class BlockLib {
     }
     
     @LuaTable
-    public static HashMap<String, LuaValue> creativeTabs() { // TODO: Document on the wiki
+    public static HashMap<String, LuaValue> creativeTabs() {
         HashMap<String, LuaValue> table = new HashMap<String, LuaValue>();
         table.put("allSearch", LuaValue.valueOf("tabAllSearch"));
         table.put("block", LuaValue.valueOf("tabBlock"));

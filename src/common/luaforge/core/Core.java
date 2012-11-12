@@ -27,6 +27,7 @@ import luaforge.core.lua.libs.block.BlockLib;
 import luaforge.core.lua.libs.block.BlockTemplate;
 import luaforge.core.lua.libs.item.ItemLib;
 import luaforge.core.proxies.CommonProxy;
+import net.minecraft.src.ItemStack;
 
 @Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0", useMetadata = true)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -83,7 +84,9 @@ public class Core {
             GameRegistry.registerBlock(bt);
             LanguageRegistry.addName(bt, bt.getVisibleName());
         }
-        
+        for(ItemStack shapelessRecipe : CraftingHandler.shapelessRecipes.keySet()) {
+            GameRegistry.addShapelessRecipe(shapelessRecipe, CraftingHandler.shapelessRecipes.get(shapelessRecipe));
+        }
         Log.info("Sucessfully loaded");
     }
 
@@ -114,5 +117,7 @@ public class Core {
         LuaClassRegistry.register(new ClientLib());
         LuaClassRegistry.register(new BlockLib());
         LuaClassRegistry.register(new ItemLib());
+        LuaClassRegistry.register(new ReferenceLib());
+        LuaClassRegistry.register(new CraftingHandler());
     }
 }
