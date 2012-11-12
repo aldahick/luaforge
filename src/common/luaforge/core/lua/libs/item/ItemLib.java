@@ -10,8 +10,10 @@ import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
 public class ItemLib {
+    
     public static HashMap<String, ItemTemplate> regularItems = new HashMap<String, ItemTemplate>();
-    @LuaMethod (name = "item")
+    
+    @LuaMethod (name = "item") // TODO: Document on the wiki
     public static Varargs createItem (Varargs args, LuaEnvironment env) {
         if (args.narg() < 6) {
             return LuaValue.FALSE;
@@ -30,7 +32,7 @@ public class ItemLib {
         }));
         return LuaValue.TRUE;
     }
-    @LuaMethod (name = "item")
+    @LuaMethod (name = "item") // TODO: Document on the wiki
     public static Varargs setCreativeTab (Varargs args, LuaEnvironment env) {
         final String itemName = args.arg1().tojstring();
         final String tabName = args.arg(2).tojstring();

@@ -13,7 +13,7 @@ public class CraftingHandler {
     public static HashMap<ItemStack,Object[]> shapelessRecipes = new HashMap<ItemStack,Object[]>();
     
     @LuaMethod(name = "craftingHandler")
-    public static Varargs addShapelessRecipe(Varargs args) {
+    public static Varargs addShapelessRecipe(Varargs args) { // TODO: Document on the wiki
         if(args.narg() < 2) {
             throw new LuaError("Requires at least 2 paramters");
         }
@@ -24,5 +24,7 @@ public class CraftingHandler {
         shapelessRecipes.put(new ItemStack(Block.blocksList[args.arg1().checkint()], 1), recipes);
         return LuaValue.NONE;
     }
+    
+    
     
 }
