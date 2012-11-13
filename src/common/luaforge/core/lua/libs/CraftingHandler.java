@@ -1,7 +1,9 @@
 package luaforge.core.lua.libs;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import java.util.ArrayList;
 import java.util.HashMap;
+import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
@@ -26,50 +28,39 @@ public class CraftingHandler {
 
     @LuaMethod(name = "craftingHandler")
     public static Varargs addShapedRecipe(Varargs args) { // TODO: Document on the wiki
-        Object[] recipe = new Object[args.narg() - 1];
-        if (args.narg() % 2 == 0) {
-            for (int i = 5; i <= args.narg(); i++) {
-                if (i % 2 == 1) {
-                    recipe[i - 2] = args.arg(i).checkjstring().charAt(0);
-                } else {
-                    recipe[i - 2] = new ItemStack(Block.blocksList[args.arg(i).checkint()], 1);
-                }
-            }
-            recipe[2] = args.arg(4).checkjstring();
+        ArrayList<Object> recipe = new ArrayList<Object>();
+        recipe.add(0, args.arg(2).checkjstring());
+        if (args.arg(3).checkjstring().isEmpty()) {
+            // Don't do anything
+        } else if (args.arg(4).checkjstring().isEmpty()) {
+            recipe.add(1, args.arg(3).checkjstring());
         } else {
-            for (int i = 4; i <= args.narg(); i++) {
-                if (i % 2 == 0) {
-                    recipe[i - 2] = args.arg(i).checkjstring().charAt(0);
+            recipe.add(1, args.arg(3).checkjstring());
+            recipe.add(2, args.arg(4).checkjstring());
+        }
+        for (int i = 5; i <= args.narg(); i++) {
+            if (args.arg(3).checkjstring().isEmpty()) {
+                if (i % 2 == 1) {
+                    recipe.add(i-4, args.arg(i).checkjstring().charAt(0));
                 } else {
-                    recipe[i - 2] = new ItemStack(Block.blocksList[args.arg(i).checkint()], 1);
+                    recipe.add(i-4, new ItemStack(Block.blocksList[args.arg(i).checkint()]));
+                }
+            } else if (args.arg(4).checkjstring().isEmpty()) {
+                if (i % 2 == 1) {
+                    recipe.add(i-3, args.arg(i).checkjstring().charAt(0));
+                } else {
+                    recipe.add(i-3, new ItemStack(Block.blocksList[args.arg(i).checkint()]));
+                }
+            } else {
+                if (i % 2 == 1) {
+                    recipe.add(i-2, args.arg(i).checkjstring().charAt(0));
+                } else {
+                    recipe.add(i-2, new ItemStack(Block.blocksList[args.arg(i).checkint()]));
                 }
             }
-
         }
-        recipe[0] = args.arg(2).checkjstring();
-        recipe[1] = args.arg(3).checkjstring();
-        GameRegistry.addRecipe(new ItemStack(Block.blocksList[args.arg1().checkint()], 1), recipe);
+        GameRegistry.addRecipe(new ItemStack(Block.blocksList[args.arg1().checkint()], 1), recipe.toArray());
         return LuaValue.NONE;
-    }
-
-    @LuaMethod(name = "craftingHandler")
-    public static Varargs add1xXRecipe(Varargs args) { // TODO: Document on the wiki
-        Object[] recipe = new Object[args.narg() - 1];
-        for (int i = 3; i <= args.narg(); i++) {
-            if (i % 2 == 1) {
-                recipe[i - 2] = args.arg(i).checkjstring().charAt(0);
-            } else {
-                recipe[i - 2] = new ItemStack(Block.blocksList[args.arg(i).checkint()], 1);
-            }
-        }
-        recipe[0] = args.arg(2).checkjstring();
-        GameRegistry.addRecipe(new ItemStack(Block.blocksList[args.arg1().checkint()], 1), recipe);
-        return LuaValue.NONE;
-    }
-
-    @LuaMethod(name = "craftingHandler")
-    public static Varargs addRecipe(Varargs args) { // TODO: Document on the wiki
-        return addShapedRecipe(args);
     }
 
     @LuaMethod(name = "craftingHandler")
