@@ -26,6 +26,7 @@ import luaforge.core.lua.libs.*;
 import luaforge.core.lua.libs.block.BlockLib;
 import luaforge.core.lua.libs.block.BlockTemplate;
 import luaforge.core.lua.libs.item.ItemLib;
+import luaforge.core.lua.libs.item.ItemTemplate;
 import luaforge.core.proxies.CommonProxy;
 import net.minecraft.src.ItemStack;
 
@@ -83,6 +84,9 @@ public class Core {
         for (BlockTemplate bt : BlockLib.regularBlocks.values()) {
             GameRegistry.registerBlock(bt);
             LanguageRegistry.addName(bt, bt.getVisibleName());
+        }
+        for (ItemTemplate it : ItemLib.regularItems.values()) {
+            LanguageRegistry.addName(it, it.getVisibleName());
         }
         Log.info("Sucessfully loaded");
     }

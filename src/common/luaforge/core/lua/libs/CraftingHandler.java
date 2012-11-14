@@ -14,7 +14,7 @@ import org.luaj.vm2.Varargs;
 public class CraftingHandler {
 
     @LuaMethod(name = "craftingHandler")
-    public static Varargs addShapelessRecipe(Varargs args) { // TODO: Document on the wiki
+    public static Varargs addShapelessRecipe(Varargs args) {
         Object[] recipes = new Object[args.narg() - 2];
         for (int i=3; i <= args.narg(); i++) {
             recipes[i - 3] = new ItemStack(Block.blocksList[args.arg(i).checkint()], 1);
@@ -24,7 +24,7 @@ public class CraftingHandler {
     }
 
     @LuaMethod(name = "craftingHandler")
-    public static Varargs addShapedRecipe(Varargs args) { // TODO: Document on the wiki
+    public static Varargs addShapedRecipe(Varargs args) {
         ArrayList<Object> recipe = new ArrayList<Object>();
         recipe.add(0, args.arg(3).checkjstring());
         if (args.arg(4).checkjstring().isEmpty()) {

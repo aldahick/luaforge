@@ -11,6 +11,7 @@ import luaforge.core.api.LuaMethod;
 import luaforge.core.api.LuaTable;
 import luaforge.core.lua.LuaEnvironment;
 import net.minecraft.src.CreativeTabs;
+import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 
 public class BlockLib {
@@ -90,6 +91,17 @@ public class BlockLib {
         } else {
             Log.warning(env.getModName() + " contains a reference to a block that doesnt exist: " + blockName);
         }
+        return LuaValue.NONE;
+    }
+    
+    @LuaMethod(name = "block")
+    public static Varargs setLightLevel(Varargs args) {
+        args.arg(2).checkint();
+        float value = args.arg(2).tofloat();
+        if((value > 1.0) || (value < 0)) {
+            throw new LuaError("Value cannot be less than 0 and no greater than 1, got " + value);
+        }
+        regularBlocks.get(args.arg1().checkjstring()).setLightValue(value);
         return LuaValue.NONE;
     }
     
