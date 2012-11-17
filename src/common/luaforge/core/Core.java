@@ -121,4 +121,7 @@ public class Core {
         LuaClassRegistry.register(new ReferenceLib());
         LuaClassRegistry.register(new CraftingHandler());
     }
+    
+    
+    
 }
