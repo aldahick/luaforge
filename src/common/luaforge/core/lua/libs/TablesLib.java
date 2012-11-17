@@ -63,18 +63,18 @@ public class TablesLib {
     @LuaTable
     public static HashMap<String, LuaValue> stepSound() { // TODO: Document on the wiki
         HashMap<String, LuaValue> table = new HashMap<String, LuaValue>();
-        table.put("powderFootstep", LuaValue.valueOf("soundPowderFootstep"));
-        table.put("woodFootstep", LuaValue.valueOf("soundWoodFootstep"));
-        table.put("gravelFootstep", LuaValue.valueOf("soundGravelFootstep"));
-        table.put("grassFootstep", LuaValue.valueOf("soundGrassFootstep"));
-        table.put("stoneFootstep", LuaValue.valueOf("soundStoneFootstep"));
-        table.put("metalFootstep", LuaValue.valueOf("soundMetalFootstep"));
-        table.put("glassFootstep", LuaValue.valueOf("soundGlassFootstep"));
-        table.put("clothFootstep", LuaValue.valueOf("soundClothFootstep"));
-        table.put("sandFootstep", LuaValue.valueOf("soundSandFootstep"));
-        table.put("snowFootstep", LuaValue.valueOf("soundSnowFootstep"));
-        table.put("ladderFootstep", LuaValue.valueOf("soundLadderFootstep"));
-        table.put("anvilFootstep", LuaValue.valueOf("soundAnvilFootstep"));
+        table.put("powder", LuaValue.valueOf("soundPowderFootstep"));
+        table.put("wood", LuaValue.valueOf("soundWoodFootstep"));
+        table.put("gravel", LuaValue.valueOf("soundGravelFootstep"));
+        table.put("grass", LuaValue.valueOf("soundGrassFootstep"));
+        table.put("stone", LuaValue.valueOf("soundStoneFootstep"));
+        table.put("metal", LuaValue.valueOf("soundMetalFootstep"));
+        table.put("glass", LuaValue.valueOf("soundGlassFootstep"));
+        table.put("cloth", LuaValue.valueOf("soundClothFootstep"));
+        table.put("sand", LuaValue.valueOf("soundSandFootstep"));
+        table.put("snow", LuaValue.valueOf("soundSnowFootstep"));
+        table.put("ladder", LuaValue.valueOf("soundLadderFootstep"));
+        table.put("anvil", LuaValue.valueOf("soundAnvilFootstep"));
         return table;
     }
 }
