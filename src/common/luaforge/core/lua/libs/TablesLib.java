@@ -61,7 +61,7 @@ public class TablesLib {
     }
     
     @LuaTable
-    public static HashMap<String, LuaValue> stepSound() { // TODO: Document on the wiki
+    public static HashMap<String, LuaValue> stepSound() {
         HashMap<String, LuaValue> table = new HashMap<String, LuaValue>();
         table.put("powder", LuaValue.valueOf("soundPowderFootstep"));
         table.put("wood", LuaValue.valueOf("soundWoodFootstep"));
