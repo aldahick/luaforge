@@ -97,7 +97,7 @@ public class BlockLib {
     }
     
     @LuaMethod(name = "block")
-    public static Varargs setLightLevel(Varargs args) { // TODO: Document on the wiki
+    public static Varargs setLightLevel(Varargs args) {
         args.arg(2).checkint();
         float value = args.arg(2).tofloat();
         if((value > 1.0) || (value < 0)) {
@@ -108,7 +108,7 @@ public class BlockLib {
     }
     
     @LuaMethod(name = "block")
-    public static Varargs setHardness(Varargs args) { // TODO: Document on the wiki
+    public static Varargs setHardness(Varargs args) {
         BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
         args.arg(2).checkint();
         bt.setHardness(args.arg(2).tofloat());
@@ -116,14 +116,14 @@ public class BlockLib {
     }
     
     @LuaMethod(name = "block")
-    public static Varargs setUnbreakable(Varargs args) { // TODO: Document on the wiki
+    public static Varargs setUnbreakable(Varargs args) {
         BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
         bt.setBlockUnbreakable();
         return LuaValue.NONE;
     }
     
     @LuaMethod(name = "block")
-    public static Varargs setSound(Varargs args) { // TODO: Document on the wiki
+    public static Varargs setSound(Varargs args) {
         BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
         String soundName = args.arg(2).checkjstring();
         if(soundName.equalsIgnoreCase("soundPowderFootstep")) { bt.setStepSound(Block.soundPowderFootstep); }
