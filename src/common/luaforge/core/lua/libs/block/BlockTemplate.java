@@ -30,8 +30,4 @@ public class BlockTemplate extends Block {
     public String getHiddenName() {
         return hiddenName;
     }
-
-    public void setSoundOnStep(StepSound sound) {
-        this.setStepSound(sound);
-    }
 }

@@ -10,7 +10,9 @@ import org.luaj.vm2.Varargs;
 import luaforge.core.api.LuaMethod;
 import luaforge.core.api.LuaTable;
 import luaforge.core.lua.LuaEnvironment;
+import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.StepSound;
 import org.luaj.vm2.LuaError;
 import org.luaj.vm2.LuaValue;
 
@@ -110,6 +112,33 @@ public class BlockLib {
         BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
         args.arg(2).checkint();
         bt.setHardness(args.arg(2).tofloat());
+        return LuaValue.NONE;
+    }
+    
+    @LuaMethod(name = "block")
+    public static Varargs setUnbreakable(Varargs args) {
+        BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
+        bt.setBlockUnbreakable();
+        return LuaValue.NONE;
+    }
+    
+    @LuaMethod(name = "block")
+    public static Varargs setSoundOnStep(Varargs args) {
+        BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
+        String soundName = args.arg(2).checkjstring();
+        if(soundName.equalsIgnoreCase("soundPowderFootstep")) { bt.setStepSound(Block.soundPowderFootstep); }
+        else if (soundName.equalsIgnoreCase("soundWoodFootstep")) { bt.setStepSound(Block.soundWoodFootstep); }
+        else if (soundName.equalsIgnoreCase("soundGravelFootstep")) { bt.setStepSound(Block.soundGravelFootstep); }
+        else if (soundName.equalsIgnoreCase("soundGrassFootstep")) { bt.setStepSound(Block.soundGrassFootstep); }
+        else if (soundName.equalsIgnoreCase("soundStoneFootstep")) { bt.setStepSound(Block.soundStoneFootstep); }
+        else if (soundName.equalsIgnoreCase("soundMetalFootstep")) { bt.setStepSound(Block.soundMetalFootstep); }
+        else if (soundName.equalsIgnoreCase("soundGlassFootstep")) { bt.setStepSound(Block.soundGlassFootstep); }
+        else if (soundName.equalsIgnoreCase("soundClothFootstep")) { bt.setStepSound(Block.soundClothFootstep); }
+        else if (soundName.equalsIgnoreCase("soundSandFootstep")) { bt.setStepSound(Block.soundSandFootstep); }
+        else if (soundName.equalsIgnoreCase("soundSnowFootstep")) { bt.setStepSound(Block.soundSnowFootstep); }
+        else if (soundName.equalsIgnoreCase("soundLadderFootstep")) { bt.setStepSound(Block.soundLadderFootstep); }
+        else if (soundName.equalsIgnoreCase("soundAnvilFootstep")) { bt.setStepSound(Block.soundAnvilFootstep); }
+        else { args.arg(3).checkint(); args.arg(3).checkint(); bt.setStepSound(new StepSound(soundName, args.arg(3).tofloat(), args.arg(4).tofloat())); }
         return LuaValue.NONE;
     }
     
