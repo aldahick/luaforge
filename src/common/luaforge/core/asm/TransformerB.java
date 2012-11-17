@@ -47,20 +47,21 @@ public class TransformerB implements IClassTransformer {
         @Override
         public MethodVisitor visitMethod(final int access, final String name, final String desc, final String signature, final String[] exceptions) {
             MethodNode mn = new MethodNode(access, name, desc, signature, exceptions);
-            if (!ObfuscationMappings.isObfuscated) {
-                Log.info("Development environment detected, not overriding " + className + " with method " + name);
-                methods.add(mn);
-                return mn;
-            }
             for (String s : overridableMethods) {
                 String obfName = ObfuscationMappings.getMethodName(className, s);
                 if (name.equals(obfName)) {
+                    if (!ObfuscationMappings.isObfuscated) {
+                        Log.info("Development environment detected, not overriding " + className + " with method " + name);
+                        methods.add(mn);
+                        return mn;
+                    }
                     ClassNode node = new ClassNode();
                     ClassReader reader = new ClassReader(ClassOverrider.override(ObfuscationMappings.getClassName(className), new byte[1]));
                     reader.accept(node, 0);
                     for (MethodNode nodes : (List<MethodNode>) node.methods) {
                         if (nodes.name.equals(obfName)) {
-                            if (nodes.desc.equals(mn.desc)) {
+                            String descriptor = ObfuscationMappings.getDescriptor(className, s);
+                            if ((mn.desc.equals(descriptor)) && (nodes.desc.equals(descriptor))) {
                                 Log.info(ObfuscationMappings.getClassName(className) + "'s method " + obfName + " was overriden by " + LuaForgeLoader.location.getName());
                                 mn = nodes;
                             }
