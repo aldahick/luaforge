@@ -116,14 +116,14 @@ public class BlockLib {
     }
     
     @LuaMethod(name = "block")
-    public static Varargs setUnbreakable(Varargs args) {
+    public static Varargs setUnbreakable(Varargs args) { // TODO: Document on the wiki
         BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
         bt.setBlockUnbreakable();
         return LuaValue.NONE;
     }
     
     @LuaMethod(name = "block")
-    public static Varargs setSoundOnStep(Varargs args) {
+    public static Varargs setSoundOnStep(Varargs args) { // TODO: Document on the wiki
         BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
         String soundName = args.arg(2).checkjstring();
         if(soundName.equalsIgnoreCase("soundPowderFootstep")) { bt.setStepSound(Block.soundPowderFootstep); }

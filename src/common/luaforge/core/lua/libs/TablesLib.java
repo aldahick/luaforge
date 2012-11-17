@@ -71,6 +71,7 @@ public class TablesLib {
         table.put("metal", LuaValue.valueOf("soundMetalFootstep"));
         table.put("glass", LuaValue.valueOf("soundGlassFootstep"));
         table.put("cloth", LuaValue.valueOf("soundClothFootstep"));
+        table.put("wool", LuaValue.valueOf("soundClothFootstep"));
         table.put("sand", LuaValue.valueOf("soundSandFootstep"));
         table.put("snow", LuaValue.valueOf("soundSnowFootstep"));
         table.put("ladder", LuaValue.valueOf("soundLadderFootstep"));
