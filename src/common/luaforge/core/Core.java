@@ -111,6 +111,7 @@ public class Core {
     }
 
     private static void registerDefaultLibs() {
+        LuaClassRegistry.register(new TablesLib());
         LuaClassRegistry.register(new LogLib());
         LuaClassRegistry.register(new ClientLib());
         LuaClassRegistry.register(new BlockLib());

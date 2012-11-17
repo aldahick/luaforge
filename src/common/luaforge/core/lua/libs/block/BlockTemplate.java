@@ -34,9 +34,4 @@ public class BlockTemplate extends Block {
     public void setSoundOnStep(StepSound sound) {
         this.setStepSound(sound);
     }
-
-    public void setHardnessResistance(float hardness, float resistance) {
-        this.setHardness(hardness);
-        this.setResistance(resistance);
-    }
 }
