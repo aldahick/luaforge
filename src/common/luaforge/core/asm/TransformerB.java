@@ -5,12 +5,10 @@ import cpw.mods.fml.relauncher.IClassTransformer;
 import java.util.List;
 import luaforge.core.Log;
 import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
-import static org.objectweb.asm.ClassWriter.*;
 import org.objectweb.asm.tree.MethodNode;
 
 public class TransformerB implements IClassTransformer {

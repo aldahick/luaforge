@@ -23,12 +23,9 @@ import luaforge.core.api.LuaClassRegistry;
 import luaforge.core.lua.LuaEnvironment;
 import luaforge.core.lua.LuaStartup;
 import luaforge.core.lua.libs.*;
-import luaforge.core.lua.libs.block.BlockLib;
-import luaforge.core.lua.libs.block.BlockTemplate;
-import luaforge.core.lua.libs.item.ItemLib;
-import luaforge.core.lua.libs.item.ItemTemplate;
+import luaforge.core.lua.libs.block.*;
+import luaforge.core.lua.libs.item.*;
 import luaforge.core.proxies.CommonProxy;
-import net.minecraft.src.ItemStack;
 
 @Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0", useMetadata = true)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)

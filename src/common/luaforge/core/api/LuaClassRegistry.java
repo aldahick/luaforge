@@ -5,7 +5,6 @@ import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import luaforge.core.lua.LuaEnvironment;
-import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 
 public class LuaClassRegistry {
