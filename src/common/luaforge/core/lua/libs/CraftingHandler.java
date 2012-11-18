@@ -61,7 +61,7 @@ public class CraftingHandler {
     }
 
     @LuaMethod(name = "craftingHandler")
-    public static Varargs addSmeltingRecipe(Varargs args) { // TODO: Document on the wiki
+    public static Varargs addSmeltingRecipe(Varargs args) {
         GameRegistry.addSmelting(args.arg1().checkint(), new ItemStack(Block.blocksList[args.arg(2).checkint()]), args.arg(3).optint(0));
         return LuaValue.NONE;
     }

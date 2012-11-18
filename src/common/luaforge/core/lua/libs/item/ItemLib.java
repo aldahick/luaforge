@@ -20,15 +20,15 @@ public class ItemLib {
         }
         int id = args.arg1().toint();
         int iconIndex = args.arg(2).toint();
-        String textureFile = new File(env.getModPath(), args.arg(3).tojstring()).getPath();
-        String visibleName = args.arg(4).tojstring();
-        String itemName = args.arg(5).tojstring();
-        int maxStackSize = args.arg(6).toint();
-        regularItems.put(itemName, new ItemTemplate(id, iconIndex, new Object[] {
-            visibleName,
-            itemName,
+        int maxStackSize = args.arg(3).toint();
+        String textureFile = new File(env.getModPath(), args.arg(4).tojstring()).getPath();
+        String visibleName = args.arg(5).tojstring();
+        String hiddenName = args.arg(6).tojstring();
+        regularItems.put(hiddenName, new ItemTemplate(id, iconIndex, new Object[] {
+            maxStackSize,
             textureFile,
-            maxStackSize
+            visibleName,
+            hiddenName
         }));
         return LuaValue.TRUE;
     }
