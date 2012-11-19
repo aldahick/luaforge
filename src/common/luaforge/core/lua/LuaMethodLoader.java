@@ -3,11 +3,11 @@ package luaforge.core.lua;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import luaforge.core.Log;
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaError;
-import org.luaj.vm2.Varargs;
-import org.luaj.vm2.lib.OneArgFunction;
-import org.luaj.vm2.lib.VarArgFunction;
+import luaforge.luaj.vm2.Globals;
+import luaforge.luaj.vm2.LuaError;
+import luaforge.luaj.vm2.Varargs;
+import luaforge.luaj.vm2.lib.OneArgFunction;
+import luaforge.luaj.vm2.lib.VarArgFunction;
 
 public abstract class LuaMethodLoader extends OneArgFunction {
 

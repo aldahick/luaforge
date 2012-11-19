@@ -2,31 +2,24 @@ package luaforge.core.lua;
 
 import java.io.File;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 
 import luaforge.core.Log;
 import luaforge.core.api.LuaClassRegistry;
-import luaforge.core.lua.libs.LogLib;
 
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaError;
-import org.luaj.vm2.LuaString;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.compiler.LuaC;
-import org.luaj.vm2.lib.Bit32Lib;
-import org.luaj.vm2.lib.CoroutineLib;
-import org.luaj.vm2.lib.DebugLib;
-import org.luaj.vm2.lib.PackageLib;
-import org.luaj.vm2.lib.StringLib;
-import org.luaj.vm2.lib.TableLib;
-import org.luaj.vm2.lib.jse.JseBaseLib;
-import org.luaj.vm2.lib.jse.JseIoLib;
-import org.luaj.vm2.lib.jse.JseMathLib;
-import org.luaj.vm2.lib.jse.JseOsLib;
-import org.luaj.vm2.lib.jse.LuajavaLib;
+import luaforge.luaj.vm2.Globals;
+import luaforge.luaj.vm2.LuaError;
+import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.compiler.LuaC;
+import luaforge.luaj.vm2.lib.Bit32Lib;
+import luaforge.luaj.vm2.lib.CoroutineLib;
+import luaforge.luaj.vm2.lib.DebugLib;
+import luaforge.luaj.vm2.lib.PackageLib;
+import luaforge.luaj.vm2.lib.StringLib;
+import luaforge.luaj.vm2.lib.TableLib;
+import luaforge.luaj.vm2.lib.jse.JseBaseLib;
+import luaforge.luaj.vm2.lib.jse.JseIoLib;
+import luaforge.luaj.vm2.lib.jse.JseMathLib;
+import luaforge.luaj.vm2.lib.jse.JseOsLib;
 
 public class LuaEnvironment {
 

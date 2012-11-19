@@ -5,7 +5,7 @@ import java.util.HashMap;
 import luaforge.core.Log;
 import net.minecraft.src.Material;
 
-import org.luaj.vm2.Varargs;
+import luaforge.luaj.vm2.Varargs;
 
 import luaforge.core.api.LuaMethod;
 import luaforge.core.api.LuaTable;
@@ -13,8 +13,8 @@ import luaforge.core.lua.LuaEnvironment;
 import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.StepSound;
-import org.luaj.vm2.LuaError;
-import org.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.LuaError;
+import luaforge.luaj.vm2.LuaValue;
 
 public class BlockLib {
 

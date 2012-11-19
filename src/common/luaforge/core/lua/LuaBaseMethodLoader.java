@@ -1,7 +1,7 @@
 package luaforge.core.lua;
 
 import java.lang.reflect.Method;
-import org.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.LuaValue;
 
 public class LuaBaseMethodLoader extends LuaMethodLoader {
 

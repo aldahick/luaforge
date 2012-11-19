@@ -4,12 +4,12 @@ import java.lang.reflect.Method;
 
 import luaforge.core.Log;
 
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaTable;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.Varargs;
-import org.luaj.vm2.lib.OneArgFunction;
-import org.luaj.vm2.lib.VarArgFunction;
+import luaforge.luaj.vm2.Globals;
+import luaforge.luaj.vm2.LuaTable;
+import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.Varargs;
+import luaforge.luaj.vm2.lib.OneArgFunction;
+import luaforge.luaj.vm2.lib.VarArgFunction;
 
 public class LuaIndexMethodLoader extends LuaMethodLoader {
 

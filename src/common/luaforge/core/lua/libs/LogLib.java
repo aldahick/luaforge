@@ -3,8 +3,8 @@ package luaforge.core.lua.libs;
 import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.Varargs;
+import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.Varargs;
 
 public class LogLib {
 

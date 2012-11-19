@@ -4,9 +4,9 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import luaforge.core.Log;
 import luaforge.core.api.LuaTable;
-import org.luaj.vm2.Globals;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.lib.OneArgFunction;
+import luaforge.luaj.vm2.Globals;
+import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.lib.OneArgFunction;
 
 public class LuaTableLoader extends OneArgFunction{
 

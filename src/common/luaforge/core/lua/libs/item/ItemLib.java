@@ -6,8 +6,8 @@ import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
 import net.minecraft.src.CreativeTabs;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.Varargs;
+import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.Varargs;
 
 public class ItemLib {
     

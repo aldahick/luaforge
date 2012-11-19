@@ -2,7 +2,7 @@ package luaforge.core.lua.libs;
 
 import java.util.HashMap;
 import luaforge.core.api.LuaTable;
-import org.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.LuaValue;
 
 public class TablesLib {
 

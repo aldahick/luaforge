@@ -7,9 +7,9 @@ import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
-import org.luaj.vm2.LuaError;
-import org.luaj.vm2.LuaValue;
-import org.luaj.vm2.Varargs;
+import luaforge.luaj.vm2.LuaError;
+import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.Varargs;
 
 public class CraftingHandler {
 
