@@ -18,44 +18,49 @@ import net.minecraft.src.RenderEngine;
 import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy {
+	
+	private HashMap textureMap;
 
     @Override
     public void registerRenderers() {
     	
-    	InputStream inputStream = null;
-    	
-    	Class c = RenderEngine.class;
-    	
-    	RenderEngine render = Minecraft.getMinecraft().renderEngine;
-    	
-    	Field textureMapField = null;
-    	
-    	try {
-			textureMapField = c.getDeclaredField("textureMap");
-		} catch (SecurityException e1) {
-		} catch (NoSuchFieldException e1) {
-		}
-    	
-    	textureMapField.setAccessible(true);
-    	
-    	HashMap textureMap = null;
-		try 
-		{
-			textureMap = (HashMap) textureMapField.get(render);
-		} 
-		catch (IllegalArgumentException e1) 
-		{
-		} 
-		catch (IllegalAccessException e1) 
-		{
-		}
-    	
-		if (textureMap == null)
-		{
-			System.out.println("Error occured when getting the RenderEngine instance. Go bitch at the LuaForge devs!");
-		}
-        
+    	if (textureMap == null)
+    	{
+        	Class c = RenderEngine.class;
+        	
+        	RenderEngine render = Minecraft.getMinecraft().renderEngine;
+        	
+        	Field textureMapField = null;
+        	
+        	try {
+    			textureMapField = c.getDeclaredField("textureMap");
+    		} catch (SecurityException e1) {
+    		} catch (NoSuchFieldException e1) {
+    		}
+        	
+        	textureMapField.setAccessible(true);
+        	
+        	textureMap = null;
+    		try 
+    		{
+    			textureMap = (HashMap) textureMapField.get(render);
+    		} 
+    		catch (IllegalArgumentException e1) 
+    		{
+    		} 
+    		catch (IllegalAccessException e1) 
+    		{
+    		}
+        	
+    		if (textureMap == null)
+    		{
+    			System.out.println("Error occured when getting the RenderEngine instance. Go bitch at the LuaForge devs!");
+    		}
+    	}
+   
         for (String s : CommonProxy.TEXTURES) {
+        	
+        	InputStream inputStream = null;
         	
         	File file = new File(s);
         	
