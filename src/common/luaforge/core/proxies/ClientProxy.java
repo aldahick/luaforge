@@ -24,11 +24,13 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void registerRenderers() {
     	
+    	RenderEngine render = Minecraft.getMinecraft().renderEngine;
+    	
     	if (textureMap == null)
     	{
         	Class c = RenderEngine.class;
         	
-        	RenderEngine render = Minecraft.getMinecraft().renderEngine;
+        	
         	
         	Field textureMapField = null;
         	
