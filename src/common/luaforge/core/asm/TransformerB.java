@@ -15,15 +15,19 @@ public class TransformerB implements IClassTransformer {
 
     @Override
     public byte[] transform(String name, byte[] bytes) {
+        return bytes;
+    }
+    
+    private static byte[] getModifications(String name, byte[] bytes, String classOverride, String... methods) {
         try {
             if (FMLRelauncher.side().equals("CLIENT")) {
-                if (name.equals(ObfuscationMappings.getClassName("net.minecraft.src.RenderEngine"))) {
-                    Visitor visit = new Visitor("net.minecraft.src.RenderEngine", "getTexture");
+                if (name.equals(ObfuscationMappings.getClassName(classOverride))) {
+                    Visitor visit = new Visitor(classOverride, methods);
                     ClassReader reader = new ClassReader(bytes);
                     reader.accept(visit, 0);
                     ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
                     visit.accept(writer);
-                    bytes = writer.toByteArray();
+                    return writer.toByteArray();
                 }
             }
         } catch (Exception e) {
