@@ -2,7 +2,6 @@ package luaforge.core.lua.libs.block;
 
 import net.minecraft.src.Block;
 import net.minecraft.src.Material;
-import net.minecraft.src.StepSound;
 
 public class BlockTemplate extends Block {
 
