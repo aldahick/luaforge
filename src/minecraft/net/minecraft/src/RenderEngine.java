@@ -206,12 +206,7 @@ public class RenderEngine
 
                     if (var7 == null)
                     {
-                        var7 = new FileInputStream(par1Str);
-                        if (var7 == null) {
-                            this.setupTexture(this.missingTextureImage, var3);
-                        } else {
-                            this.setupTexture(this.readTextureImage(var7), var3);
-                        }
+                        this.setupTexture(this.missingTextureImage, var3);
                     }
                     else
                     {

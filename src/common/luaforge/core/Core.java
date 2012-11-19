@@ -1,5 +1,6 @@
 package luaforge.core;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -43,7 +44,9 @@ public class Core {
     @PreInit
     public void preLoad(FMLPreInitializationEvent event) {
         registerDefaultLibs();
-        File folder = new File(Minecraft.getMinecraftDir(), dirName);
+        
+        File folder = new File(".", "luaforge-mods");
+        System.out.println(folder.getAbsolutePath());
 
         if (folder.exists() && folder.isDirectory()) {
             File[] listOfFiles = folder.listFiles();
