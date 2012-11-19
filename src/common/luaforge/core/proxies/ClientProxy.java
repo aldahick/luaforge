@@ -24,22 +24,11 @@ public class ClientProxy extends CommonProxy {
         RenderEngine render = Minecraft.getMinecraft().renderEngine;
 
         if (textureMap == null) {
-            Class c = RenderEngine.class;
-            
-            Field textureMapField = null;
             try {
-                textureMapField = c.getDeclaredField("textureMap");
-            } catch (Exception e) {}
-            textureMapField.setAccessible(true);
-
-            textureMap = null;
-            try {
+                Field textureMapField = RenderEngine.class.getDeclaredField("textureMap");
+                textureMapField.setAccessible(true);
                 textureMap = (HashMap) textureMapField.get(render);
             } catch (Exception e) {}
-
-            if (textureMap == null) {
-                System.out.println("Error occured when getting the RenderEngine instance.");
-            }
         }
 
         for (String s : CommonProxy.TEXTURES) {
