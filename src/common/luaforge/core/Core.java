@@ -46,7 +46,6 @@ public class Core {
         registerDefaultLibs();
         
         File folder = new File(".", "luaforge-mods");
-        System.out.println(folder.getAbsolutePath());
 
         if (folder.exists() && folder.isDirectory()) {
             File[] listOfFiles = folder.listFiles();

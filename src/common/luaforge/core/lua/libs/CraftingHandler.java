@@ -10,6 +10,7 @@ import net.minecraft.src.ItemStack;
 import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaValue;
 import luaforge.luaj.vm2.Varargs;
+import net.minecraft.src.Item;
 
 public class CraftingHandler {
 
@@ -17,9 +18,9 @@ public class CraftingHandler {
     public static Varargs addShapelessRecipe(Varargs args) {
         Object[] recipes = new Object[args.narg() - 2];
         for (int i=3; i <= args.narg(); i++) {
-            recipes[i - 3] = new ItemStack(Block.blocksList[args.arg(i).checkint()], 1);
+            recipes[i - 3] = getItemStack(args.arg(i).checkint(), 1);
         }
-        GameRegistry.addShapelessRecipe(new ItemStack(Block.blocksList[args.arg1().checkint()], args.arg(2).checkint()), recipes);
+        GameRegistry.addShapelessRecipe(getItemStack(args.arg1().checkint(), args.arg(2).checkint()), recipes);
         return LuaValue.NONE;
     }
 
@@ -40,29 +41,44 @@ public class CraftingHandler {
                 if (i % 2 == 0) {
                     recipe.add(i-5, args.arg(i).checkjstring().charAt(0));
                 } else {
-                    recipe.add(i-5, new ItemStack(Block.blocksList[args.arg(i).checkint()]));
+                    recipe.add(i-5, getItemStack(args.arg(i).checkint()));
                 }
             } else if (args.arg(4).checkjstring().isEmpty()) {
                 if (i % 2 == 0) {
                     recipe.add(i-4, args.arg(i).checkjstring().charAt(0));
                 } else {
-                    recipe.add(i-4, new ItemStack(Block.blocksList[args.arg(i).checkint()]));
+                    recipe.add(i-4, getItemStack(args.arg(i).checkint()));
                 }
             } else {
                 if (i % 2 == 0) {
                     recipe.add(i-3, args.arg(i).checkjstring().charAt(0));
                 } else {
-                    recipe.add(i-3, new ItemStack(Block.blocksList[args.arg(i).checkint()]));
+                    recipe.add(i-3, getItemStack(args.arg(i).checkint()));
                 }
             }
         }
-        GameRegistry.addRecipe(new ItemStack(Block.blocksList[args.arg1().checkint()], args.arg(2).checkint()), recipe.toArray());
+        GameRegistry.addRecipe(getItemStack(args.arg1().checkint(), args.arg(2).checkint()), recipe.toArray());
         return LuaValue.NONE;
     }
 
     @LuaMethod(name = "craftingHandler")
     public static Varargs addSmeltingRecipe(Varargs args) {
-        GameRegistry.addSmelting(args.arg1().checkint(), new ItemStack(Block.blocksList[args.arg(2).checkint()]), args.arg(3).optint(0));
+        GameRegistry.addSmelting(args.arg1().checkint(), getItemStack(args.arg(2).checkint()), args.arg(3).optint(0));
         return LuaValue.NONE;
     }
+    
+    private static ItemStack getItemStack(int id) {
+        return getItemStack(id, 1);
+    }
+    
+    private static ItemStack getItemStack(int id, int amount) {
+        if (Block.blocksList[id].getBlockName() != null) {
+            return new ItemStack(Block.blocksList[id], amount);
+        } else if (Item.itemsList[id].getItemName() != null) {
+            return new ItemStack(Item.itemsList[id], amount);
+        } else {
+            throw new LuaError("Specified ID is invalid");
+        }
+    }
+    
 }
