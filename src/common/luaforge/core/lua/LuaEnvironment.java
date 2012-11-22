@@ -23,7 +23,7 @@ import luaforge.luaj.vm2.lib.jse.JseOsLib;
 
 public class LuaEnvironment {
 
-    private Globals _G = globals(this);
+    public Globals _G = globals(this);
     private LuaValue chunk;
     private String modPath;
     

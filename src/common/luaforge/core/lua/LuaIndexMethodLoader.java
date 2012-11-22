@@ -25,7 +25,7 @@ public class LuaIndexMethodLoader extends LuaMethodLoader {
     public LuaValue call(LuaValue env) {
         globals = env.checkglobals();
         LuaTable t = new LuaTable();
-
+        t.set("__index", t);
         for (int i = 0; i < methods.length; i++) {
             t.set(methods[i].getName(), new LuaFunctionLoader(i, methods[i].getName()));
         }

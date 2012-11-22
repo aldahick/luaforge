@@ -1,6 +1,5 @@
 package luaforge.core.lua;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import luaforge.core.Log;
 import luaforge.luaj.vm2.Globals;
