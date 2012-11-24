@@ -26,7 +26,7 @@ public class ClientProxy extends CommonProxy {
 
         if (textureMap == null) {
             try {
-                Field textureMapField = RenderEngine.class.getDeclaredField(ObfuscationReflectionHelper.obfuscation ? "b" : "textureMap"); //todo - update when obfuscation changes
+                Field textureMapField = RenderEngine.class.getDeclaredField(ObfuscationReflectionHelper.obfuscation ? "c" : "textureMap"); //todo - update when obfuscation changes
                 textureMapField.setAccessible(true);
                 textureMap = (HashMap) textureMapField.get(render);
             } catch (Exception e) {}
