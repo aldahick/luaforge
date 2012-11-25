@@ -1,6 +1,5 @@
 package luaforge.core;
 
-import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -9,7 +8,6 @@ import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.Mod.ServerStarting;
 import java.io.File;
 
-import net.minecraft.client.Minecraft;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
@@ -27,6 +25,7 @@ import luaforge.core.lua.libs.*;
 import luaforge.core.lua.libs.block.*;
 import luaforge.core.lua.libs.item.*;
 import luaforge.core.proxies.CommonProxy;
+import net.minecraft.client.Minecraft;
 
 @Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0", useMetadata = true)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -45,7 +44,7 @@ public class Core {
     public void preLoad(FMLPreInitializationEvent event) {
         registerDefaultLibs();
         
-        File folder = new File(".", "luaforge-mods");
+        File folder = new File(Minecraft.getMinecraftDir(), dirName);
 
         if (folder.exists() && folder.isDirectory()) {
             File[] listOfFiles = folder.listFiles();
