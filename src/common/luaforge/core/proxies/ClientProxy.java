@@ -20,6 +20,11 @@ public class ClientProxy extends CommonProxy {
     private HashMap textureMap;
 
     @Override
+    public File getDirectory() {
+        return Minecraft.getMinecraftDir();
+    }
+    
+    @Override
     public void registerRenderers() {
 
         RenderEngine render = Minecraft.getMinecraft().renderEngine;

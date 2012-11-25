@@ -19,6 +19,7 @@ import luaforge.luaj.vm2.LuaValue;
 public class BlockLib {
 
     public static HashMap<String, BlockTemplate> regularBlocks = new HashMap<String, BlockTemplate>();
+    public static HashMap<String, BlockEntity> tileEntityBlocks = new HashMap<String, BlockEntity>();
     
     @LuaMethod(name = "block")
     public static Varargs createBlock(Varargs args, LuaEnvironment env) {

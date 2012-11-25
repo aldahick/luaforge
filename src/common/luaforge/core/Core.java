@@ -44,7 +44,7 @@ public class Core {
     public void preLoad(FMLPreInitializationEvent event) {
         registerDefaultLibs();
         
-        File folder = new File(Minecraft.getMinecraftDir(), dirName);
+        File folder = new File(proxy.getDirectory(), dirName);
 
         if (folder.exists() && folder.isDirectory()) {
             File[] listOfFiles = folder.listFiles();
