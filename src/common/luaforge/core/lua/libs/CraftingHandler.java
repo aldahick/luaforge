@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
+import luaforge.core.lua.libs.item.ItemLib;
+import luaforge.core.lua.libs.item.ItemTemplate;
 import net.minecraft.src.Block;
 import net.minecraft.src.ItemStack;
 import luaforge.luaj.vm2.LuaError;
@@ -76,15 +78,15 @@ public class CraftingHandler {
             if (Block.blocksList[id].getBlockName() != null) {
                 return new ItemStack(Block.blocksList[id], amount);
             } else {
-                if (Item.itemsList[id] != null) {
-                    if (Item.itemsList[id].getItemName() != null) {
-                        return new ItemStack(Item.itemsList[id], amount);
+                if (Item.itemsList[256 + id] != null) {
+                    if (Item.itemsList[256 + id].getItemName() != null) {
+                        return new ItemStack(Item.itemsList[256 + id], amount);
                     }
                 }
             }
-        } else if (Item.itemsList[id] != null) {
-            if (Item.itemsList[id].getItemName() != null) {
-                return new ItemStack(Item.itemsList[id], amount);
+        } else if (Item.itemsList[256 + id] != null) {
+            if (Item.itemsList[256 + id].getItemName() != null) {
+                return new ItemStack(Item.itemsList[256 + id], amount);
             }
         }
         throw new LuaError("Specified ID is invalid");
