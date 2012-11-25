@@ -72,17 +72,15 @@ public class CraftingHandler {
     }
 
     private static ItemStack getItemStack(int id, int amount) {
-        String msg = "Specified ID is invalid";
-        try {
+        if (Block.blocksList[id] != null) {
             if (Block.blocksList[id].getBlockName() != null) {
                 return new ItemStack(Block.blocksList[id], amount);
-            } else if (Item.itemsList[id].getItemName() != null) {
-                return new ItemStack(Item.itemsList[id], amount);
-            } else {
-                throw new LuaError(msg);
             }
-        } catch (Exception e) {
-            throw new LuaError(msg);
+        } else if (Item.itemsList[id] != null) {
+            if (Item.itemsList[id].getItemName() != null) {
+                return new ItemStack(Item.itemsList[id], amount);
+            }
         }
+        throw new LuaError("Specified ID is invalid");
     }
 }
