@@ -46,8 +46,12 @@ public class LuaEnvironment {
             chunk = _G.loadFile(modMainPath);
             chunk.call(LuaValue.valueOf(modMainPath));
         } catch (LuaError e) {
-            Log.severe(modName + " not loaded properly!");
-            Log.severe(e.getMessage());
+            String message;
+            message = "\n~~~~~~LUAFORGE MOD LOADING ERROR~~~~~~\n";
+            message += modName + " not loaded properly!\n";
+            message += e.getMessage();
+            message += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+            throw new RuntimeException(message);
         }
 
     }
