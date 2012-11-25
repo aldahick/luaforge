@@ -75,6 +75,12 @@ public class CraftingHandler {
         if (Block.blocksList[id] != null) {
             if (Block.blocksList[id].getBlockName() != null) {
                 return new ItemStack(Block.blocksList[id], amount);
+            } else {
+                if (Item.itemsList[id] != null) {
+                    if (Item.itemsList[id].getItemName() != null) {
+                        return new ItemStack(Item.itemsList[id], amount);
+                    }
+                }
             }
         } else if (Item.itemsList[id] != null) {
             if (Item.itemsList[id].getItemName() != null) {
