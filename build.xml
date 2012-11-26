@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="LuaForge" default="run" basedir=".">
+    <property environment="env" />
     
     <property name="loader.class" value="luaforge.core.asm.LuaForgeLoader" />
     
@@ -61,6 +62,7 @@
     </target>
     
     <target name="jenkins-build">
+        <fail unless="env.BUILD_NUMBER" message="Build number isn't set, possibly not in Jenkins"/>
         <antcall target="build" />
         <antcall target="obfuscate" />
         <delete dir="reobf-copied" />
@@ -72,7 +74,7 @@
         </copy>
         <copy todir="reobf-copied/org/apache"><fileset dir="${reobf.dir}/org/apache" /></copy>
             
-        <jar destfile="${jar.dir}/${jar.name}">
+        <jar destfile="${jar.dir}/${jar.name}_build_${env.BUILD_NUMBER}">
             <fileset dir="reobf-copied" />
             <manifest>
                 <attribute name="Manifest-Version" value="1.0"/>
