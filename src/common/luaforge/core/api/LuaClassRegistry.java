@@ -34,7 +34,7 @@ public class LuaClassRegistry {
                 if(method.getReturnType().equals(HashMap.class)) {
                     tables.put(indexName, method);
                 }
-                // TODO: Implement field scanner
+
             }
         }
     }

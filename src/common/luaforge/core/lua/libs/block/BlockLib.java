@@ -22,49 +22,37 @@ public class BlockLib {
     public static HashMap<String, BlockEntity> tileEntityBlocks = new HashMap<String, BlockEntity>();
     
     @LuaMethod(name = "block")
-    public static Varargs createBlock(Varargs args, LuaEnvironment env) {
-        if(args.narg() < 6) {
-            return LuaValue.FALSE;
+    public static Varargs createBlockTileEntity(Varargs args, LuaEnvironment env) { // TODO: document on the wiki
+        // TODO: Setup TileEntity methods to actually make this useful
+        int id = args.arg1().checkint();
+        int iconIndex = args.arg(2).checkint();
+        String argMaterial = args.arg(3).checkjstring();
+        String textureFile = new File(env.getModPath(), args.arg(4).checkjstring()).getPath();
+        String visibleName = args.arg(5).checkjstring();
+        String blockName = args.arg(6).checkjstring();
+        
+        Material material = getMaterial(argMaterial);
+        if (material == null) {
+            throw new LuaError("Invalid material specified in block " + blockName);
         }
-        int id = args.arg1().toint();
-        int iconIndex = args.arg(2).toint();
-        String argMaterial = args.arg(3).tojstring();
-        String textureFile = new File(env.getModPath(), args.arg(4).tojstring()).getPath();
-        String visibleName = args.arg(5).tojstring();
-        String blockName = args.arg(6).tojstring();
+        
+        tileEntityBlocks.put(blockName, new BlockEntity(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+        return LuaValue.TRUE;
+    }
+    
+    @LuaMethod(name = "block")
+    public static Varargs createBlock(Varargs args, LuaEnvironment env) {
+        int id = args.arg1().checkint();
+        int iconIndex = args.arg(2).checkint();
+        String argMaterial = args.arg(3).checkjstring();
+        String textureFile = new File(env.getModPath(), args.arg(4).checkjstring()).getPath();
+        String visibleName = args.arg(5).checkjstring();
+        String blockName = args.arg(6).checkjstring();
 
-        Material material;
-        if(argMaterial.equalsIgnoreCase("air")) { material = Material.air; }
-        else if(argMaterial.equalsIgnoreCase("cactus")) { material = Material.cactus; }
-        else if(argMaterial.equalsIgnoreCase("cake")) { material = Material.cake; }
-        else if(argMaterial.equalsIgnoreCase("circuits")) { material = Material.circuits; }
-        else if(argMaterial.equalsIgnoreCase("clay")) { material = Material.clay; }
-        else if(argMaterial.equalsIgnoreCase("cloth")) { material = Material.cloth; }
-        else if(argMaterial.equalsIgnoreCase("craftedSnow")) { material = Material.craftedSnow; }
-        else if(argMaterial.equalsIgnoreCase("dragonEgg")) { material = Material.dragonEgg; }
-        else if(argMaterial.equalsIgnoreCase("fire")) { material = Material.fire; }
-        else if(argMaterial.equalsIgnoreCase("glass")) { material = Material.glass; }
-        else if(argMaterial.equalsIgnoreCase("grass")) { material = Material.grass; }
-        else if(argMaterial.equalsIgnoreCase("ground")) { material = Material.ground; }
-        else if(argMaterial.equalsIgnoreCase("ice")) { material = Material.ice; }
-        else if(argMaterial.equalsIgnoreCase("iron")) { material = Material.iron; }
-        else if(argMaterial.equalsIgnoreCase("lava")) { material = Material.lava; }
-        else if(argMaterial.equalsIgnoreCase("leaves")) { material = Material.leaves; }
-        else if(argMaterial.equalsIgnoreCase("piston")) { material = Material.piston; }
-        else if(argMaterial.equalsIgnoreCase("plants")) { material = Material.plants; }
-        else if(argMaterial.equalsIgnoreCase("portal")) { material = Material.portal; }
-        else if(argMaterial.equalsIgnoreCase("pumpkin")) { material = Material.pumpkin; }
-        else if(argMaterial.equalsIgnoreCase("redstoneLight")) { material = Material.redstoneLight; }
-        else if(argMaterial.equalsIgnoreCase("rock")) { material = Material.rock; }
-        else if(argMaterial.equalsIgnoreCase("sand")) { material = Material.sand; }
-        else if(argMaterial.equalsIgnoreCase("snow")) { material = Material.snow; }
-        else if(argMaterial.equalsIgnoreCase("sponge")) { material = Material.sponge; }
-        else if(argMaterial.equalsIgnoreCase("tnt")) { material = Material.tnt; }
-        else if(argMaterial.equalsIgnoreCase("vine")) { material = Material.vine; }
-        else if(argMaterial.equalsIgnoreCase("water")) { material = Material.water; }
-        else if(argMaterial.equalsIgnoreCase("web")) { material = Material.web; }
-        else if(argMaterial.equalsIgnoreCase("wood")) { material = Material.wood; }
-        else { return LuaValue.FALSE; }
+        Material material = getMaterial(argMaterial);
+        if (material == null) {
+            throw new LuaError("Invalid material specified in block " + blockName);
+        }
 
         regularBlocks.put(blockName, new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
         return LuaValue.TRUE;
@@ -74,73 +62,162 @@ public class BlockLib {
     public static Varargs setCreativeTab(Varargs args, LuaEnvironment env) {
         final String blockName = args.arg1().tojstring();
         final String tabName = args.arg(2).tojstring();
-        BlockTemplate bt = regularBlocks.get(blockName);
-        if (bt != null) {
+        BlockTemplate bt;
+        BlockEntity be;
+        CreativeTabs t = getCreativeTab(tabName);
+        if (t == null) {
+            Log.warning(env.getModName() + " contains an invalid tab name: " + tabName);
+        }
+        if ((bt = regularBlocks.get(blockName)) != null) {
             if(bt.getHiddenName().equals(blockName)) {
-                if(tabName.equalsIgnoreCase("tabAllSearch")) { bt.setCreativeTab(CreativeTabs.tabAllSearch); }
-                else if(tabName.equalsIgnoreCase("tabBlock")) { bt.setCreativeTab(CreativeTabs.tabBlock); }
-                else if(tabName.equalsIgnoreCase("tabBrewing")) { bt.setCreativeTab(CreativeTabs.tabBrewing); }
-                else if(tabName.equalsIgnoreCase("tabCombat")) { bt.setCreativeTab(CreativeTabs.tabCombat); }
-                else if(tabName.equalsIgnoreCase("tabDecorations")) { bt.setCreativeTab(CreativeTabs.tabDecorations); }
-                else if(tabName.equalsIgnoreCase("tabFood")) { bt.setCreativeTab(CreativeTabs.tabFood); }
-                else if(tabName.equalsIgnoreCase("tabInventory")) { bt.setCreativeTab(CreativeTabs.tabInventory); }
-                else if(tabName.equalsIgnoreCase("tabMaterials")) { bt.setCreativeTab(CreativeTabs.tabMaterials); }
-                else if(tabName.equalsIgnoreCase("tabMisc")) { bt.setCreativeTab(CreativeTabs.tabMisc); }
-                else if(tabName.equalsIgnoreCase("tabRedstone")) { bt.setCreativeTab(CreativeTabs.tabRedstone); }
-                else if(tabName.equalsIgnoreCase("tabTools")) { bt.setCreativeTab(CreativeTabs.tabTools); }
-                else if(tabName.equalsIgnoreCase("tabTransport")) { bt.setCreativeTab(CreativeTabs.tabTransport); }
-                else { Log.warning(env.getModName() + " contains an invalid tab name: " + tabName); }
+                bt.setCreativeTab(getCreativeTab(tabName));
+            }
+        } else if ((be = tileEntityBlocks.get(blockName)) != null) {
+            if(be.getHiddenName().equals(blockName)) {
+                be.setCreativeTab(getCreativeTab(tabName));
             }
         } else {
-            Log.warning(env.getModName() + " contains a reference to a block that doesnt exist: " + blockName);
+            throw new LuaError(env.getModName() + " contains a reference to a block that doesn't exist: " + blockName);
         }
         return LuaValue.NONE;
     }
     
     @LuaMethod(name = "block")
     public static Varargs setLightLevel(Varargs args) {
+        String blockName = args.arg1().checkjstring();
         args.arg(2).checkint();
         float value = args.arg(2).tofloat();
         if((value > 1.0) || (value < 0)) {
             throw new LuaError("Value cannot be less than 0 and no greater than 1, got " + value);
         }
-        regularBlocks.get(args.arg1().checkjstring()).setLightValue(value);
+        if(regularBlocks.get(blockName) != null) {
+            regularBlocks.get(blockName).setLightValue(value);
+        } else if (tileEntityBlocks.get(blockName) != null) {
+            tileEntityBlocks.get(blockName).setLightValue(value);
+        } else {
+            throw new LuaError("Block does not exist: " + blockName);
+        }
+        
         return LuaValue.NONE;
     }
     
     @LuaMethod(name = "block")
     public static Varargs setHardness(Varargs args) {
-        BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
         args.arg(2).checkint();
-        bt.setHardness(args.arg(2).tofloat());
+        BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
+        BlockEntity be = tileEntityBlocks.get(args.arg1().checkjstring());
+        if (bt != null) {
+            bt.setHardness(args.arg(2).tofloat());
+        } else if (be != null) {
+            be.setHardness(args.arg(2).tofloat());
+        } else {
+            throw new LuaError("Block does not exist: " + args.arg1().checkjstring());
+        }
+        
         return LuaValue.NONE;
     }
     
     @LuaMethod(name = "block")
-    public static Varargs setUnbreakable(Varargs args) {
+    public static Varargs setUnbreakable(Varargs args) { 
+        
         BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
-        bt.setBlockUnbreakable();
+        BlockEntity be = tileEntityBlocks.get(args.arg1().checkjstring());
+        if (bt != null) {
+            bt.setBlockUnbreakable();
+        } else if (be != null) {
+            be.setBlockUnbreakable();
+        } else {
+            throw new LuaError("Block does not exist: " + args.arg1().checkjstring());
+        }
+        
         return LuaValue.NONE;
     }
     
     @LuaMethod(name = "block")
     public static Varargs setSound(Varargs args) {
         BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
+        BlockEntity be = tileEntityBlocks.get(args.arg1().checkjstring());
         String soundName = args.arg(2).checkjstring();
-        if(soundName.equalsIgnoreCase("soundPowderFootstep")) { bt.setStepSound(Block.soundPowderFootstep); }
-        else if (soundName.equalsIgnoreCase("soundWoodFootstep")) { bt.setStepSound(Block.soundWoodFootstep); }
-        else if (soundName.equalsIgnoreCase("soundGravelFootstep")) { bt.setStepSound(Block.soundGravelFootstep); }
-        else if (soundName.equalsIgnoreCase("soundGrassFootstep")) { bt.setStepSound(Block.soundGrassFootstep); }
-        else if (soundName.equalsIgnoreCase("soundStoneFootstep")) { bt.setStepSound(Block.soundStoneFootstep); }
-        else if (soundName.equalsIgnoreCase("soundMetalFootstep")) { bt.setStepSound(Block.soundMetalFootstep); }
-        else if (soundName.equalsIgnoreCase("soundGlassFootstep")) { bt.setStepSound(Block.soundGlassFootstep); }
-        else if (soundName.equalsIgnoreCase("soundClothFootstep")) { bt.setStepSound(Block.soundClothFootstep); }
-        else if (soundName.equalsIgnoreCase("soundSandFootstep")) { bt.setStepSound(Block.soundSandFootstep); }
-        else if (soundName.equalsIgnoreCase("soundSnowFootstep")) { bt.setStepSound(Block.soundSnowFootstep); }
-        else if (soundName.equalsIgnoreCase("soundLadderFootstep")) { bt.setStepSound(Block.soundLadderFootstep); }
-        else if (soundName.equalsIgnoreCase("soundAnvilFootstep")) { bt.setStepSound(Block.soundAnvilFootstep); }
-        else { args.arg(3).checkint(); args.arg(3).checkint(); bt.setStepSound(new StepSound(soundName, args.arg(3).tofloat(), args.arg(4).tofloat())); }
+        StepSound ss = getStepSound(args.arg(2).checkjstring());
+        if (ss == null) {
+            args.arg(3).checkint();
+            args.arg(4).checkint();
+            ss = new StepSound(soundName, args.arg(3).tofloat(), args.arg(4).tofloat());
+        }
+        if (bt != null) {
+            bt.setStepSound(ss);
+        } else if (be != null) {
+            be.setStepSound(ss);
+        } else {
+            throw new LuaError("Block does not exist: " + args.arg1().checkjstring());
+        }
         return LuaValue.NONE;
+    }
+    
+    private static Material getMaterial(String m) {
+        if(m.equalsIgnoreCase("air")) { return Material.air; }
+        else if(m.equalsIgnoreCase("cactus")) { return Material.cactus; }
+        else if(m.equalsIgnoreCase("cake")) { return Material.cake; }
+        else if(m.equalsIgnoreCase("circuits")) { return Material.circuits; }
+        else if(m.equalsIgnoreCase("clay")) { return Material.clay; }
+        else if(m.equalsIgnoreCase("cloth")) { return Material.cloth; }
+        else if(m.equalsIgnoreCase("craftedSnow")) { return Material.craftedSnow; }
+        else if(m.equalsIgnoreCase("dragonEgg")) { return Material.dragonEgg; }
+        else if(m.equalsIgnoreCase("fire")) { return Material.fire; }
+        else if(m.equalsIgnoreCase("glass")) { return Material.glass; }
+        else if(m.equalsIgnoreCase("grass")) { return Material.grass; }
+        else if(m.equalsIgnoreCase("ground")) { return Material.ground; }
+        else if(m.equalsIgnoreCase("ice")) { return Material.ice; }
+        else if(m.equalsIgnoreCase("iron")) { return Material.iron; }
+        else if(m.equalsIgnoreCase("lava")) { return Material.lava; }
+        else if(m.equalsIgnoreCase("leaves")) { return Material.leaves; }
+        else if(m.equalsIgnoreCase("piston")) { return Material.piston; }
+        else if(m.equalsIgnoreCase("plants")) { return Material.plants; }
+        else if(m.equalsIgnoreCase("portal")) { return Material.portal; }
+        else if(m.equalsIgnoreCase("pumpkin")) { return Material.pumpkin; }
+        else if(m.equalsIgnoreCase("redstoneLight")) { return Material.redstoneLight; }
+        else if(m.equalsIgnoreCase("rock")) { return Material.rock; }
+        else if(m.equalsIgnoreCase("sand")) { return Material.sand; }
+        else if(m.equalsIgnoreCase("snow")) { return Material.snow; }
+        else if(m.equalsIgnoreCase("sponge")) { return Material.sponge; }
+        else if(m.equalsIgnoreCase("tnt")) { return Material.tnt; }
+        else if(m.equalsIgnoreCase("vine")) { return Material.vine; }
+        else if(m.equalsIgnoreCase("water")) { return Material.water; }
+        else if(m.equalsIgnoreCase("web")) { return Material.web; }
+        else if(m.equalsIgnoreCase("wood")) { return Material.wood; }
+        else { return null; }
+    }
+    
+    private static CreativeTabs getCreativeTab(String tabName) {
+        if(tabName.equalsIgnoreCase("tabAllSearch")) { return CreativeTabs.tabAllSearch; }
+                else if(tabName.equalsIgnoreCase("tabBlock")) { return CreativeTabs.tabBlock; }
+                else if(tabName.equalsIgnoreCase("tabBrewing")) { return CreativeTabs.tabBrewing; }
+                else if(tabName.equalsIgnoreCase("tabCombat")) { return CreativeTabs.tabCombat; }
+                else if(tabName.equalsIgnoreCase("tabDecorations")) { return CreativeTabs.tabDecorations; }
+                else if(tabName.equalsIgnoreCase("tabFood")) { return CreativeTabs.tabFood; }
+                else if(tabName.equalsIgnoreCase("tabInventory")) { return CreativeTabs.tabInventory; }
+                else if(tabName.equalsIgnoreCase("tabMaterials")) { return CreativeTabs.tabMaterials; }
+                else if(tabName.equalsIgnoreCase("tabMisc")) { return CreativeTabs.tabMisc; }
+                else if(tabName.equalsIgnoreCase("tabRedstone")) { return CreativeTabs.tabRedstone; }
+                else if(tabName.equalsIgnoreCase("tabTools")) { return CreativeTabs.tabTools; }
+                else if(tabName.equalsIgnoreCase("tabTransport")) { return CreativeTabs.tabTransport; }
+                else { return null; }
+    }
+    
+    private static StepSound getStepSound(String soundName) {
+        if(soundName.equalsIgnoreCase("soundPowderFootstep")) { return Block.soundPowderFootstep; }
+        else if (soundName.equalsIgnoreCase("soundWoodFootstep")) { return Block.soundWoodFootstep; }
+        else if (soundName.equalsIgnoreCase("soundGravelFootstep")) { return Block.soundGravelFootstep; }
+        else if (soundName.equalsIgnoreCase("soundGrassFootstep")) { return Block.soundGrassFootstep; }
+        else if (soundName.equalsIgnoreCase("soundStoneFootstep")) { return Block.soundStoneFootstep; }
+        else if (soundName.equalsIgnoreCase("soundMetalFootstep")) { return Block.soundMetalFootstep; }
+        else if (soundName.equalsIgnoreCase("soundGlassFootstep")) { return Block.soundGlassFootstep; }
+        else if (soundName.equalsIgnoreCase("soundClothFootstep")) { return Block.soundClothFootstep; }
+        else if (soundName.equalsIgnoreCase("soundSandFootstep")) { return Block.soundSandFootstep; }
+        else if (soundName.equalsIgnoreCase("soundSnowFootstep")) { return Block.soundSnowFootstep; }
+        else if (soundName.equalsIgnoreCase("soundLadderFootstep")) { return Block.soundLadderFootstep; }
+        else if (soundName.equalsIgnoreCase("soundAnvilFootstep")) { return Block.soundAnvilFootstep; }
+        else { return null; }
     }
     
 }

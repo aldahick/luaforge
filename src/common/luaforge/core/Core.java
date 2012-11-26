@@ -43,7 +43,6 @@ public class Core {
     @PreInit
     public void preLoad(FMLPreInitializationEvent event) {
         registerDefaultLibs();
-        
         File folder = new File(proxy.getDirectory(), dirName);
 
         if (folder.exists() && folder.isDirectory()) {
@@ -57,19 +56,16 @@ public class Core {
                 if (listOfFiles[i].isDirectory()) {
                     LuaEnvironment env = new LuaEnvironment(listOfFiles[i], listOfFiles[i].getName());
                     LuaMods.add(env);
+                } else {
+                    Log.info("A non-mod file was located in the luaforge-mods folder");
                 }
             }
         } else {
-            if (folder.exists() && folder.isDirectory()) {
-                Log.info(dirName + " found");
+            if (folder.mkdirs()) {
+                Log.info(dirName + " created");
             } else {
-                if (folder.mkdirs()) {
-                    Log.info(dirName + " created");
-                } else {
-                    Log.severe("Error creating " + dirName);
-                }
+                Log.severe("Error creating " + dirName);
             }
-
         }
         loadLuaMod(LuaStartup.PRESTARTUP);
 
@@ -82,6 +78,11 @@ public class Core {
         for (BlockTemplate bt : BlockLib.regularBlocks.values()) {
             GameRegistry.registerBlock(bt);
             LanguageRegistry.addName(bt, bt.getVisibleName());
+        }
+        for (BlockEntity be : BlockLib.tileEntityBlocks.values()) {
+            GameRegistry.registerBlock(be);
+            GameRegistry.registerTileEntity(BlockTileEntity.class, be.getHiddenName());
+            LanguageRegistry.addName(be, be.getVisibleName());
         }
         for (ItemTemplate it : ItemLib.regularItems.values()) {
             LanguageRegistry.addName(it, it.getVisibleName());

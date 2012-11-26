@@ -21,7 +21,20 @@ public class BlockEntity extends BlockContainer {
     
     @Override
     public TileEntity createNewTileEntity(World w) {
-        return null;
+        // TODO: Make this dynamic
+        return new BlockTileEntity(getHiddenName());
     }
     
+    @Override
+    public String getTextureFile() {
+        return textureFile;
+    }
+
+    public String getVisibleName() {
+        return visibleName;
+    }
+    
+    public String getHiddenName() {
+        return hiddenName;
+    }    
 }
