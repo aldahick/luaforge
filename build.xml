@@ -7,7 +7,7 @@
     <property name="build.dir" value="bin/minecraft" />
     <property name="reobf.dir" value="reobf/minecraft" />
     
-    <property name="jar.name" value="LuaForge.jar" />
+    <property name="jar.name" value="LuaForge" />
     <property name="jar.dir" value="dist" />
     
     <target name="build">
@@ -40,7 +40,7 @@
     </target>
     
     <target name="jar-deobfuscated" depends="build">
-        <jar destfile="${jar.dir}/deobf_${jar.name}">
+        <jar destfile="${jar.dir}/deobf_${jar.name}.jar">
             <fileset dir="${build.dir}/luaforge/core/asm" />
             <fileset dir="Resources/" />
             <manifest>
@@ -51,7 +51,7 @@
     </target>
     
     <target name="jar-obfuscated" depends="obfuscate">
-        <jar destfile="${jar.dir}/${jar.name}">
+        <jar destfile="${jar.dir}/${jar.name}.jar">
             <fileset dir="${reobf.dir}" />
             <fileset file="Resources/mcmod.info" />
             <manifest>
@@ -75,7 +75,7 @@
         </copy>
         <copy todir="reobf-copied/org/apache"><fileset dir="${reobf.dir}/org/apache" /></copy>
             
-        <jar destfile="${jar.dir}/${jar.name}_build_${build.number}">
+        <jar destfile="${jar.dir}/${jar.name}_build_${build.number}.jar">
             <fileset dir="reobf-copied" />
             <manifest>
                 <attribute name="Manifest-Version" value="1.0"/>
