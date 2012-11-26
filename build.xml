@@ -63,6 +63,7 @@
     
     <target name="jenkins-build">
         <fail unless="env.BUILD_NUMBER" message="Build number isn't set, possibly not in Jenkins"/>
+        <property name="build.number" value="${env.BUILD_NUMBER}" />
         <antcall target="build" />
         <antcall target="obfuscate" />
         <delete dir="reobf-copied" />
@@ -74,7 +75,7 @@
         </copy>
         <copy todir="reobf-copied/org/apache"><fileset dir="${reobf.dir}/org/apache" /></copy>
             
-        <jar destfile="${jar.dir}/${jar.name}_build_${env.BUILD_NUMBER}">
+        <jar destfile="${jar.dir}/${jar.name}_build_${build.number}">
             <fileset dir="reobf-copied" />
             <manifest>
                 <attribute name="Manifest-Version" value="1.0"/>
