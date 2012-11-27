@@ -8,7 +8,6 @@ import net.minecraft.src.Material;
 import luaforge.luaj.vm2.Varargs;
 
 import luaforge.core.api.LuaMethod;
-import luaforge.core.api.LuaTable;
 import luaforge.core.lua.LuaEnvironment;
 import net.minecraft.src.Block;
 import net.minecraft.src.CreativeTabs;

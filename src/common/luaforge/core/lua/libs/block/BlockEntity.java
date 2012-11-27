@@ -7,9 +7,13 @@ import net.minecraft.src.World;
 
 public class BlockEntity extends BlockContainer {
 
+    public String className = "luaforge.core.lua.libs.block.BlockTileEntity";
+    
     private String textureFile;
     private String visibleName;
     private String hiddenName;
+    
+    public TileEntity instance;
 
     public BlockEntity(int id, int iconIndex, Material material, String[] otherArgs) {
         super(id, iconIndex, material);
@@ -21,8 +25,13 @@ public class BlockEntity extends BlockContainer {
     
     @Override
     public TileEntity createNewTileEntity(World w) {
-        // TODO: Make this dynamic
-        return new BlockTileEntity(getHiddenName());
+        if (instance != null) { return instance; }
+        try {
+            Class<?> c = Class.forName(className);
+            return (TileEntity) c.getConstructor(String.class).newInstance(getHiddenName());
+        } catch (Exception e) {
+            throw new RuntimeException (e);
+        }
     }
     
     @Override

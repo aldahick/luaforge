@@ -32,6 +32,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import luaforge.core.lua.libs.block.BlockLib;
 
 import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaValue;
@@ -58,8 +59,10 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 	
 	static JavaClass forClass(Class c) {
 		JavaClass j = (JavaClass) classes.get(c);
-		if ( j == null )
-			classes.put( c, j = new JavaClass(c) );
+		if ( j == null ){
+            classes.put( c, j = new JavaClass(c) );
+        }
+			
 		return j;
 	}
 	
@@ -75,7 +78,12 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 	Field getField(LuaValue key) {
 		if ( fields == null ) {
 			Map m = new HashMap();
-			Field[] f = ((Class)m_instance).getFields();
+            Field[] f;
+            try {
+                Class c = Class.forName(((Class)m_instance).getName());
+                f = c.getFields();  
+            } catch (Exception e) { throw new RuntimeException(e); }
+            
 			for ( int i=0; i<f.length; i++ ) {
 				Field fi = f[i];
 				if ( Modifier.isPublic(fi.getModifiers()) ) {
@@ -92,7 +100,7 @@ class JavaClass extends JavaInstance implements CoerceJavaToLua.Coercion {
 		return (Field) fields.get(key);
 	}
 	
-	LuaValue getMethod(LuaValue key) {
+	LuaValue getMethod(LuaValue key) { // TODO: Update this for Class.forName instead of custom instance
 		if ( methods == null ) {
 			Map namedlists = new HashMap();
 			Method[] m = ((Class)m_instance).getMethods();

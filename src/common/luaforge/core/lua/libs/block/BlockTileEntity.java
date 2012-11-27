@@ -7,7 +7,10 @@ public class BlockTileEntity extends TileEntity {
 
     private String blockName;
 
+    public BlockTileEntity() {}
+    
     public BlockTileEntity(String blockName) {
+        System.out.println("CUSTOM CONSTRUCTOR CALLED!");
         this.blockName = blockName;
     }
 

@@ -20,6 +20,7 @@ import luaforge.luaj.vm2.lib.jse.JseBaseLib;
 import luaforge.luaj.vm2.lib.jse.JseIoLib;
 import luaforge.luaj.vm2.lib.jse.JseMathLib;
 import luaforge.luaj.vm2.lib.jse.JseOsLib;
+import luaforge.luaj.vm2.lib.jse.LuajavaLib;
 
 public class LuaEnvironment {
 
@@ -68,6 +69,7 @@ public class LuaEnvironment {
         globals.load(new JseIoLib());
         globals.load(new JseOsLib());
         globals.load(new DebugLib());
+        globals.load(new LuajavaLib());
         
         for (String s : LuaClassRegistry.methods.keySet()) {
             Method[] methodsArray = new Method[LuaClassRegistry.methods.get(s).size()];
