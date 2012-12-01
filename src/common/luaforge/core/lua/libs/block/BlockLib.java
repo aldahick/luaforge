@@ -3,17 +3,15 @@ package luaforge.core.lua.libs.block;
 import java.io.File;
 import java.util.HashMap;
 import luaforge.core.Log;
-import net.minecraft.src.Material;
-
-import luaforge.luaj.vm2.Varargs;
-
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.StepSound;
 import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.Varargs;
+import net.minecraft.src.Block;
+import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.Material;
+import net.minecraft.src.StepSound;
 
 public class BlockLib {
 
@@ -26,7 +24,8 @@ public class BlockLib {
         int id = args.arg1().checkint();
         int iconIndex = args.arg(2).checkint();
         String argMaterial = args.arg(3).checkjstring();
-        String textureFile = new File(env.getModPath(), args.arg(4).checkjstring()).getPath();
+        String givenTexturePath = args.arg(4).checkjstring();
+        String textureFile = "/" + (new File(env.getModPath()).getName()) + ((givenTexturePath.startsWith("/")) ? "" : "/") + givenTexturePath;
         String visibleName = args.arg(5).checkjstring();
         String blockName = args.arg(6).checkjstring();
         
@@ -44,7 +43,8 @@ public class BlockLib {
         int id = args.arg1().checkint();
         int iconIndex = args.arg(2).checkint();
         String argMaterial = args.arg(3).checkjstring();
-        String textureFile = new File(env.getModPath(), args.arg(4).checkjstring()).getPath();
+        String givenTexturePath = args.arg(4).checkjstring();
+        String textureFile = "/" + (new File(env.getModPath()).getName()) + ((givenTexturePath.startsWith("/")) ? "" : "/") + givenTexturePath;
         String visibleName = args.arg(5).checkjstring();
         String blockName = args.arg(6).checkjstring();
 

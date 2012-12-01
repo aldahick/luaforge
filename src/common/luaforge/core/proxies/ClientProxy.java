@@ -1,23 +1,12 @@
 package luaforge.core.proxies;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-
-import javax.imageio.ImageIO;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.src.RenderEngine;
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.client.MinecraftForgeClient;
 
 public class ClientProxy extends CommonProxy {
 
-    private HashMap textureMap;
+    //private HashMap textureMap;
 
     @Override
     public File getDirectory() {
@@ -26,7 +15,7 @@ public class ClientProxy extends CommonProxy {
     
     @Override
     public void registerRenderers() {
-
+        /*
         RenderEngine render = Minecraft.getMinecraft().renderEngine;
 
         if (textureMap == null) {
@@ -64,11 +53,18 @@ public class ClientProxy extends CommonProxy {
             }
 
         }
+        */
+        for (String s : CommonProxy.TEXTURES) {
+            MinecraftForgeClient.preloadTexture(s);
+        }
     }
 
+    /*
     private BufferedImage readTextureImage(InputStream stream) throws IOException {
         BufferedImage var2 = ImageIO.read(stream);
         stream.close();
         return var2;
     }
+    */
+    
 }
