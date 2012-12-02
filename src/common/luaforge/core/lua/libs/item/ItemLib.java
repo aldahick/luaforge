@@ -93,4 +93,10 @@ public class ItemLib {
         it.setSaturation(args.arg(2).tofloat());
         return LuaValue.NONE;
     }
+    
+    @LuaMethod (name = "item")
+    public static Varargs setAlwaysEdible(Varargs args) {
+        regularItems.get(args.arg1().checkjstring()).setAlwaysEdible();
+        return LuaValue.NONE;
+    }
 }

@@ -25,7 +25,7 @@ public class ItemTemplate extends Item {
     /**
      * If this field is true, the food can be consumed even if the player don't need to eat.
      */
-    private boolean alwaysEdible; // TODO: Make alwaysEdible configurable
+    private boolean alwaysEdible = false;
 
     /**
      * represents the potion effect that will occurr upon eating this food. Set by setPotionEffect
@@ -57,6 +57,10 @@ public class ItemTemplate extends Item {
     
     public void setSaturation(float f) {
         this.saturationModifier = f;
+    }
+    
+    public void setAlwaysEdible() {
+        this.alwaysEdible = true;
     }
 
     @Override
