@@ -81,9 +81,16 @@ public class ItemLib {
     
     @LuaMethod (name = "item")
     public static Varargs setHealAmount(Varargs args) { // TODO: Document setHealAmount on the wiki
-        String name = args.arg1().checkjstring();
-        ItemTemplate it = regularItems.get(name);
+        ItemTemplate it = regularItems.get(args.arg1().checkjstring());
         it.setHealAmount(args.arg(2).checkint());
+        return LuaValue.NONE;
+    }
+    
+    @LuaMethod (name = "item")
+    public static Varargs setSaturationAmount(Varargs args) {
+        ItemTemplate it = regularItems.get(args.arg1().checkjstring());
+        args.arg(2).checkint();
+        it.setSaturation(args.arg(2).tofloat());
         return LuaValue.NONE;
     }
 }

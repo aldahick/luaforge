@@ -19,8 +19,8 @@ public class ItemTemplate extends Item {
     public int itemUseDuration = 32; // TODO: Make itemUseDuration configurable
 
     /** The amount this food item heals the player. */
-    private int healAmount = 0; // TODO: Make healAmount configurable
-    private float saturationModifier = 0; // TODO: Make saturationModifier configurable
+    private int healAmount = 0;
+    private float saturationModifier = 0;
 
     /**
      * If this field is true, the food can be consumed even if the player don't need to eat.
@@ -52,9 +52,11 @@ public class ItemTemplate extends Item {
     }
     
     public void setHealAmount(int i) {
-        if(this.healAmount == 0) {
-            this.healAmount = i;
-        }
+        this.healAmount = i;
+    }
+    
+    public void setSaturation(float f) {
+        this.saturationModifier = f;
     }
 
     @Override
