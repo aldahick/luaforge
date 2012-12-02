@@ -8,7 +8,7 @@ import luaforge.luaj.vm2.Varargs;
 public class CoreLib {
 
     @LuaMethod
-    public static Varargs createItemStack(Varargs args) { // TODO: document on the wiki
+    public static Varargs createItemStack(Varargs args) { // TODO: document createItemStack on the wiki
         LuaTable t = new LuaTable();
         t.set(LuaValue.valueOf("id"), LuaValue.valueOf(args.arg1().checkint()));
         t.set(LuaValue.valueOf("damage_value"), LuaValue.valueOf(args.arg(2).optint(0)));

@@ -5,9 +5,11 @@ import java.util.HashMap;
 import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
-import net.minecraft.src.CreativeTabs;
+import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaValue;
 import luaforge.luaj.vm2.Varargs;
+import net.minecraft.src.CreativeTabs;
+import net.minecraft.src.EnumAction;
 
 public class ItemLib {
     
@@ -21,7 +23,8 @@ public class ItemLib {
         int id = args.arg1().toint();
         int iconIndex = args.arg(2).toint();
         int maxStackSize = args.arg(3).toint();
-        String textureFile = new File(env.getModPath(), args.arg(4).tojstring()).getPath();
+        String givenTexturePath = args.arg(4).checkjstring();
+        String textureFile = "/" + (new File(env.getModPath()).getName()) + ((givenTexturePath.startsWith("/")) ? "" : "/") + givenTexturePath;
         String visibleName = args.arg(5).tojstring();
         String hiddenName = args.arg(6).tojstring();
         regularItems.put(hiddenName, new ItemTemplate(id, iconIndex, new Object[] {
@@ -58,5 +61,21 @@ public class ItemLib {
             Log.warning(env.getModName() + " contains a reference to an item that doesnt exist: " + itemName);
         }
         return LuaValue.TRUE;
+    }
+    
+    @LuaMethod (name = "item")
+    public static Varargs setAction(Varargs args) { // TODO: Document item.setAction & create a table for EnumAction constants
+        String name = args.arg1().checkjstring();
+        String action = args.arg(2).checkjstring();
+        
+        ItemTemplate it = regularItems.get(name);
+        if (action.equals("none")) { it.action = EnumAction.none; }
+        else if (action.equals("eat")) { it.action = EnumAction.eat; }
+        else if (action.equals("drink")) { it.action = EnumAction.drink; }
+        else if (action.equals("block")) { it.action = EnumAction.block; }
+        else if (action.equals("bow")) { it.action = EnumAction.bow; }
+        else { throw new LuaError("Action is undefined"); }
+        
+        return LuaValue.NONE;
     }
 }

@@ -18,9 +18,7 @@ public class BlockLib {
     public static HashMap<String, BlockTemplate> regularBlocks = new HashMap<String, BlockTemplate>();
     public static HashMap<String, BlockEntity> tileEntityBlocks = new HashMap<String, BlockEntity>();
     
-    @LuaMethod(name = "block")
-    public static Varargs createBlockTileEntity(Varargs args, LuaEnvironment env) { // TODO: document on the wiki
-        // TODO: Setup TileEntity methods to actually make this useful
+    public static void createBlockOrBlockEntity(boolean isBlockContainer, Varargs args, LuaEnvironment env) {
         int id = args.arg1().checkint();
         int iconIndex = args.arg(2).checkint();
         String argMaterial = args.arg(3).checkjstring();
@@ -28,32 +26,30 @@ public class BlockLib {
         String textureFile = "/" + (new File(env.getModPath()).getName()) + ((givenTexturePath.startsWith("/")) ? "" : "/") + givenTexturePath;
         String visibleName = args.arg(5).checkjstring();
         String blockName = args.arg(6).checkjstring();
-        
+
         Material material = getMaterial(argMaterial);
         if (material == null) {
             throw new LuaError("Invalid material specified in block " + blockName);
         }
         
-        tileEntityBlocks.put(blockName, new BlockEntity(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+        if (isBlockContainer) {
+            tileEntityBlocks.put(blockName, new BlockEntity(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+        } else {
+            regularBlocks.put(blockName, new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+        }
+        
+    }
+    
+    @LuaMethod(name = "block")
+    public static Varargs createBlockTileEntity(Varargs args, LuaEnvironment env) { // TODO: document createBlockTileEntity on the wiki
+        // TODO: Setup TileEntity methods to actually make this useful
+        createBlockOrBlockEntity(true, args, env);
         return LuaValue.TRUE;
     }
     
     @LuaMethod(name = "block")
     public static Varargs createBlock(Varargs args, LuaEnvironment env) {
-        int id = args.arg1().checkint();
-        int iconIndex = args.arg(2).checkint();
-        String argMaterial = args.arg(3).checkjstring();
-        String givenTexturePath = args.arg(4).checkjstring();
-        String textureFile = "/" + (new File(env.getModPath()).getName()) + ((givenTexturePath.startsWith("/")) ? "" : "/") + givenTexturePath;
-        String visibleName = args.arg(5).checkjstring();
-        String blockName = args.arg(6).checkjstring();
-
-        Material material = getMaterial(argMaterial);
-        if (material == null) {
-            throw new LuaError("Invalid material specified in block " + blockName);
-        }
-
-        regularBlocks.put(blockName, new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+        createBlockOrBlockEntity(false, args, env);
         return LuaValue.TRUE;
     }
     

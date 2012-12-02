@@ -17,13 +17,13 @@ public class BlockTileEntity extends TileEntity {
     @Override
     public void readFromNBT(NBTTagCompound nbt) {
         super.readFromNBT(nbt);
-        // TODO: Implement per block methods of this
+        // TODO: Implement per block methods of this; possibly through functions
     }
 
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        // TODO: Implement per block methods of this
+        // TODO: Implement per block methods of this; possi bly through functions
     }
 
 }
