@@ -87,7 +87,7 @@ public class ItemLib {
     }
     
     @LuaMethod (name = "item")
-    public static Varargs setSaturationAmount(Varargs args) {
+    public static Varargs setSaturationAmount(Varargs args) { // TODO: Document setSaturationAmount on the wiki
         ItemTemplate it = regularItems.get(args.arg1().checkjstring());
         args.arg(2).checkint();
         it.setSaturation(args.arg(2).tofloat());
@@ -95,7 +95,7 @@ public class ItemLib {
     }
     
     @LuaMethod (name = "item")
-    public static Varargs setAlwaysEdible(Varargs args) {
+    public static Varargs setAlwaysEdible(Varargs args) { // TODO: Document setAlwaysEdible on the wiki
         regularItems.get(args.arg1().checkjstring()).setAlwaysEdible();
         return LuaValue.NONE;
     }
