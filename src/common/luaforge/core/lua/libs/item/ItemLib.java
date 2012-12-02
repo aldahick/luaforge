@@ -78,4 +78,12 @@ public class ItemLib {
         
         return LuaValue.NONE;
     }
+    
+    @LuaMethod (name = "item")
+    public static Varargs setHealAmount(Varargs args) { // TODO: Document setHealAmount on the wiki
+        String name = args.arg1().checkjstring();
+        ItemTemplate it = regularItems.get(name);
+        it.setHealAmount(args.arg(2).checkint());
+        return LuaValue.NONE;
+    }
 }

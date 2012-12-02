@@ -16,11 +16,11 @@ public class ItemTemplate extends Item {
     public EnumAction action = EnumAction.none;
     
     /** Number of ticks to run while 'EnumAction'ing until result. */
-    public final int itemUseDuration = 32; // TODO: Make itemUseDuration configurable
+    public int itemUseDuration = 32; // TODO: Make itemUseDuration configurable
 
     /** The amount this food item heals the player. */
-    private final int healAmount = 0; // TODO: Make healAmount configurable
-    private final float saturationModifier = 0; // TODO: Make saturationModifier configurable
+    private int healAmount = 0; // TODO: Make healAmount configurable
+    private float saturationModifier = 0; // TODO: Make saturationModifier configurable
 
     /**
      * If this field is true, the food can be consumed even if the player don't need to eat.
@@ -49,6 +49,12 @@ public class ItemTemplate extends Item {
         hiddenName = otherArgs[3].toString();
         this.setIconIndex(iconIndex);
         this.setItemName(hiddenName);
+    }
+    
+    public void setHealAmount(int i) {
+        if(this.healAmount == 0) {
+            this.healAmount = i;
+        }
     }
 
     @Override
