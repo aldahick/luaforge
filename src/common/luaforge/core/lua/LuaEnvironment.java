@@ -2,10 +2,8 @@ package luaforge.core.lua;
 
 import java.io.File;
 import java.lang.reflect.Method;
-
 import luaforge.core.Log;
 import luaforge.core.api.LuaClassRegistry;
-
 import luaforge.luaj.vm2.Globals;
 import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaValue;
