@@ -1,5 +1,6 @@
 package luaforge.core.lua.libs.item;
 
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import java.io.File;
 import java.util.HashMap;
 import luaforge.core.Log;
@@ -27,12 +28,14 @@ public class ItemLib {
         String textureFile = "/" + (new File(env.getModPath()).getName()) + ((givenTexturePath.startsWith("/")) ? "" : "/") + givenTexturePath;
         String visibleName = args.arg(5).tojstring();
         String hiddenName = args.arg(6).tojstring();
-        regularItems.put(hiddenName, new ItemTemplate(id, iconIndex, new Object[] {
+        ItemTemplate t = new ItemTemplate(id, iconIndex, new Object[] {
             maxStackSize,
             textureFile,
             visibleName,
             hiddenName
-        }));
+        });
+        regularItems.put(hiddenName, t);
+        LanguageRegistry.addName(t, t.getVisibleName());
         return LuaValue.TRUE;
     }
     @LuaMethod (name = "item")

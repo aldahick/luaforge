@@ -82,18 +82,6 @@ public class Core {
     public void load(FMLInitializationEvent event) {
         loadLuaMod(LuaStartup.STARTUP);
         proxy.registerRenderers();
-        for (BlockTemplate bt : BlockLib.regularBlocks.values()) {
-            GameRegistry.registerBlock(bt);
-            LanguageRegistry.addName(bt, bt.getVisibleName());
-        }
-        for (BlockEntity be : BlockLib.tileEntityBlocks.values()) {
-            GameRegistry.registerBlock(be);
-            GameRegistry.registerTileEntity(BlockTileEntity.class, be.getHiddenName());
-            LanguageRegistry.addName(be, be.getVisibleName());
-        }
-        for (ItemTemplate it : ItemLib.regularItems.values()) {
-            LanguageRegistry.addName(it, it.getVisibleName());
-        }
         Log.info("Sucessfully loaded");
     }
 

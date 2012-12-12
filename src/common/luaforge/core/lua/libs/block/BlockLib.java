@@ -1,5 +1,7 @@
 package luaforge.core.lua.libs.block;
 
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 import java.io.File;
 import java.util.HashMap;
 import luaforge.core.Log;
@@ -33,9 +35,16 @@ public class BlockLib {
         }
         
         if (isBlockContainer) {
-            tileEntityBlocks.put(blockName, new BlockEntity(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+            BlockEntity be = new BlockEntity(id, iconIndex, material, new String[] {textureFile, visibleName, blockName});
+            tileEntityBlocks.put(blockName, be);
+            GameRegistry.registerBlock(be);
+            GameRegistry.registerTileEntity(BlockTileEntity.class, be.getHiddenName());
+            LanguageRegistry.addName(be, be.getVisibleName());
         } else {
-            regularBlocks.put(blockName, new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName}));
+            BlockTemplate bt = new BlockTemplate(id, iconIndex, material, new String[] {textureFile, visibleName, blockName});
+            regularBlocks.put(blockName, bt);
+            GameRegistry.registerBlock(bt);
+            LanguageRegistry.addName(bt, bt.getVisibleName());
         }
         
     }
