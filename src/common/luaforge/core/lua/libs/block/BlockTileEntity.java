@@ -22,7 +22,7 @@ public class BlockTileEntity extends TileEntity {
     @Override
     public void writeToNBT(NBTTagCompound nbt) {
         super.writeToNBT(nbt);
-        // TODO: Implement per block methods of this; possi bly through functions
+        // TODO: Implement per block methods of this; possibly through functions
     }
 
 }

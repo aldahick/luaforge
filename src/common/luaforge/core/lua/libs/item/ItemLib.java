@@ -7,11 +7,13 @@ import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
 import luaforge.luaj.vm2.LuaError;
+import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
 import luaforge.luaj.vm2.Varargs;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EnumAction;
 
+// TODO: Document that the format changed to OOP-style
 public class ItemLib {
     
     public static HashMap<String, ItemTemplate> regularItems = new HashMap<String, ItemTemplate>();
@@ -36,12 +38,16 @@ public class ItemLib {
         });
         regularItems.put(hiddenName, t);
         LanguageRegistry.addName(t, t.getVisibleName());
-        return LuaValue.TRUE;
+        
+        LuaTable table = LuaValue.tableOf();
+        table.setmetatable(env._G.get("item"));
+        table.set(LuaValue.valueOf("name"), LuaValue.valueOf(hiddenName));
+        return table;
     }
     @LuaMethod (name = "item")
     public static Varargs setCreativeTab (Varargs args, LuaEnvironment env) {
-        final String itemName = args.arg1().tojstring();
-        final String tabName = args.arg(2).tojstring();
+        String itemName = args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring();
+        String tabName = args.arg(2).tojstring();
         ItemTemplate it = regularItems.get(itemName);
         if (it != null) {
             if(it.getHiddenName().equals(itemName)) {
@@ -68,10 +74,10 @@ public class ItemLib {
     
     @LuaMethod (name = "item")
     public static Varargs setAction(Varargs args) { // TODO: Document item.setAction & create a table for EnumAction constants
-        String name = args.arg1().checkjstring();
+        String itemName = args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring();
         String action = args.arg(2).checkjstring();
         
-        ItemTemplate it = regularItems.get(name);
+        ItemTemplate it = regularItems.get(itemName);
         if (action.equals("none")) { it.action = EnumAction.none; }
         else if (action.equals("eat")) { it.action = EnumAction.eat; }
         else if (action.equals("drink")) { it.action = EnumAction.drink; }
@@ -84,14 +90,14 @@ public class ItemLib {
     
     @LuaMethod (name = "item")
     public static Varargs setHealAmount(Varargs args) { // TODO: Document setHealAmount on the wiki
-        ItemTemplate it = regularItems.get(args.arg1().checkjstring());
+        ItemTemplate it = regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         it.setHealAmount(args.arg(2).checkint());
         return LuaValue.NONE;
     }
     
     @LuaMethod (name = "item")
     public static Varargs setSaturationAmount(Varargs args) { // TODO: Document setSaturationAmount on the wiki
-        ItemTemplate it = regularItems.get(args.arg1().checkjstring());
+        ItemTemplate it = regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         args.arg(2).checkint();
         it.setSaturation(args.arg(2).tofloat());
         return LuaValue.NONE;
@@ -99,7 +105,7 @@ public class ItemLib {
     
     @LuaMethod (name = "item")
     public static Varargs setAlwaysEdible(Varargs args) { // TODO: Document setAlwaysEdible on the wiki
-        regularItems.get(args.arg1().checkjstring()).setAlwaysEdible();
+        regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring()).setAlwaysEdible();
         return LuaValue.NONE;
     }
 }

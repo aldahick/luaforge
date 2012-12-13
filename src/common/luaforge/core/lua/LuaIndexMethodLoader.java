@@ -1,15 +1,8 @@
 package luaforge.core.lua;
 
 import java.lang.reflect.Method;
-
-import luaforge.core.Log;
-
-import luaforge.luaj.vm2.Globals;
 import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
-import luaforge.luaj.vm2.Varargs;
-import luaforge.luaj.vm2.lib.OneArgFunction;
-import luaforge.luaj.vm2.lib.VarArgFunction;
 
 public class LuaIndexMethodLoader extends LuaMethodLoader {
 
