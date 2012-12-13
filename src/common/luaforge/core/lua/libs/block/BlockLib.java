@@ -16,7 +16,6 @@ import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Material;
 import net.minecraft.src.StepSound;
 
-// TODO: Document that the format changed to OOP-style
 public class BlockLib {
 
     public static HashMap<String, BlockTemplate> regularBlocks = new HashMap<String, BlockTemplate>();
