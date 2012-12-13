@@ -114,4 +114,10 @@ public class ItemLib {
         regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring()).setAlwaysEdible();
         return LuaValue.NONE;
     }
+    
+    @LuaMethod (name = "item")
+    public static Varargs useDuration(Varargs args) { // TODO: Document useDuration on the wiki
+        regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring()).itemUseDuration = args.arg1().checkint();
+        return LuaValue.NONE;
+    }
 }
