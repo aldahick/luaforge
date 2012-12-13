@@ -60,7 +60,7 @@ public class ItemLib {
                 else if(tabName.equalsIgnoreCase("tabInventory")) { it.setCreativeTab(CreativeTabs.tabInventory); }
                 else if(tabName.equalsIgnoreCase("tabMaterials")) { it.setCreativeTab(CreativeTabs.tabMaterials); }
                 else if(tabName.equalsIgnoreCase("tabMisc")) { it.setCreativeTab(CreativeTabs.tabMisc); }
-                else if(tabName.equalsIgnoreCase("tabMisc")) { it.setCreativeTab(CreativeTabs.tabRedstone); }
+                else if(tabName.equalsIgnoreCase("tabRedstone")) { it.setCreativeTab(CreativeTabs.tabRedstone); }
                 else if(tabName.equalsIgnoreCase("tabTools")) { it.setCreativeTab(CreativeTabs.tabTools); }
                 else if(tabName.equalsIgnoreCase("tabTransport")) { it.setCreativeTab(CreativeTabs.tabTransport); }
                 else { Log.warning(env.getModName() + " contains an invalid tab name: " + tabName); }
