@@ -8,6 +8,7 @@ import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
 import luaforge.luaj.vm2.LuaError;
+import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
 import luaforge.luaj.vm2.Varargs;
 import net.minecraft.src.Block;
@@ -15,6 +16,7 @@ import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.Material;
 import net.minecraft.src.StepSound;
 
+// TODO: Document that the format changed to OOP-style
 public class BlockLib {
 
     public static HashMap<String, BlockTemplate> regularBlocks = new HashMap<String, BlockTemplate>();
@@ -53,19 +55,25 @@ public class BlockLib {
     public static Varargs createBlockTileEntity(Varargs args, LuaEnvironment env) { // TODO: document createBlockTileEntity on the wiki
         // TODO: Setup TileEntity methods to actually make this useful
         createBlockOrBlockEntity(true, args, env);
-        return LuaValue.TRUE;
+        LuaTable t = LuaValue.tableOf();
+        t.setmetatable(env._G.get("block"));
+        t.set(LuaValue.valueOf("name"), LuaValue.valueOf(args.arg(6).checkjstring()));
+        return t;
     }
     
     @LuaMethod(name = "block")
     public static Varargs createBlock(Varargs args, LuaEnvironment env) {
         createBlockOrBlockEntity(false, args, env);
-        return LuaValue.TRUE;
+        LuaTable t = LuaValue.tableOf();
+        t.setmetatable(env._G.get("block"));
+        t.set(LuaValue.valueOf("name"), LuaValue.valueOf(args.arg(6).checkjstring()));
+        return t;
     }
     
     @LuaMethod(name = "block")
     public static Varargs setCreativeTab(Varargs args, LuaEnvironment env) {
-        final String blockName = args.arg1().tojstring();
-        final String tabName = args.arg(2).tojstring();
+        String blockName = args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring();
+        String tabName = args.arg(2).tojstring();
         BlockTemplate bt;
         BlockEntity be;
         CreativeTabs t = getCreativeTab(tabName);
@@ -88,7 +96,7 @@ public class BlockLib {
     
     @LuaMethod(name = "block")
     public static Varargs setLightLevel(Varargs args) {
-        String blockName = args.arg1().checkjstring();
+        String blockName = args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring();
         args.arg(2).checkint();
         float value = args.arg(2).tofloat();
         if((value > 1.0) || (value < 0)) {
@@ -108,8 +116,8 @@ public class BlockLib {
     @LuaMethod(name = "block")
     public static Varargs setHardness(Varargs args) {
         args.arg(2).checkint();
-        BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
-        BlockEntity be = tileEntityBlocks.get(args.arg1().checkjstring());
+        BlockTemplate bt = regularBlocks.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
+        BlockEntity be = tileEntityBlocks.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         if (bt != null) {
             bt.setHardness(args.arg(2).tofloat());
         } else if (be != null) {
@@ -124,8 +132,8 @@ public class BlockLib {
     @LuaMethod(name = "block")
     public static Varargs setUnbreakable(Varargs args) { 
         
-        BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
-        BlockEntity be = tileEntityBlocks.get(args.arg1().checkjstring());
+        BlockTemplate bt = regularBlocks.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
+        BlockEntity be = tileEntityBlocks.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         if (bt != null) {
             bt.setBlockUnbreakable();
         } else if (be != null) {
@@ -139,8 +147,8 @@ public class BlockLib {
     
     @LuaMethod(name = "block")
     public static Varargs setSound(Varargs args) {
-        BlockTemplate bt = regularBlocks.get(args.arg1().checkjstring());
-        BlockEntity be = tileEntityBlocks.get(args.arg1().checkjstring());
+        BlockTemplate bt = regularBlocks.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
+        BlockEntity be = tileEntityBlocks.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         String soundName = args.arg(2).checkjstring();
         StepSound ss = getStepSound(args.arg(2).checkjstring());
         if (ss == null) {
