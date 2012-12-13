@@ -89,6 +89,12 @@ public class ItemLib {
     }
     
     @LuaMethod (name = "item")
+    public static Varargs shiftedIndex(Varargs args) { // TODO: Document shiftedIndex on the wiki
+        ItemTemplate it = regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
+        return LuaValue.valueOf(it.shiftedIndex);
+    }
+    
+    @LuaMethod (name = "item")
     public static Varargs setHealAmount(Varargs args) { // TODO: Document setHealAmount on the wiki
         ItemTemplate it = regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         it.setHealAmount(args.arg(2).checkint());
