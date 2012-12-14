@@ -7,6 +7,8 @@ import java.util.HashMap;
 import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
+import luaforge.core.lua.libs.CoreLib;
+import luaforge.core.lua.libs.CustomTab;
 import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
@@ -212,7 +214,13 @@ public class BlockLib {
                 else if(tabName.equalsIgnoreCase("tabRedstone")) { return CreativeTabs.tabRedstone; }
                 else if(tabName.equalsIgnoreCase("tabTools")) { return CreativeTabs.tabTools; }
                 else if(tabName.equalsIgnoreCase("tabTransport")) { return CreativeTabs.tabTransport; }
-                else { return null; }
+                else {
+                    CustomTab t = CoreLib.tabs.get(tabName);
+                    if (t == null) {
+                        return null;
+                    }
+                    return t;
+                }
     }
     
     private static StepSound getStepSound(String soundName) {

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import luaforge.core.Log;
 import luaforge.core.api.LuaMethod;
 import luaforge.core.lua.LuaEnvironment;
+import luaforge.core.lua.libs.CoreLib;
+import luaforge.core.lua.libs.CustomTab;
 import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
@@ -63,11 +65,19 @@ public class ItemLib {
                 else if(tabName.equalsIgnoreCase("tabRedstone")) { it.setCreativeTab(CreativeTabs.tabRedstone); }
                 else if(tabName.equalsIgnoreCase("tabTools")) { it.setCreativeTab(CreativeTabs.tabTools); }
                 else if(tabName.equalsIgnoreCase("tabTransport")) { it.setCreativeTab(CreativeTabs.tabTransport); }
-                else { Log.warning(env.getModName() + " contains an invalid tab name: " + tabName); }
+                else {
+                    CustomTab t = CoreLib.tabs.get(tabName);
+                    if (t == null) {
+                        Log.warning(env.getModName() + " contains an invalid tab name: " + tabName);
+                        return LuaValue.FALSE;
+                    }
+                    it.setCreativeTab(t);
+                }
             }
         }
         else {
             Log.warning(env.getModName() + " contains a reference to an item that doesnt exist: " + itemName);
+            return LuaValue.FALSE;
         }
         return LuaValue.TRUE;
     }
