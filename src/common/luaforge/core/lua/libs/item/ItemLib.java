@@ -117,7 +117,7 @@ public class ItemLib {
     
     @LuaMethod (name = "item")
     public static Varargs useDuration(Varargs args) { // TODO: Document useDuration on the wiki
-        regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring()).itemUseDuration = args.arg1().checkint();
+        regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring()).itemUseDuration = args.arg(2).checkint();
         return LuaValue.NONE;
     }
 }
