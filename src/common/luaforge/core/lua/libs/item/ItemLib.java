@@ -15,7 +15,6 @@ import luaforge.luaj.vm2.Varargs;
 import net.minecraft.src.CreativeTabs;
 import net.minecraft.src.EnumAction;
 
-// TODO: Document that the format changed to OOP-style
 public class ItemLib {
     
     public static HashMap<String, ItemTemplate> regularItems = new HashMap<String, ItemTemplate>();
@@ -83,7 +82,7 @@ public class ItemLib {
     }
     
     @LuaMethod (name = "item")
-    public static Varargs setAction(Varargs args) { // TODO: Document item.setAction & create a table for EnumAction constants
+    public static Varargs setAction(Varargs args) { // TODO: Create a table for EnumAction constants
         String itemName = args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring();
         String action = args.arg(2).checkjstring();
         
@@ -99,20 +98,20 @@ public class ItemLib {
     }
     
     @LuaMethod (name = "item")
-    public static Varargs shiftedIndex(Varargs args) { // TODO: Document shiftedIndex on the wiki
+    public static Varargs shiftedIndex(Varargs args) {
         ItemTemplate it = regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         return LuaValue.valueOf(it.shiftedIndex);
     }
     
     @LuaMethod (name = "item")
-    public static Varargs setHealAmount(Varargs args) { // TODO: Document setHealAmount on the wiki
+    public static Varargs setHealAmount(Varargs args) {
         ItemTemplate it = regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         it.setHealAmount(args.arg(2).checkint());
         return LuaValue.NONE;
     }
     
     @LuaMethod (name = "item")
-    public static Varargs setSaturationAmount(Varargs args) { // TODO: Document setSaturationAmount on the wiki
+    public static Varargs setSaturationAmount(Varargs args) {
         ItemTemplate it = regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring());
         args.arg(2).checkint();
         it.setSaturation(args.arg(2).tofloat());
@@ -120,13 +119,13 @@ public class ItemLib {
     }
     
     @LuaMethod (name = "item")
-    public static Varargs setAlwaysEdible(Varargs args) { // TODO: Document setAlwaysEdible on the wiki
+    public static Varargs setAlwaysEdible(Varargs args) {
         regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring()).setAlwaysEdible();
         return LuaValue.NONE;
     }
     
     @LuaMethod (name = "item")
-    public static Varargs useDuration(Varargs args) { // TODO: Document useDuration on the wiki
+    public static Varargs useDuration(Varargs args) {
         regularItems.get(args.arg1().checktable().get(LuaValue.valueOf("name")).checkjstring()).itemUseDuration = args.arg(2).checkint();
         return LuaValue.NONE;
     }

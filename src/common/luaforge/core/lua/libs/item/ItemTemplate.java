@@ -16,7 +16,7 @@ public class ItemTemplate extends Item {
     public EnumAction action = EnumAction.none;
     
     /** Number of ticks to run while 'EnumAction'ing until result. */
-    public int itemUseDuration = 32; // TODO: Make itemUseDuration configurable
+    public int itemUseDuration = 32;
 
     /** The amount this food item heals the player. */
     private int healAmount = 0;
