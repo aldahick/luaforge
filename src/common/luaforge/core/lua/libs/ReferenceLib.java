@@ -8,34 +8,37 @@ import net.minecraft.src.ItemStack;
 public class ReferenceLib {
 
     public static ItemStack getItemStack(int id) {
-        return getItemStack(id, 1);
+        return getItemStack(id, 1, 0);
+    }
+    
+    public static ItemStack getItemStack(int id, int amount) {
+        return getItemStack(id, amount, 0);
     }
 
-    public static ItemStack getItemStack(int id, int amount) {
+    public static ItemStack getItemStack(int id, int amount, int metadata) {
         if (id < (Block.blocksList.length - 1)) {
             if (Block.blocksList[id] != null) {
                 if (Block.blocksList[id].getBlockName() != null) {
-                    return new ItemStack(Block.blocksList[id], amount);
+                    return new ItemStack(Block.blocksList[id], amount, metadata);
                 } else {
                     if (checkItem(id, 0)) {
-                        return new ItemStack(Item.itemsList[id], amount);
+                        return new ItemStack(Item.itemsList[id], amount, metadata);
                     } else if (checkItem(id, 256)) {
-                        return new ItemStack(Item.itemsList[256 + id], amount);
+                        return new ItemStack(Item.itemsList[256 + id], amount, metadata);
                     }
                 }
             } else if (checkItem(id, 0)) {
-                return new ItemStack(Item.itemsList[id], amount);
+                return new ItemStack(Item.itemsList[id], amount, metadata);
             } else if (checkItem(id, 256)) {
-                return new ItemStack(Item.itemsList[256 + id], amount);
+                return new ItemStack(Item.itemsList[256 + id], amount, metadata);
             }
         } else {
             if (checkItem(id, 0)) {
-                return new ItemStack(Item.itemsList[id], amount);
+                return new ItemStack(Item.itemsList[id], amount, metadata);
             } else if (checkItem(id, 256)) {
-                return new ItemStack(Item.itemsList[256 + id], amount);
+                return new ItemStack(Item.itemsList[256 + id], amount, metadata);
             }
         }
-
         throw new LuaError("Specified ID is invalid: " + id);
     }
 
