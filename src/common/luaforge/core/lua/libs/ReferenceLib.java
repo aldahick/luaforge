@@ -5,28 +5,37 @@ import net.minecraft.src.Block;
 import net.minecraft.src.Item;
 import net.minecraft.src.ItemStack;
 
-public class ReferenceLib {    
-    
+public class ReferenceLib {
+
     public static ItemStack getItemStack(int id) {
         return getItemStack(id, 1);
     }
 
     public static ItemStack getItemStack(int id, int amount) {
-        if (Block.blocksList[id] != null) {
-            if (Block.blocksList[id].getBlockName() != null) {
-                return new ItemStack(Block.blocksList[id], amount);
-            } else {
-                if (checkItem(id, 0)) {
-                    return new ItemStack(Item.itemsList[id], amount);
-                } else if (checkItem(id, 256)) {
-                    return new ItemStack(Item.itemsList[256 + id], amount);
+        if (id < (Block.blocksList.length - 1)) {
+            if (Block.blocksList[id] != null) {
+                if (Block.blocksList[id].getBlockName() != null) {
+                    return new ItemStack(Block.blocksList[id], amount);
+                } else {
+                    if (checkItem(id, 0)) {
+                        return new ItemStack(Item.itemsList[id], amount);
+                    } else if (checkItem(id, 256)) {
+                        return new ItemStack(Item.itemsList[256 + id], amount);
+                    }
                 }
+            } else if (checkItem(id, 0)) {
+                return new ItemStack(Item.itemsList[id], amount);
+            } else if (checkItem(id, 256)) {
+                return new ItemStack(Item.itemsList[256 + id], amount);
             }
-        } else if (checkItem(id, 0)) {
-            return new ItemStack(Item.itemsList[id], amount);
-        } else if (checkItem(id, 256)) {
-            return new ItemStack(Item.itemsList[256 + id], amount);
+        } else {
+            if (checkItem(id, 0)) {
+                return new ItemStack(Item.itemsList[id], amount);
+            } else if (checkItem(id, 256)) {
+                return new ItemStack(Item.itemsList[256 + id], amount);
+            }
         }
+
         throw new LuaError("Specified ID is invalid: " + id);
     }
 
@@ -39,5 +48,4 @@ public class ReferenceLib {
         }
         return false;
     }
-    
 }
