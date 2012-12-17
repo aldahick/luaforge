@@ -40,6 +40,8 @@ public class ItemTemplate extends Item {
 
     /** probably of the set potion effect occurring */
     private float potionEffectProbability;
+    
+    public int healthAmount = 0;
 
     public ItemTemplate(int id, int iconIndex, Object[] otherArgs) {
         super(id);
@@ -61,6 +63,14 @@ public class ItemTemplate extends Item {
     
     public void setAlwaysEdible() {
         this.alwaysEdible = true;
+    }
+    
+    public String getVisibleName() {
+        return visibleName;
+    }
+
+    public String getHiddenName() {
+        return hiddenName;
     }
 
     @Override
@@ -89,11 +99,12 @@ public class ItemTemplate extends Item {
     }
 
     @Override
-    public ItemStack onFoodEaten(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+    public ItemStack onFoodEaten(ItemStack par1ItemStack, World world, EntityPlayer player) {
         --par1ItemStack.stackSize;
-        par3EntityPlayer.getFoodStats().addStats(this.healAmount, this.saturationModifier);
-        par2World.playSoundAtEntity(par3EntityPlayer, "random.burp", 0.5F, par2World.rand.nextFloat() * 0.1F + 0.9F);
-        this.func_77849_c(par1ItemStack, par2World, par3EntityPlayer);
+        player.getFoodStats().addStats(this.healAmount, this.saturationModifier);
+        world.playSoundAtEntity(player, "random.burp", 0.5F, world.rand.nextFloat() * 0.1F + 0.9F);
+        this.func_77849_c(par1ItemStack, world, player);
+        player.heal(healthAmount);
         return par1ItemStack;
     }
     
@@ -105,11 +116,4 @@ public class ItemTemplate extends Item {
         }
     }
 
-    public String getVisibleName() {
-        return visibleName;
-    }
-
-    public String getHiddenName() {
-        return hiddenName;
-    }
 }
