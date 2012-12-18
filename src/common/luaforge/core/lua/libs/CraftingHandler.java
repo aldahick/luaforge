@@ -23,7 +23,6 @@ public class CraftingHandler {
         } else {
             GameRegistry.addShapelessRecipe(ReferenceLib.getItemStack(args.arg1().checkint(), args.arg(2).checkint()), recipes);
         }
-        
         return LuaValue.NONE;
     }
 
@@ -77,7 +76,6 @@ public class CraftingHandler {
         } else {
             GameRegistry.addRecipe(ReferenceLib.getItemStack(args.arg1().checkint(), args.arg(2).checkint()), recipe.toArray());
         }
-        
         return LuaValue.NONE;
     }
 
@@ -85,20 +83,18 @@ public class CraftingHandler {
     public static Varargs addSmeltingRecipe(Varargs args) {
         int i = args.arg(3).optint(0);
         if (i == 0) {
-            if (args.arg1().istable()) {
-                GameRegistry.addSmelting(args.arg1().checkint(), ReferenceLib.getItemStack(args.arg1().get("id").checkint(), 1, args.arg1().get("metadata").checkint()), 0);
+            if (args.arg(2).istable()) {
+                GameRegistry.addSmelting(args.arg1().checkint(), ReferenceLib.getItemStack(args.arg(2).get("id").checkint(), 1, args.arg(2).get("metadata").checkint()), 0);
             } else {
                 GameRegistry.addSmelting(args.arg1().checkint(), ReferenceLib.getItemStack(args.arg(2).checkint()), 0);
             }
         } else {
-            if (args.arg1().istable()) {
-                GameRegistry.addSmelting(args.arg1().checkint(), ReferenceLib.getItemStack(args.arg1().get("id").checkint(), 1, args.arg1().get("metadata").checkint()), args.arg(3).tofloat());
+            if (args.arg(2).istable()) {
+                GameRegistry.addSmelting(args.arg1().checkint(), ReferenceLib.getItemStack(args.arg(2).get("id").checkint(), 1, args.arg(2).get("metadata").checkint()), args.arg(3).tofloat());
             } else {
                 GameRegistry.addSmelting(args.arg1().checkint(), ReferenceLib.getItemStack(args.arg(2).checkint()), args.arg(3).tofloat());
             }
         }
-        
         return LuaValue.NONE;
     }
-
 }
