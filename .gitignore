@@ -1,11 +1,18 @@
 # Ignore everything
 *
 
+# Ignore miscellaneous
+src/.gitignore
+src/README.md
+src/minecraft/luaforge/core/.DS_Store
+src/minecraft/luaforge/core/lua/.DS_Store
+.DS_Store
+
 # Include only necessary files
 !build.xml
 !src
-!src/common
-!src/common/org
+!src/minecraft
+!src/minecraft/org
 
 !Resources
 !Resources/*
@@ -13,27 +20,22 @@
 !Resources/*/*/*
 !Resources/*/*/*/*
 
-!src/common/org/luaj
-!src/common/org/luaj/*
-!src/common/org/luaj/*/*
-!src/common/org/luaj/*/*/*
-!src/common/org/luaj/*/*/*/*
-!src/common/org/luaj/*/*/*/*/*
-!src/common/org/luaj/*/*/*/*/*/*
+!src/minecraft/org/apache
+!src/minecraft/org/apache/*
+!src/minecraft/org/apache/*/*
+!src/minecraft/org/apache/*/*/*
+!src/minecraft/org/apache/*/*/*/*
+!src/minecraft/org/apache/*/*/*/*/*
+!src/minecraft/org/apache/*/*/*/*/*/*
 
-!src/common/luaforge/
-!src/common/luaforge/*
-!src/common/luaforge/*/*
-!src/common/luaforge/*/*/*
-!src/common/luaforge/*/*/*/*
-!src/common/luaforge/*/*/*/*/*
-!src/common/luaforge//*/*/*/*/*/*
+!src/minecraft/luaforge/
+!src/minecraft/luaforge/*
+!src/minecraft/luaforge/*/*
+!src/minecraft/luaforge/*/*/*
+!src/minecraft/luaforge/*/*/*/*
+!src/minecraft/luaforge/*/*/*/*/*
+!src/minecraft/luaforge//*/*/*/*/*/*
 
 !Resources/mcmod.info
 !.gitignore
 !README.md
-src/.gitignore
-src/README.md
-src/common/luaforge/core/.DS_Store
-src/common/luaforge/core/lua/.DS_Store
-.DS_Store

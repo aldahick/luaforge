@@ -13,10 +13,10 @@ import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
 import luaforge.luaj.vm2.Varargs;
-import net.minecraft.src.Block;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.Material;
-import net.minecraft.src.StepSound;
+import net.minecraft.block.Block;
+import net.minecraft.block.StepSound;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 
 public class BlockLib {
 

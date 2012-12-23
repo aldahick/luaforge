@@ -12,8 +12,8 @@ import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
 import luaforge.luaj.vm2.Varargs;
-import net.minecraft.src.CreativeTabs;
-import net.minecraft.src.EnumAction;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumAction;
 
 public class ItemLib {
     

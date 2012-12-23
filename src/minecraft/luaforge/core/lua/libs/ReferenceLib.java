@@ -1,9 +1,9 @@
 package luaforge.core.lua.libs;
 
 import luaforge.luaj.vm2.LuaError;
-import net.minecraft.src.Block;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemStack;
+import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 
 public class ReferenceLib {
 

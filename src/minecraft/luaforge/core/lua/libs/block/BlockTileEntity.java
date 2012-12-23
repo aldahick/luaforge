@@ -1,7 +1,7 @@
 package luaforge.core.lua.libs.block;
 
-import net.minecraft.src.NBTTagCompound;
-import net.minecraft.src.TileEntity;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 
 public class BlockTileEntity extends TileEntity {
 
