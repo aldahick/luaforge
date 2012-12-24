@@ -94,6 +94,7 @@ public class LuaEnvironment {
     private void setupProperties() {
         callPropertiesFile(new File(modPath + "/properties.lua").getPath());
         startup = determineStartup();
+        modName = (determineProperty("name").isEmpty()) ? modName : determineProperty("name");
         version = determineProperty("version");
         author = determineProperty("author");
     }
@@ -110,7 +111,7 @@ public class LuaEnvironment {
 
     private String determineProperty(String property) {
         try {
-            return _G.get(property).tojstring();
+            return _G.get(property).checkjstring();
         } catch (Exception e) {
             return "";
         }
@@ -118,7 +119,7 @@ public class LuaEnvironment {
 
     private LuaStartup determineStartup() {
         try {
-            String s = _G.get("startup").tojstring();
+            String s = _G.get("startup").checkjstring();
             if (s.equals("PRESTARTUP")) {
                 return LuaStartup.PRESTARTUP;
             } else if (s.equals("STARTUP")) {
