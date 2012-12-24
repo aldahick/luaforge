@@ -23,6 +23,8 @@ import luaforge.core.lua.libs.*;
 import luaforge.core.lua.libs.block.*;
 import luaforge.core.lua.libs.item.*;
 import luaforge.core.proxies.CommonProxy;
+import luaforge.luaj.vm2.LuaError;
+import luaforge.luaj.vm2.LuaValue;
 
 @Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0", useMetadata = true)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -37,39 +39,6 @@ public class Core {
 
     @PreInit
     public void preLoad(FMLPreInitializationEvent event) {
-        registerDefaultLibs();
-        File folder = new File(proxy.getDirectory(), dirName);
-        try { // Inject all lua mods onto the classpath
-            ((ModClassLoader) Loader.instance().getModClassLoader()).addFile(folder);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        if (folder.exists() && folder.isDirectory()) {
-            File[] listOfFiles = folder.listFiles();
-            int realLength = listOfFiles.length;
-            for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].isDirectory()) {
-                    LuaEnvironment env = new LuaEnvironment(listOfFiles[i], listOfFiles[i].getName());
-                    LuaMods.add(env);
-                } else {
-                    realLength--;
-                }
-            }
-            if (realLength == 0) {
-                Log.info(listOfFiles.length + " mods found in " + dirName + ", nothing to load");
-            } else if (realLength == 1) {
-                Log.info(listOfFiles.length + " mod found in " + dirName + " now loading");
-            } else {
-                Log.info(listOfFiles.length + " mods found in " + dirName + " now loading");
-            }
-        } else {
-            if (folder.mkdirs()) {
-                Log.info(dirName + " created");
-            } else {
-                Log.warning("Error creating " + dirName);
-            }
-        }
         loadLuaMod(LuaStartup.PRESTARTUP);
 
     }
@@ -91,19 +60,47 @@ public class Core {
         loadLuaMod(LuaStartup.SERVERSTARTUP);
     }
 
-    public void loadLuaMod(LuaEnvironment env, LuaStartup startup) {
-        if (env.startup == startup) {
-            env.call();
+    public static void loadLuaMod(LuaEnvironment env, LuaStartup startup) {
+        LuaValue s;
+        try {
+            switch (startup) {
+                case BEFOREMINECRAFT:
+                    if ((s = env.startup[0]) != null) {
+                        s.call();
+                    }
+                    return;
+                case PRESTARTUP:
+                    if ((s = env.startup[1]) != null) {
+                        s.call();
+                    }
+                    return;
+                case STARTUP:
+                    if ((s = env.startup[2]) != null) {
+                        s.call();
+                    }
+                    return;
+                case POSTSTARTUP:
+                    if ((s = env.startup[3]) != null) {
+                        s.call();
+                    }
+                    return;
+                case SERVERSTARTUP:
+                    if ((s = env.startup[4]) != null) {
+                        s.call();
+                    }
+            }
+        } catch (LuaError e) {
+            env.throwLuaError(e);
         }
     }
 
-    public void loadLuaMod(LuaStartup startup) {
+    public static void loadLuaMod(LuaStartup startup) {
         for (LuaEnvironment e : LuaMods) {
             loadLuaMod(e, startup);
         }
     }
 
-    private static void registerDefaultLibs() {
+    public static void registerDefaultLibs() {
         LuaClassRegistry.register(new TablesLib());
         LuaClassRegistry.register(new LogLib());
         LuaClassRegistry.register(new ClientLib());
@@ -112,5 +109,6 @@ public class Core {
         LuaClassRegistry.register(new ReferenceLib());
         LuaClassRegistry.register(new CraftingHandler());
         LuaClassRegistry.register(new CoreLib());
+        LuaClassRegistry.register(new Hooks());
     }
 }

@@ -25,9 +25,9 @@ public class LuaEnvironment {
     public Globals _G = globals(this);
     private LuaValue chunk;
     private String modPath;
-    
+    public LuaValue[] startup = new LuaValue[5];
     /* Properties */
-    public LuaStartup startup;
+    //public LuaStartup startup;
     private String modName;
     private String version;
     private String author;
@@ -45,14 +45,18 @@ public class LuaEnvironment {
             chunk = _G.loadFile(modMainPath);
             chunk.call(LuaValue.valueOf(modMainPath));
         } catch (LuaError e) {
-            String message;
-            message = "\n~~~~~~LUAFORGE MOD LOADING ERROR~~~~~~\n";
-            message += modName + " not loaded properly!\n";
-            message += e.getMessage();
-            message += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
-            throw new RuntimeException(message);
+            throwLuaError(e);
         }
 
+    }
+
+    public void throwLuaError(LuaError e) {
+        String message;
+        message = "\n~~~~~~LUAFORGE MOD LOADING ERROR~~~~~~\n";
+        message += "Fatal error detected in " + modName + "\n";
+        message += e.getMessage();
+        message += "\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n";
+        throw new RuntimeException(message);
     }
 
     private static Globals globals(LuaEnvironment env) {
@@ -68,19 +72,19 @@ public class LuaEnvironment {
         globals.load(new JseOsLib());
         globals.load(new DebugLib());
         globals.load(new LuajavaLib());
-        
+
         for (String s : LuaClassRegistry.methods.keySet()) {
             Method[] methodsArray = new Method[LuaClassRegistry.methods.get(s).size()];
             methodsArray = LuaClassRegistry.methods.get(s).toArray(methodsArray);
-            if(s.isEmpty()){
+            if (s.isEmpty()) {
                 globals.load(new LuaBaseMethodLoader(env, methodsArray));
-            }else{
+            } else {
                 globals.load(new LuaIndexMethodLoader(env, s, methodsArray));
             }
 
         }
-        
-        for(String s : LuaClassRegistry.tables.keySet()) {
+
+        for (String s : LuaClassRegistry.tables.keySet()) {
             globals.load(new LuaTableLoader(env, LuaClassRegistry.tables.get(s)));
         }
 
@@ -90,10 +94,8 @@ public class LuaEnvironment {
     }
 
     /* Property methods */
-    
     private void setupProperties() {
         callPropertiesFile(new File(modPath + "/properties.lua").getPath());
-        startup = determineStartup();
         modName = (determineProperty("name").isEmpty()) ? modName : determineProperty("name");
         version = determineProperty("version");
         author = determineProperty("author");
@@ -104,8 +106,7 @@ public class LuaEnvironment {
             LuaValue c = _G.loadFile(path);
             c.call(LuaValue.valueOf(path));
         } catch (LuaError e) {
-            Log.severe(modName + " not loaded properly!");
-            Log.severe(e.getMessage());
+            throwLuaError(e);
         }
     }
 
@@ -117,31 +118,11 @@ public class LuaEnvironment {
         }
     }
 
-    private LuaStartup determineStartup() {
-        try {
-            String s = _G.get("startup").checkjstring();
-            if (s.equals("PRESTARTUP")) {
-                return LuaStartup.PRESTARTUP;
-            } else if (s.equals("STARTUP")) {
-                return LuaStartup.STARTUP;
-            } else if (s.equals("POSTSTARTUP")) {
-                return LuaStartup.POSTSTARTUP;
-            } else if (s.equals("SERVERSTARTUP")) {
-                return LuaStartup.SERVERSTARTUP;
-            } else {
-                return LuaStartup.STARTUP;
-            }
-        } catch (LuaError e) {
-            return LuaStartup.STARTUP;
-        }
-    }
-
     /* Mod information */
-    
     public String getModPath() {
         return modPath;
     }
-    
+
     public String getModName() {
         return modName;
     }
