@@ -10,15 +10,15 @@ public class ObfuscationMappings {
     public static final boolean isObfuscated = isObfuscated();
 
     public static void initialize() {
-        classMappings.put("net.minecraft.src.RenderEngine", "bap");
+        classMappings.put("cpw.mods.fml.common.Loader", "Loader");
         
         HashMap<String,String> renderEngineMappings = new HashMap<String,String>();
-        renderEngineMappings.put("getTexture", "b");
-        methodMappings.put("net.minecraft.src.RenderEngine", renderEngineMappings);
+        renderEngineMappings.put("identifyMods", "identifyMods");
+        methodMappings.put("cpw.mods.fml.common.Loader", renderEngineMappings);
         
-        HashMap<String,String> reDescriptorMappings = new HashMap<String,String>();
-        reDescriptorMappings.put("getTexture", "(Ljava/lang/String;)I");
-        descriptorMappings.put("net.minecraft.src.RenderEngine", reDescriptorMappings);
+        HashMap<String,String> loaderDescriptorMappings = new HashMap<String,String>();
+        loaderDescriptorMappings.put("identifyMods", "()Lcpw/mods/fml/common/discovery/ModDiscoverer;");
+        descriptorMappings.put("cpw.mods.fml.common.Loader", loaderDescriptorMappings);
     }
 
     public static String getClassName(String name) {

@@ -1,7 +1,7 @@
 package luaforge.core.asm;
 
-import cpw.mods.fml.relauncher.FMLRelauncher;
 import cpw.mods.fml.relauncher.IClassTransformer;
+import java.io.IOException;
 import java.util.List;
 import luaforge.core.Log;
 import org.objectweb.asm.ClassReader;
@@ -15,24 +15,22 @@ public class TransformerB implements IClassTransformer {
 
     @Override
     public byte[] transform(String name, byte[] bytes) {
+        if (name.equals(ObfuscationMappings.getClassName("cpw.mods.fml.common.Loader"))) {
+            return getModifications(bytes, name, "identifyMods");
+        }
         return bytes;
     }
-    
-    private static byte[] getModifications(String name, byte[] bytes, String classOverride, String... methods) {
+
+    private static byte[] getModifications(byte[] bytes, String name, String... methods) {
         try {
-            if (FMLRelauncher.side().equals("CLIENT")) {
-                if (name.equals(ObfuscationMappings.getClassName(classOverride))) {
-                    Visitor visit = new Visitor(classOverride, methods);
-                    ClassReader reader = new ClassReader(bytes);
-                    reader.accept(visit, 0);
-                    ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
-                    visit.accept(writer);
-                    return writer.toByteArray();
-                }
-            }
+            Visitor visit = new Visitor(name, methods);
+            ClassReader reader = new ClassReader(bytes);
+            reader.accept(visit, 0);
+            ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
+            visit.accept(writer);
+            return writer.toByteArray();
         } catch (Exception e) {
             Log.severe(e.getMessage());
-            e.printStackTrace();
         }
         return bytes;
     }
@@ -59,8 +57,13 @@ public class TransformerB implements IClassTransformer {
                         methods.add(mn);
                         return mn;
                     }
+                     ClassReader reader = null;
+                    try {
+                        reader = new ClassReader(ClassOverrider.override(className));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    } 
                     ClassNode node = new ClassNode();
-                    ClassReader reader = new ClassReader(ClassOverrider.override(ObfuscationMappings.getClassName(className), new byte[1]));
                     reader.accept(node, 0);
                     for (MethodNode nodes : (List<MethodNode>) node.methods) {
                         if (nodes.name.equals(obfName)) {
@@ -72,7 +75,7 @@ public class TransformerB implements IClassTransformer {
                         }
                     }
                 }
-            }
+            } 
             methods.add(mn);
             return mn;
         }

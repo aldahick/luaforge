@@ -1,8 +1,5 @@
 package luaforge.core.asm;
 
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.ModClassLoader;
-import cpw.mods.fml.relauncher.FMLRelauncher;
 import cpw.mods.fml.relauncher.IFMLCallHook;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
@@ -13,7 +10,6 @@ import luaforge.core.Core;
 import luaforge.core.Log;
 import luaforge.core.lua.LuaEnvironment;
 import luaforge.core.lua.LuaStartup;
-import net.minecraft.client.Minecraft;
 
 @TransformerExclusions({"luaforge.core.asm"})
 public class LuaForgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
@@ -63,7 +59,6 @@ public class LuaForgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
         Core.registerDefaultLibs();
         File folder = new File(minecraftLocation, Core.dirName);
         try { // Inject all lua mods onto the classpath
-            //((ModClassLoader) Loader.instance().getModClassLoader()).addFile(folder);
             rcl.addURL(folder.toURI().toURL());
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -76,7 +71,7 @@ public class LuaForgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
                 if (listOfFiles[i].isDirectory()) {
                     LuaEnvironment env = new LuaEnvironment(listOfFiles[i], listOfFiles[i].getName());
                     Core.LuaMods.add(env);
-                    env.call();
+                    env.call();                    
                 } else {
                     realLength--;
                 }
