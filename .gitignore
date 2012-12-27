@@ -14,6 +14,13 @@ src/minecraft/luaforge/core/lua/.DS_Store
 !src/minecraft
 !src/minecraft/org
 
+!src/minecraft/cpw
+!src/minecraft/cpw/mods
+!src/minecraft/cpw/mods/fml
+!src/minecraft/cpw/mods/fml/common
+!src/minecraft/cpw/mods/fml/common/Loader.java
+
+
 !Resources
 !Resources/*
 !Resources/*/*
@@ -34,7 +41,7 @@ src/minecraft/luaforge/core/lua/.DS_Store
 !src/minecraft/luaforge/*/*/*
 !src/minecraft/luaforge/*/*/*/*
 !src/minecraft/luaforge/*/*/*/*/*
-!src/minecraft/luaforge//*/*/*/*/*/*
+!src/minecraft/luaforge/*/*/*/*/*/*
 
 !Resources/mcmod.info
 !.gitignore
