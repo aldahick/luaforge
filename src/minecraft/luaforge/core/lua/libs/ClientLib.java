@@ -12,12 +12,12 @@ public class ClientLib {
 
     @LuaMethod(name="client")
     public static Varargs preloadTexture(Varargs args, LuaEnvironment env){
-        String s = args.arg1().checkjstring();
-        File f = new File(env.getModPath(), s);
-        if (!f.exists()) {
-            Log.warning("ERROR: File not found: " + s);
+        String arg = args.arg1().checkjstring();
+        String s = "/" + (new File(env.getModPath()).getName()) + ((arg.startsWith("/")) ? "" : "/") + arg;
+        if (ClientLib.class.getResourceAsStream(s) == null) {
+            Log.warning("The file " + arg + " could not be located in the mod " + env.getModName());
         }
-        CommonProxy.TEXTURES.add(f.getPath());
+        CommonProxy.TEXTURES.add(s);
         return LuaValue.NONE;
     }
     
