@@ -313,7 +313,14 @@ public class Loader
         mods.add(new InjectedModContainer(mcp,new File("minecraft.jar")));
         File coremod = new File(minecraftDir,"coremods");
         for (LuaEnvironment e : Core.LuaMods) {
-            mods.add(new InjectedModContainer((ModContainer) new LuaForgeModsContainer(e.getModName(), e.getVersion(), e.getAuthor()), new File(".")));
+            mods.add(new InjectedModContainer((ModContainer) new LuaForgeModsContainer(e.getAuthor(),
+                                                                                        e.getModName(), 
+                                                                                        e.getVersion(), 
+                                                                                        e.getCredits(),
+                                                                                        e.getDescription(),
+                                                                                        e.getURL(),
+                                                                                        e.getUpdateURL(),
+                                                                                        e.getLogoFile()), new File(".")));
         }
         for (String cont : injectedContainers)
         {

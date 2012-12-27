@@ -8,18 +8,18 @@ import java.util.Arrays;
 
 public class LuaForgeModsContainer extends DummyModContainer {
 
-        public LuaForgeModsContainer(String... info) {
+        public LuaForgeModsContainer(String[] authors, String... info) {
             super(new ModMetadata());
             ModMetadata meta = getMetadata();
             meta.modId = info[0];
             meta.name = info[0];
             meta.version = info[1];
-            meta.credits = "";
-            meta.authorList = Arrays.asList(info[2]);
-            meta.description = "";
-            meta.url = "";
-            meta.updateUrl = "";
-            meta.logoFile = "";
+            meta.authorList = Arrays.asList(authors);
+            meta.credits = info[2];
+            meta.description = info[3];
+            meta.url = info[4];
+            meta.updateUrl = info[5];
+            meta.logoFile = info[6];
         }
 
         @Override

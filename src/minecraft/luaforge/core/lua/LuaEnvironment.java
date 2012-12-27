@@ -6,7 +6,9 @@ import luaforge.core.Log;
 import luaforge.core.api.LuaClassRegistry;
 import luaforge.luaj.vm2.Globals;
 import luaforge.luaj.vm2.LuaError;
+import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.Varargs;
 import luaforge.luaj.vm2.compiler.LuaC;
 import luaforge.luaj.vm2.lib.Bit32Lib;
 import luaforge.luaj.vm2.lib.CoroutineLib;
@@ -26,11 +28,16 @@ public class LuaEnvironment {
     private LuaValue chunk;
     private String modPath;
     public LuaValue[] startup = new LuaValue[5];
+    
     /* Properties */
-    //public LuaStartup startup;
     private String modName;
     private String version;
-    private String author;
+    private String[] author;
+    private String credits;
+    private String description;
+    private String url;
+    private String updateUrl;
+    private String logoFile;
     /* * * * */
 
     public LuaEnvironment(File modFile, String name) {
@@ -95,10 +102,15 @@ public class LuaEnvironment {
 
     /* Property methods */
     private void setupProperties() {
-        callPropertiesFile(new File(modPath + "/properties.lua").getPath());
-        modName = (determineProperty("name").isEmpty()) ? modName : determineProperty("name");
-        version = determineProperty("version");
-        author = determineProperty("author");
+        callPropertiesFile(new File(getModPath() + "/properties.lua").getPath());
+        modName = (determineStringProperty("name").isEmpty()) ? modName : determineStringProperty("name");
+        version = determineStringProperty("version");
+        author = determineTableProperty("author");
+        credits = determineStringProperty("credits");
+        description = determineStringProperty("description");
+        url = determineStringProperty("url");
+        updateUrl = determineStringProperty("updateUrl");
+        logoFile = "/" + new File(getModPath()).getName() + ((determineStringProperty("logoFile").startsWith("/")) ? determineStringProperty("logoFile") : "/" + determineStringProperty("logoFile"));
     }
 
     private void callPropertiesFile(String path) {
@@ -109,11 +121,25 @@ public class LuaEnvironment {
             throwLuaError(e);
         }
     }
+    
+    private String[] determineTableProperty(String property) {
+        try {
+            LuaTable t = _G.get(property).opttable(new LuaTable(LuaValue.varargsOf( new LuaValue[]{} )));
+            String[] table = new String[t.length()];
+            for (int i=1; i <= t.length(); i++) {
+                table[i - 1] = t.get(i).checkjstring();
+            }
+            return table;
+        } catch (LuaError e) {
+            throwLuaError(e);
+            return null;
+        }
+    }
 
-    private String determineProperty(String property) {
+    private String determineStringProperty(String property) {
         try {
             return _G.get(property).checkjstring();
-        } catch (Exception e) {
+        } catch (LuaError e) {
             return "";
         }
     }
@@ -131,7 +157,27 @@ public class LuaEnvironment {
         return version;
     }
 
-    public String getAuthor() {
+    public String[] getAuthor() {
         return author;
+    }
+    
+    public String getCredits() {
+        return credits;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public String getURL() {
+        return url;
+    }
+    
+    public String getUpdateURL() {
+        return updateUrl;
+    }
+    
+    public String getLogoFile() {
+        return logoFile;
     }
 }
