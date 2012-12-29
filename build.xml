@@ -83,7 +83,7 @@
         </copy>
         <mkdir dir="reobf-copied/classes/cpw/mods/fml/common/" />
         <copy todir="reobf-copied/org/apache"><fileset dir="${reobf.dir}/org/apache" /></copy>
-        <copy todir="reobf-copied/classes/cpw/mods/fml/common"><fileset file="${reobf.dir}/cpw/mods/fml/common/Loader.class" />
+        <copy todir="reobf-copied/classes/cpw/mods/fml/common"><fileset file="${reobf.dir}/cpw/mods/fml/common/Loader.class" /></copy>
         <jar destfile="${jar.dir}/${jar.name}_build_${build.number}.jar">
             <fileset dir="reobf-copied" />
             <manifest>
