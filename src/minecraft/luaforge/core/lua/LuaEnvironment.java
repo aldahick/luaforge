@@ -1,14 +1,15 @@
 package luaforge.core.lua;
 
+import cpw.mods.fml.common.network.NetworkMod;
 import java.io.File;
 import java.lang.reflect.Method;
-import luaforge.core.Log;
+import java.util.HashMap;
+import luaforge.core.api.AnnotationFaker;
 import luaforge.core.api.LuaClassRegistry;
 import luaforge.luaj.vm2.Globals;
 import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
-import luaforge.luaj.vm2.Varargs;
 import luaforge.luaj.vm2.compiler.LuaC;
 import luaforge.luaj.vm2.lib.Bit32Lib;
 import luaforge.luaj.vm2.lib.CoroutineLib;
@@ -38,6 +39,7 @@ public class LuaEnvironment {
     private String url;
     private String updateUrl;
     private String logoFile;
+    private NetworkMod networkMod;
     /* * * * */
 
     public LuaEnvironment(File modFile, String name) {
@@ -111,6 +113,7 @@ public class LuaEnvironment {
         url = determineStringProperty("url");
         updateUrl = determineStringProperty("updateUrl");
         logoFile = "/" + new File(getModPath()).getName() + ((determineStringProperty("logoFile").startsWith("/")) ? determineStringProperty("logoFile") : "/" + determineStringProperty("logoFile"));
+        networkMod = getNetworkModSetup();
     }
 
     private void callPropertiesFile(String path) {
@@ -119,6 +122,25 @@ public class LuaEnvironment {
             c.call(LuaValue.valueOf(path));
         } catch (LuaError e) {
             throwLuaError(e);
+        }
+    }
+    
+    private NetworkMod getNetworkModSetup() {
+        boolean clientSideRequired = determineBooleanProperty("client_side_required");
+        boolean serverSideRequired = determineBooleanProperty("server_side_required");
+        
+        HashMap<String, Object> sides = new HashMap<String, Object>();
+        sides.put("clientSideRequired", clientSideRequired);
+        sides.put("serverSideRequired", serverSideRequired);
+        
+        return AnnotationFaker.fake(NetworkMod.class, sides);
+    }
+    
+    private boolean determineBooleanProperty(String property) {
+        try {
+            return _G.get(property).checkboolean();
+        } catch (LuaError e) {
+            return false;
         }
     }
     
@@ -179,5 +201,9 @@ public class LuaEnvironment {
     
     public String getLogoFile() {
         return logoFile;
+    }
+    
+    public NetworkMod getNetworkMod() {
+        return networkMod;
     }
 }

@@ -1,34 +1,50 @@
 package luaforge.core;
 
 import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
 import cpw.mods.fml.common.DummyModContainer;
+import cpw.mods.fml.common.InjectedModContainer;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.event.FMLConstructionEvent;
+import cpw.mods.fml.common.network.FMLNetworkHandler;
+import cpw.mods.fml.common.network.NetworkModHandler;
 import java.util.Arrays;
+import luaforge.core.lua.LuaEnvironment;
 
 public class LuaForgeModsContainer extends DummyModContainer {
 
-        public LuaForgeModsContainer(String[] authors, String... info) {
-            super(new ModMetadata());
-            ModMetadata meta = getMetadata();
-            meta.modId = info[0];
-            meta.name = info[0];
-            meta.version = info[1];
-            meta.authorList = Arrays.asList(authors);
-            meta.credits = info[2];
-            meta.description = info[3];
-            meta.url = info[4];
-            meta.updateUrl = info[5];
-            meta.logoFile = info[6];
-        }
-
-        @Override
-        public boolean registerBus(EventBus bus, LoadController controller) {
-            return true;
-        }
-        
-        @Override
-        public boolean isImmutable() {
-            return true;
-        }
+    public LuaEnvironment env;
+    public InjectedModContainer wrapped;
+    
+    public LuaForgeModsContainer(LuaEnvironment env) {
+        super(new ModMetadata());
+        this.env = env;
+        ModMetadata meta = getMetadata();
+        meta.modId = env.getModName();
+        meta.name = env.getModName();
+        meta.version = env.getVersion();
+        meta.authorList = Arrays.asList(env.getAuthor());
+        meta.credits = env.getCredits();
+        meta.description = env.getDescription();
+        meta.url = env.getURL();
+        meta.updateUrl = env.getUpdateURL();
+        meta.logoFile = env.getLogoFile();
     }
+
+    @Override
+    public boolean registerBus(EventBus bus, LoadController controller) {
+        bus.register(this);
+        return true;
+    }
+
+    @Override
+    public boolean isNetworkMod() {
+        return true;
+    }
+
+    @Subscribe
+    public void constructionEvent(FMLConstructionEvent event) {
+        FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(wrapped, env.getNetworkMod()));
+    }
+}

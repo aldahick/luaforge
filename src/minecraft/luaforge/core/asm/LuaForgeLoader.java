@@ -17,6 +17,7 @@ public class LuaForgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
     public static File location;
     public static File minecraftLocation;
     public static RelaunchClassLoader rcl;
+    public static boolean debug = true;
 
     @Override
     public String[] getLibraryRequestClass() {
@@ -53,6 +54,7 @@ public class LuaForgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
 
     @Override
     public Void call() throws Exception {
+        if (debug) { Log.debug("Debug mode active"); }
         ObfuscationMappings.initialize();
         TransformerA.addTransformerMap("luaforge/core/asm/luaforge_at.cfg");
         

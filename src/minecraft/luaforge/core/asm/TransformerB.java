@@ -16,6 +16,7 @@ public class TransformerB implements IClassTransformer {
     @Override
     public byte[] transform(String name, byte[] bytes) {
         if (name.equals(ObfuscationMappings.getClassName("cpw.mods.fml.common.Loader"))) {
+            Log.debug("Preparing to modify: " + name);
             return getModifications(bytes, name, "identifyMods");
         }
         return bytes;

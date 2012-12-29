@@ -1,18 +1,30 @@
 package luaforge.core;
 
+import luaforge.core.asm.LuaForgeLoader;
+
 public class Log {
 
     private static String name = "[LuaForge]" + " ";
+    
+    public static void debug(String msg) {
+        if (LuaForgeLoader.debug) {
+            pprint("[DEBUG]", msg);
+        }
+    }
 
     public static void info(String msg) {
-        System.out.println(name + "[INFO] " + msg);
+        pprint("[INFO]", msg);
     }
 
     public static void warning(String msg) {
-        System.out.println(name + "[WARNING] " + msg);
+        pprint("[WARNING]", msg);
     }
 
     public static void severe(String msg) {
-        System.out.println(name + "[SEVERE] " + msg);
+        pprint("[SEVERE]", msg);
+    }
+    
+    private static void pprint(String prefix, String msg) {
+        System.out.println(name + prefix + " " + msg);
     }
 }

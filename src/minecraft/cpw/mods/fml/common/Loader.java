@@ -312,16 +312,7 @@ public class Loader
         // Add in the MCP mod container
         mods.add(new InjectedModContainer(mcp,new File("minecraft.jar")));
         File coremod = new File(minecraftDir,"coremods");
-        for (LuaEnvironment e : Core.LuaMods) {
-            mods.add(new InjectedModContainer((ModContainer) new LuaForgeModsContainer(e.getAuthor(),
-                                                                                        e.getModName(), 
-                                                                                        e.getVersion(), 
-                                                                                        e.getCredits(),
-                                                                                        e.getDescription(),
-                                                                                        e.getURL(),
-                                                                                        e.getUpdateURL(),
-                                                                                        e.getLogoFile()), new File(".")));
-        }
+        
         for (String cont : injectedContainers)
         {
             ModContainer mc;
@@ -335,6 +326,12 @@ public class Loader
                 throw new LoaderException(e);
             }
             mods.add(new InjectedModContainer(mc,coremod));
+        }
+        for (LuaEnvironment e : Core.LuaMods) {
+            LuaForgeModsContainer mc = new LuaForgeModsContainer(e);
+            InjectedModContainer imc = new InjectedModContainer(mc, coremod);
+            mc.wrapped = imc;
+            mods.add(imc);
         }
         ModDiscoverer discoverer = new ModDiscoverer();
         FMLLog.fine("Attempting to load mods contained in the minecraft jar file and associated classes");

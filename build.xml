@@ -51,6 +51,14 @@
     </target>
     
     <target name="jar-obfuscated" depends="obfuscate">
+        <mkdir dir="${reobf.dir}/classes" />
+        <move todir="${reobf.dir}/classes" includeEmptyDirs="yes" >
+            <fileset dir="${reobf.dir}" >
+                <include name="**"/>
+                <exclude name="luaforge/**"/>
+                <exclude name="org/**"/>
+            </fileset>
+        </move>
         <jar destfile="${jar.dir}/${jar.name}.jar">
             <fileset dir="${reobf.dir}" />
             <fileset file="Resources/mcmod.info" />
@@ -73,8 +81,9 @@
         <copy todir="reobf-copied">
             <fileset dir="Resources/" />
         </copy>
+        <mkdir dir="reobf-copied/classes/cpw/mods/fml/common/" />
         <copy todir="reobf-copied/org/apache"><fileset dir="${reobf.dir}/org/apache" /></copy>
-            
+        <copy todir="reobf-copied/classes/cpw/mods/fml/common"><fileset file="${reobf.dir}/cpw/mods/fml/common/Loader.class" />
         <jar destfile="${jar.dir}/${jar.name}_build_${build.number}.jar">
             <fileset dir="reobf-copied" />
             <manifest>
