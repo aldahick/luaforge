@@ -5,7 +5,7 @@ import luaforge.core.lua.LuaEnvironment;
 import luaforge.luaj.vm2.LuaValue;
 import luaforge.luaj.vm2.Varargs;
 
-public class Hooks {
+public class HooksLib {
     
     @LuaMethod(name = "loader")
     public static Varargs beforeMinecraft(Varargs args, LuaEnvironment env) {
