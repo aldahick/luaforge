@@ -107,5 +107,6 @@ public class Core {
         LuaClassRegistry.register(new CraftingHandler());
         LuaClassRegistry.register(new CoreLib());
         LuaClassRegistry.register(new HooksLib());
+        LuaClassRegistry.register(new LoaderLib());
     }
 }
