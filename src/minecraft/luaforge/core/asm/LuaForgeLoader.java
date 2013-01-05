@@ -18,7 +18,7 @@ public class LuaForgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
     public static File location;
     public static File minecraftLocation;
     public static RelaunchClassLoader rcl;
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     @Override
     public String[] getLibraryRequestClass() {
