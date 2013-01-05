@@ -9,6 +9,7 @@ import java.util.Map;
 import luaforge.core.Core;
 import luaforge.core.Log;
 import luaforge.core.lua.LuaEnvironment;
+import luaforge.core.lua.LuaEventTracker;
 import luaforge.core.lua.LuaStartup;
 
 @TransformerExclusions({"luaforge.core.asm"})
@@ -55,6 +56,7 @@ public class LuaForgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
     @Override
     public Void call() throws Exception {
         if (debug) { Log.debug("Debug mode active"); }
+        LuaEventTracker.initialize();
         ObfuscationMappings.initialize();
         TransformerA.addTransformerMap("luaforge/core/asm/luaforge_at.cfg");
         

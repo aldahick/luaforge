@@ -15,6 +15,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import java.util.ArrayList;
 import luaforge.core.api.LuaClassRegistry;
 import luaforge.core.lua.LuaEnvironment;
+import luaforge.core.lua.LuaEventTracker;
 import luaforge.core.lua.LuaStartup;
 import luaforge.core.lua.libs.*;
 import luaforge.core.lua.libs.block.*;
@@ -22,6 +23,7 @@ import luaforge.core.lua.libs.item.*;
 import luaforge.core.proxies.CommonProxy;
 import luaforge.luaj.vm2.LuaError;
 import luaforge.luaj.vm2.LuaValue;
+import net.minecraftforge.common.MinecraftForge;
 
 @Mod(modid = "LuaForge", name = "LuaForge", version = "1.0.0", useMetadata = true)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -36,8 +38,8 @@ public class Core {
 
     @PreInit
     public void preLoad(FMLPreInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(new LuaEventTracker());
         loadLuaMod(LuaStartup.PRESTARTUP);
-
     }
 
     @Init
