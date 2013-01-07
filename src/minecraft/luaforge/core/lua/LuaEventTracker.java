@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import luaforge.luaj.vm2.LuaTable;
 import luaforge.luaj.vm2.LuaValue;
+import luaforge.luaj.vm2.lib.ZeroArgFunction;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 
@@ -26,13 +28,43 @@ public class LuaEventTracker {
     
     @ForgeSubscribe
     public void playerInteractEvent(PlayerInteractEvent event) {
+        LuaValue t = LuaValue.tableOf();
+        switch (event.action) {
+            case RIGHT_CLICK_AIR:
+                t.set("action", LuaValue.valueOf("RIGHT_CLICK_AIR"));
+            case RIGHT_CLICK_BLOCK:
+                t.set("action", LuaValue.valueOf("RIGHT_CLICK_BLOCK"));
+            case LEFT_CLICK_BLOCK:
+                t.set("action", LuaValue.valueOf("LEFT_CLICK_BLOCK"));
+        }
+        t.set("x", LuaValue.valueOf(event.x));
+        t.set("y", LuaValue.valueOf(event.y));
+        t.set("z", LuaValue.valueOf(event.z));
+        t.set("face", LuaValue.valueOf(event.face));
+        t.set("setCancelled", new setCancelled(event));
         String e = "PlayerInteractEvent";
         for (LuaValue lv : namedEventHandlers.get(e).values()) {
-            lv.checkfunction().call();
+            lv.checkfunction().call(t);
         }
         for (LuaValue lv : unnamedEventHandlers.get(e)) {
-            lv.checkfunction().call();
+            lv.checkfunction().call(t);
         }
+    }
+    
+    private static class setCancelled extends ZeroArgFunction {
+
+        private PlayerInteractEvent event;
+        
+        public setCancelled(PlayerInteractEvent e) {
+            event = e;
+        }
+        
+        @Override
+        public LuaValue call() {
+            event.setCanceled(true);
+            return LuaValue.NONE;
+        }
+        
     }
     
 }

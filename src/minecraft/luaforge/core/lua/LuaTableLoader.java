@@ -3,12 +3,11 @@ package luaforge.core.lua;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import luaforge.core.Log;
-import luaforge.core.api.LuaTable;
 import luaforge.luaj.vm2.Globals;
 import luaforge.luaj.vm2.LuaValue;
 import luaforge.luaj.vm2.lib.OneArgFunction;
 
-public class LuaTableLoader extends OneArgFunction{
+public class LuaTableLoader extends OneArgFunction {
 
     private Globals globals;
     private LuaEnvironment luaEnv;
