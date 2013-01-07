@@ -44,6 +44,7 @@ public class LuaEventTracker {
         t.set("z", LuaValue.valueOf(event.z));
         t.set("face", LuaValue.valueOf(event.face));
         t.set("setCancelled", new setCancelled(event));
+        t.set("player", LuaPlayer.getLuaPlayerObject(event.entityPlayer));
         String e = "PlayerInteractEvent";
         for (LuaValue lv : namedEventHandlers.get(e).values()) {
             lv.checkfunction().call(t);
