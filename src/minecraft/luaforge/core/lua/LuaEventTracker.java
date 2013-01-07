@@ -32,8 +32,10 @@ public class LuaEventTracker {
         switch (event.action) {
             case RIGHT_CLICK_AIR:
                 t.set("action", LuaValue.valueOf("RIGHT_CLICK_AIR"));
+                break;
             case RIGHT_CLICK_BLOCK:
                 t.set("action", LuaValue.valueOf("RIGHT_CLICK_BLOCK"));
+                break;
             case LEFT_CLICK_BLOCK:
                 t.set("action", LuaValue.valueOf("LEFT_CLICK_BLOCK"));
         }
