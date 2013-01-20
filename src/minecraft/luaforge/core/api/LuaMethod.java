@@ -7,6 +7,10 @@ import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
+/**
+ * Annotate a method (returning Varargs and with a Varargs argument) with this.
+ * @author samrg472
+ */
 public @interface LuaMethod {
 
     public String name() default "";
