@@ -9,31 +9,14 @@ src/minecraft/luaforge/core/lua/.DS_Store
 .DS_Store
 
 # Include only necessary files
-!build.xml
 !src
 !src/minecraft
-!src/minecraft/org
 
 !src/minecraft/cpw
 !src/minecraft/cpw/mods
 !src/minecraft/cpw/mods/fml
 !src/minecraft/cpw/mods/fml/common
 !src/minecraft/cpw/mods/fml/common/Loader.java
-
-
-!Resources
-!Resources/*
-!Resources/*/*
-!Resources/*/*/*
-!Resources/*/*/*/*
-
-!src/minecraft/org/apache
-!src/minecraft/org/apache/*
-!src/minecraft/org/apache/*/*
-!src/minecraft/org/apache/*/*/*
-!src/minecraft/org/apache/*/*/*/*
-!src/minecraft/org/apache/*/*/*/*/*
-!src/minecraft/org/apache/*/*/*/*/*/*
 
 !src/minecraft/luaforge/
 !src/minecraft/luaforge/*
@@ -43,6 +26,14 @@ src/minecraft/luaforge/core/lua/.DS_Store
 !src/minecraft/luaforge/*/*/*/*/*
 !src/minecraft/luaforge/*/*/*/*/*/*
 
-!Resources/mcmod.info
+!src/minecraft/tiin57
+!src/minecraft/tiin57/lib
+!src/minecraft/tiin57/lib/*
+!src/minecraft/tiin57/lib/*/*
+!src/minecraft/tiin57/lib/*/*/*
+!src/minecraft/tiin57/lib/*/*/*/*
+!src/minecraft/tiin57/lib/*/*/*/*/*
+src/minecraft/tiin57/lib/beanshell
+
 !.gitignore
 !README.md
