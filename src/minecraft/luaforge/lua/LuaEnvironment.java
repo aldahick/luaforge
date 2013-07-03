@@ -6,6 +6,8 @@ import java.util.HashMap;
 
 import luaforge.utils.InfoParser;
 import tiin57.lib.luaj.vm2.Globals;
+import tiin57.lib.luaj.vm2.LuaError;
+import tiin57.lib.luaj.vm2.LuaValue;
 import tiin57.lib.luaj.vm2.compiler.LuaC;
 import tiin57.lib.luaj.vm2.lib.Bit32Lib;
 import tiin57.lib.luaj.vm2.lib.CoroutineLib;
@@ -22,6 +24,8 @@ import cpw.mods.fml.common.network.NetworkMod;
 
 public class LuaEnvironment {
 	
+	private LuaValue chunk;
+	private File luadir;
 	public Globals _G = globals();
 	
 	/* network.info */
@@ -41,6 +45,7 @@ public class LuaEnvironment {
 	/* * * * */
 	
 	public LuaEnvironment(File luadir) {
+		this.luadir = luadir;
 		File luamodinfo = new File(luadir.getAbsolutePath()+"/luamod.info");
 		try {
 			HashMap<String, String> p = InfoParser.parseFile(luamodinfo);
@@ -61,6 +66,16 @@ public class LuaEnvironment {
 		
 	}
 	
+	public void callMain() {
+		String mainPath = new File(luadir.getPath()+"/main.lua").getPath();
+		try {
+			chunk = _G.loadFile(mainPath);
+			chunk.call(LuaValue.valueOf(mainPath));
+		} catch (LuaError ex) {
+			throw new RuntimeException("Luaforge error:\nIn mod "+modid+"\nError: "+ex.getMessage());
+		}
+	}
+	
 	private static Globals globals() {
 		Globals g = new Globals();
 		
@@ -78,7 +93,8 @@ public class LuaEnvironment {
         
         LuaC.install();
         g.compiler = LuaC.instance;
-		
+		LuaValue luaforge = g.get("require").call("luaforge.lua.lib.luaforge");
+		g.set("luaforge", luaforge);
 		return g;
 	}
 }
