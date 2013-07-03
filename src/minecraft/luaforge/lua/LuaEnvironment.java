@@ -41,13 +41,14 @@ public class LuaEnvironment {
 	/* * * * */
 	
 	public LuaEnvironment(File luadir) {
-		File luamodinfo = new File(luadir.getAbsolutePath()+"luamod.info");
+		File luamodinfo = new File(luadir.getAbsolutePath()+"/luamod.info");
 		try {
 			HashMap<String, String> p = InfoParser.parseFile(luamodinfo);
 			modid = p.get("modid");
 			modname = p.get("modname");
 			version = p.get("version");
-			authors = p.get("authors").split(",");
+			String a = p.get("authors");
+			authors = a.split(",");
 			credits = p.get("credits");
 			description = p.get("description");
 			url = p.get("url");

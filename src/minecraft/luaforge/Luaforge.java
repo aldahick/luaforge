@@ -8,7 +8,9 @@ import luaforge.lua.LuaEnvironment;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
 
+@NetworkMod(clientSideRequired=true, serverSideRequired=false)
 @Mod(modid=Luaforge.MODID, name=Luaforge.NAME, version="@VERSION@")
 public class Luaforge {
 	public static final String MODID = "Luaforge";
@@ -28,7 +30,7 @@ public class Luaforge {
 		}
 		List<File> dirs = checkDir(luamodDir);
 		for (File i : dirs) {
-			
+			mods.add(new LuaEnvironment(i));
 		}
 	}
 	

@@ -14,13 +14,22 @@ public class InfoParser {
 			die(file);
 		}
 		for (String i : rawlines) {
-			String[] split = i.split(":-:");
-			if (split.length != 2) {
+			String[] split = i.split(":");
+			if (split.length < 2) {
 				die(file);
 			}
-			props.put(split[0], split[1]);
+			String val = split[1];
+			if (split.length > 2) {
+				for (int k=2; k<split.length; k++) {
+					val += split[k];
+				}
+			}
+			
+			props.put(split[0].replaceAll(" ", ""), val);
 		}
-		
+		for (String i : props.keySet()) {
+			System.out.println(i+":"+props.get(i));
+		}
 		return props;
 	}
 	private static void die(File file) {
