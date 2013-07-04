@@ -7,6 +7,7 @@ import java.util.List;
 
 import luaforge.lua.AnnotationDiscoverer;
 import luaforge.lua.LuaEnvironment;
+import luaforge.lua.lib.LibTest;
 import tiin57.lib.luaj.vm2.lib.LibFunction;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -22,12 +23,14 @@ public class Luaforge {
 	public static List<LuaEnvironment> mods = new ArrayList<LuaEnvironment>();
 	public static HashMap<String, LibFunction> luaLibs = new HashMap<String, LibFunction>();
 	public static File luamodDir = new File("luamods");
+	public static List<String> rawlibnames = new ArrayList<String>();
 	
 	@Mod.Instance("Luaforge")
 	public static Luaforge instance;
 	
 	@Mod.EventHandler
 	public void preinit(FMLPreInitializationEvent evt) {
+		registerLibs();
 		luaLibs = AnnotationDiscoverer.findLibs();
 		if (!luamodDir.exists()) {
 			luamodDir.mkdir();
@@ -46,6 +49,10 @@ public class Luaforge {
 		
 	}
 	
+	public void registerLibs() {
+		registerLib(LibTest.class);
+	}
+	
 	public static List<File> checkDir(File parent) {
 		List<File> dirs = new ArrayList<File>();
 		for (File i : parent.listFiles()) {
@@ -54,5 +61,26 @@ public class Luaforge {
 			}
 		}
 		return dirs;
+	}
+	
+	/**
+	 * Registers a Lua-side library to be loaded.
+	 * 
+	 * The class represented by className must be annotated with luaforge.api.LuaLib
+	 * and it must be a subtype of LibFunction, directly or indirectly.
+	 * 
+	 * Make sure this class exists! If it doesn't, Luaforge will crash to prevent bad
+	 * things from happening.
+	 */
+	public static void registerLib(String className) {
+		rawlibnames.add(className);
+	}
+	
+	/**
+	 * Does the same thing as registerLuaLib(), but with the Class object as an argument
+	 * instead of the class name.
+	 */
+	public static void registerLib(Class<? extends LibFunction> libClass) {
+		rawlibnames.add(libClass.getName());
 	}
 }
