@@ -13,49 +13,39 @@
 package cpw.mods.fml.common;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.logging.Level;
 
+import luaforge.LuaModContainer;
+import luaforge.Luaforge;
+import luaforge.lua.LuaEnvironment;
 import net.minecraft.crash.CallableMinecraftVersion;
-import net.minecraft.item.ItemStack;
 
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Charsets;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.base.Splitter;
-import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.ImmutableListMultimap.Builder;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultiset;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.SetMultimap;
-import com.google.common.collect.Sets;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets.SetView;
-import com.google.common.collect.Table;
+import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
 import com.google.common.collect.TreeMultimap;
-import com.google.common.io.Files;
 
 import cpw.mods.fml.common.LoaderState.ModState;
 import cpw.mods.fml.common.discovery.ModDiscoverer;
@@ -336,6 +326,13 @@ public class Loader
                 throw new LoaderException(e);
             }
             mods.add(new InjectedModContainer(mc,coremod));
+        }
+        Luaforge.loadMods();
+        for (LuaEnvironment env : Luaforge.mods) {
+        	LuaModContainer lmc = new LuaModContainer(env);
+        	InjectedModContainer imc = new InjectedModContainer(lmc, coremod);
+        	lmc.wrapped = imc;
+        	mods.add(imc);
         }
         ModDiscoverer discoverer = new ModDiscoverer();
         FMLLog.fine("Attempting to load mods contained in the minecraft jar file and associated classes");

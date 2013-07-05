@@ -7,29 +7,34 @@ import java.util.List;
 
 import luaforge.lua.AnnotationDiscoverer;
 import luaforge.lua.LuaEnvironment;
-import luaforge.lua.lib.LibTest;
-import tiin57.lib.luaj.vm2.lib.LibFunction;
+import luaforge.lua.lib.LibBlock;
+import luaforge.lua.lib.LibCore;
+import luaforge.lua.lib.LibCreativeTabs;
+import luaforge.lua.lib.LibGame;
+import luaforge.lua.lib.LibMaterials;
+import tiin57.lib.luaj.vm2.LuaValue;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
-@Mod(modid=Luaforge.MODID, name=Luaforge.NAME, version="@VERSION@")
+@Mod(modid=Luaforge.MODID, name=Luaforge.NAME, version=Luaforge.VERSION)
 public class Luaforge {
 	public static final String MODID = "Luaforge";
 	public static final String NAME = "Luaforge";
 	public static final String VERSION = "1.0.0";
 	public static List<LuaEnvironment> mods = new ArrayList<LuaEnvironment>();
-	public static HashMap<String, LibFunction> luaLibs = new HashMap<String, LibFunction>();
+	public static HashMap<String, LuaValue> luaLibs = new HashMap<String, LuaValue>();
 	public static File luamodDir = new File("luamods");
 	public static List<String> rawlibnames = new ArrayList<String>();
 	
-	@Mod.Instance("Luaforge")
-	public static Luaforge instance;
+	public static final String STATE_PREINIT = "preinit";
+	public static final String STATE_INIT = "init";
+	public static final String STATE_POSTINIT = "postinit";
 	
-	@Mod.EventHandler
-	public void preinit(FMLPreInitializationEvent evt) {
+	public static void loadMods() {
 		registerLibs();
 		luaLibs = AnnotationDiscoverer.findLibs();
 		if (!luamodDir.exists()) {
@@ -39,18 +44,45 @@ public class Luaforge {
 		for (File i : dirs) {
 			mods.add(new LuaEnvironment(i));
 		}
+	}
+	
+	@Mod.Instance("Luaforge")
+	public static Luaforge instance;
+	
+	@Mod.EventHandler
+	public void preinit(FMLPreInitializationEvent evt) {
+		
 		for (LuaEnvironment env : mods) {
-			env.callMain();
+			if (env.loadstate.equals(STATE_PREINIT)) {
+				env.callMain();
+			}
 		}
 	}
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent evt) {
-		
+		for (LuaEnvironment env : mods) {
+			if (env.loadstate.equals(STATE_INIT)) {
+				env.callMain();
+			}
+		}
 	}
 	
-	public void registerLibs() {
-		registerLib(LibTest.class);
+	@Mod.EventHandler
+	public void postinit(FMLPostInitializationEvent evt) {
+		for (LuaEnvironment env : mods) {
+			if (env.loadstate.equals(STATE_POSTINIT)) {
+				env.callMain();
+			}
+		}
+	}
+	
+	public static void registerLibs() {
+		registerLib(LibCore.class);
+		registerLib(LibBlock.class);
+		registerLib(LibGame.class);
+		registerLib(LibMaterials.class);
+		registerLib(LibCreativeTabs.class);
 	}
 	
 	public static List<File> checkDir(File parent) {
@@ -80,7 +112,7 @@ public class Luaforge {
 	 * Does the same thing as registerLuaLib(), but with the Class object as an argument
 	 * instead of the class name.
 	 */
-	public static void registerLib(Class<? extends LibFunction> libClass) {
+	public static void registerLib(Class<? extends LuaValue> libClass) {
 		rawlibnames.add(libClass.getName());
 	}
 }

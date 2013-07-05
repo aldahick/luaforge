@@ -8,7 +8,7 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 
 @TransformerExclusions({"luaforge.asm"})
 public class LuaforgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
-
+	
 	@Override
 	public Void call() throws Exception {
 		return null;
@@ -16,26 +16,25 @@ public class LuaforgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
 
 	@Override
 	public String[] getLibraryRequestClass() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String[] getASMTransformerClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] {
+			"luaforge.asm.TransformerA",
+			"luaforge.asm.TransformerB"
+		};
 	}
 
 	@Override
 	public String getModContainerClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return "luaforge.asm.LuaforgeModContainer";
 	}
 
 	@Override
 	public String getSetupClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return "luaforge.asm.LuaforgeLoader";
 	}
 
 	@Override

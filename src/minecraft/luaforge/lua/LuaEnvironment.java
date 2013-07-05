@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
+import luaforge.Luaforge;
 import luaforge.utils.InfoParser;
 import tiin57.lib.luaj.vm2.Globals;
 import tiin57.lib.luaj.vm2.LuaError;
@@ -42,6 +43,7 @@ public class LuaEnvironment {
 	public String url = "";
 	public String updateurl = "";
 	public String logofile = "";
+	public String loadstate = Luaforge.STATE_PREINIT;
 	/* * * * */
 	
 	public LuaEnvironment(File luadir) {
@@ -59,6 +61,7 @@ public class LuaEnvironment {
 			url = p.get("url");
 			updateurl = p.get("updateurl");
 			logofile = p.get("logofile");
+			loadstate = p.get("loadstate");
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			throw new RuntimeException();

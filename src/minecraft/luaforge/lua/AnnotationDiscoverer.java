@@ -1,20 +1,20 @@
 package luaforge.lua;
 
 import java.lang.reflect.Field;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Vector;
 
 import luaforge.Luaforge;
 import luaforge.api.LuaLib;
 import net.minecraft.launchwrapper.LaunchClassLoader;
+import tiin57.lib.luaj.vm2.LuaValue;
 import tiin57.lib.luaj.vm2.lib.LibFunction;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModClassLoader;
 
 public class AnnotationDiscoverer {
-	public static HashMap<String, LibFunction> findLibs() {
-		HashMap<String, LibFunction> funcs = new HashMap<String, LibFunction>();
+	public static HashMap<String, LuaValue> findLibs() {
+		HashMap<String, LuaValue> funcs = new HashMap<String, LuaValue>();
 		try {
 			Vector<Class> classes = new Vector<Class>();
 			LaunchClassLoader cl;
@@ -38,14 +38,15 @@ public class AnnotationDiscoverer {
 					continue;
 				}
 				
-				if (c.getPackage().getName().startsWith("luaforge")) { System.out.println("Found "+c.getName()); }
 				if (c.isAnnotationPresent(LuaLib.class)) {
-					System.out.println("Found an annotated class!");
 					Object obj = c.newInstance();
-					LibFunction lf = (LibFunction) obj;
-					LuaLib ref = (LuaLib)c.getAnnotation(LuaLib.class);
-					funcs.put(ref.name(), lf);
+					if (obj instanceof LuaValue) {
+						LuaValue lf = (LuaValue) obj;
+						LuaLib ref = (LuaLib)c.getAnnotation(LuaLib.class);
+						funcs.put(ref.name(), lf);
+					}
 				}
+				
 			}
 		} catch (NoSuchFieldException ex) {
 			ex.printStackTrace();
