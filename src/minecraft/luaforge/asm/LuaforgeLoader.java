@@ -16,9 +16,9 @@ public class LuaforgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
 
 	@Override
 	public Void call() throws Exception {
-		System.out.println("LuaforgeLoader.call()"); //TODO: Remove
 		ObfuscationMappings.initialize();
 		TransformerA.addTransformerMap("luaforge/asm/luaforge_at.cfg");
+		
 		return null;
 	}
 

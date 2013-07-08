@@ -9,6 +9,13 @@ src/minecraft/luaforge/core/lua/.DS_Store
 .DS_Store
 
 # Include only necessary files
+!resources
+!resources/luaforge
+!resources/luaforge/*
+!resources/luaforge/*/*
+!resources/luaforge/*/*/*
+!resources/luaforge/*/*/*/*
+
 !src
 !src/minecraft
 

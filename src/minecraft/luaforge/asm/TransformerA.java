@@ -24,7 +24,6 @@ public class TransformerA extends AccessTransformer {
 	}
 
 	public static void addTransformerMap(String mapFileName) {
-		System.out.println("TransformerA.addTransformerMap()"); //TODO: Remove
 		if (instance == null) {
 			mapFiles.add(mapFileName);
 		} else {

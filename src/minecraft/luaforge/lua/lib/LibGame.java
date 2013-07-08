@@ -2,6 +2,7 @@ package luaforge.lua.lib;
 
 import luaforge.api.LuaLib;
 import net.minecraft.block.Block;
+import net.minecraft.item.ItemBlock;
 import tiin57.lib.luaj.vm2.LuaTable;
 import tiin57.lib.luaj.vm2.LuaValue;
 import tiin57.lib.luaj.vm2.lib.TwoArgFunction;
@@ -15,7 +16,8 @@ public class LibGame extends LuaTable {
 				if (block.isuserdata() && name.isstring()) {
 					Object b = block.checkuserdata();
 					if (b instanceof Block) {
-						GameRegistry.registerBlock((Block)b, name.tojstring());
+						Block bl = (Block)b;
+						GameRegistry.registerBlock(bl, ItemBlock.class, name.tojstring(), "Luaforge");
 					}
 				}
 				return LuaValue.NIL;

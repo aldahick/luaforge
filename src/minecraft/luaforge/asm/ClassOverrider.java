@@ -9,10 +9,6 @@ public class ClassOverrider {
 
 	public static InputStream override(String className, byte[] bytes) {
 
-		if(!ObfuscationMappings.isObfuscated){
-			return null;
-		}
-
 		try {
 			return ClassOverrider.class.getResourceAsStream("/classes/" + className.replace('.', '/') + ".class");
 		} catch (Exception e) {

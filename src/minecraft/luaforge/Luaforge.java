@@ -20,7 +20,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
-@Mod(modid=Luaforge.MODID, name=Luaforge.NAME, version=Luaforge.VERSION)
+//@Mod(modid=Luaforge.MODID, name=Luaforge.NAME, version=Luaforge.VERSION)
 public class Luaforge {
 	public static final String MODID = "Luaforge";
 	public static final String NAME = "Luaforge";
@@ -30,6 +30,7 @@ public class Luaforge {
 	public static File luamodDir = new File("luamods");
 	public static List<String> rawlibnames = new ArrayList<String>();
 	
+	public static final String STATE_BEFOREMC = "beforeminecraft";
 	public static final String STATE_PREINIT = "preinit";
 	public static final String STATE_INIT = "init";
 	public static final String STATE_POSTINIT = "postinit";
@@ -44,19 +45,24 @@ public class Luaforge {
 		for (File i : dirs) {
 			mods.add(new LuaEnvironment(i));
 		}
+		for (LuaEnvironment env : mods) {
+			if (env.loadstate.equals(STATE_BEFOREMC)) {
+				env.callMain();
+			}
+		}
 	}
 	
-	@Mod.Instance("Luaforge")
+	@Mod.Instance(Luaforge.MODID)
 	public static Luaforge instance;
 	
 	@Mod.EventHandler
 	public void preinit(FMLPreInitializationEvent evt) {
-		
 		for (LuaEnvironment env : mods) {
 			if (env.loadstate.equals(STATE_PREINIT)) {
 				env.callMain();
 			}
 		}
+		
 	}
 	
 	@Mod.EventHandler

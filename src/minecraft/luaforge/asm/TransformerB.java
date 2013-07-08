@@ -15,7 +15,6 @@ import org.objectweb.asm.tree.MethodNode;
 public class TransformerB implements IClassTransformer {
 	@Override
 	public byte[] transform(String bleh, String name, byte[] bytes) {
-		System.out.println("TransformerB.transform()"); //TODO: Remove
 		if (name.equals(ObfuscationMappings.getClassName("cpw.mods.fml.common.Loader"))) {
 			return getModifications(bytes, name, "identifyMods");
 		}
@@ -27,7 +26,6 @@ public class TransformerB implements IClassTransformer {
 	}
 
 	private static byte[] getModifications(byte[] bytes, String name, String... methods) {
-		System.out.println("TransformerB.getModifications()"); //TODO: Remove
 		try {
 			Visitor visit = new Visitor(name, methods);
 			ClassReader reader = new ClassReader(bytes);
