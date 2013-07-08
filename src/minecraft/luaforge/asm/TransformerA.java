@@ -20,9 +20,11 @@ public class TransformerA extends AccessTransformer {
 			String file = (String) it.next();
 			this.readMapFile(file);
 		}
+		System.out.println("TransformerA()");
 	}
 
 	public static void addTransformerMap(String mapFileName) {
+		System.out.println("TransformerA.addTransformerMap()"); //TODO: Remove
 		if (instance == null) {
 			mapFiles.add(mapFileName);
 		} else {
