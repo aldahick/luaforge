@@ -109,7 +109,7 @@ public class Luaforge {
 	}
 	
 	/**
-	 * Does the same thing as registerLuaLib(), but with the Class object as an argument
+	 * Does the same thing as registerLib(), but with the Class object as an argument
 	 * instead of the class name.
 	 */
 	public static void registerLib(Class<? extends LuaValue> libClass) {

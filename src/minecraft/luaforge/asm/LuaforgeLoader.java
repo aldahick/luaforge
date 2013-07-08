@@ -1,5 +1,6 @@
 package luaforge.asm;
 
+import java.io.File;
 import java.util.Map;
 
 import cpw.mods.fml.relauncher.IFMLCallHook;
@@ -8,9 +9,15 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin.TransformerExclusions;
 
 @TransformerExclusions({"luaforge.asm"})
 public class LuaforgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
-	
+
+	public static File location;
+	public static File minecraftLocation;
+	public static boolean debug = false;
+
 	@Override
 	public Void call() throws Exception {
+		ObfuscationMappings.initialize();
+		TransformerA.addTransformerMap("luaforge/asm/luaforge_at.cfg");
 		return null;
 	}
 
@@ -22,8 +29,8 @@ public class LuaforgeLoader implements IFMLLoadingPlugin, IFMLCallHook {
 	@Override
 	public String[] getASMTransformerClass() {
 		return new String[] {
-			"luaforge.asm.TransformerA",
-			"luaforge.asm.TransformerB"
+				"luaforge.asm.TransformerA",
+				"luaforge.asm.TransformerB"
 		};
 	}
 
