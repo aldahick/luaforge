@@ -332,7 +332,7 @@ public class Loader
         	LuaModContainer lmc = new LuaModContainer(env);
         	InjectedModContainer imc = new InjectedModContainer(lmc, coremod);
         	lmc.wrapped = imc;
-//        	Luaforge.containers.put(lmc.getModId(), lmc);
+        	Luaforge.containers.put(lmc.getModId(), lmc);
         	mods.add(imc);
         }
         Luaforge.callBefore();
@@ -343,6 +343,12 @@ public class Loader
 
         FMLLog.info("Searching %s for mods", canonicalModsDir.getAbsolutePath());
         discoverer.findModDirMods(canonicalModsDir);
+        File versionSpecificModsDir = new File(canonicalModsDir,mccversion);
+        if (versionSpecificModsDir.isDirectory())
+        {
+            FMLLog.info("Also searching %s for mods", versionSpecificModsDir);
+            discoverer.findModDirMods(versionSpecificModsDir);
+        }
 
         mods.addAll(discoverer.identifyMods());
         identifyDuplicates(mods);

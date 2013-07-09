@@ -17,7 +17,8 @@ public class LibBlock extends LuaTable {
 				if (!(id.isint() && material.isuserdata())) { return LuaValue.NIL; }
 				if (!(material.checkuserdata() instanceof Material)) { return LuaValue.NIL; }
 				Block b = new Block(id.checkint(), (Material)material.checkuserdata());
-				return CoerceJavaToLua.coerce(b);
+				LuaValue luab = CoerceJavaToLua.coerce(b);
+				return luab;
 			}
 		});
 		set("setCreativeTab", new TwoArgFunction() {
@@ -28,6 +29,20 @@ public class LibBlock extends LuaTable {
 					if (b instanceof Block && t instanceof CreativeTabs) {
 						Block blo = (Block)b;
 						blo.setCreativeTab((CreativeTabs)t);
+						return CoerceJavaToLua.coerce(blo);
+					}
+				}
+				return LuaValue.NIL;
+			}
+		});
+		set("setUnlocalizedName", new TwoArgFunction() {
+			public LuaValue call(LuaValue block, LuaValue name) {
+				if (block.isuserdata() && name.isstring()) {
+					Object b = block.checkuserdata();
+					String n = name.checkjstring();
+					if (b instanceof Block) {
+						Block blo = (Block)b;
+						blo.setUnlocalizedName(n);
 						return CoerceJavaToLua.coerce(blo);
 					}
 				}
