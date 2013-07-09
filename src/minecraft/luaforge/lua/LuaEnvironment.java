@@ -70,7 +70,7 @@ public class LuaEnvironment {
 	}
 	
 	public void callMain() {
-		String mainPath = new File(luadir.getPath()+"/main.lua").getPath();
+		String mainPath = luadir.getPath()+"/main.lua";
 		try {
 			chunk = _G.loadFile(mainPath);
 			chunk.call(LuaValue.valueOf(mainPath));

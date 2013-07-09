@@ -33,14 +33,16 @@ public class Luaforge {
 	public static HashMap<String, LuaValue> luaLibs = new HashMap<String, LuaValue>();
 	public static File luamodDir = new File("luamods");
 	public static List<String> rawlibnames = new ArrayList<String>();
-	public static HashMap<String, ModContainer> containers = new HashMap<String, ModContainer>();
+//	public static HashMap<String, ModContainer> containers = new HashMap<String, ModContainer>();
 	
+	public static final boolean debug = true;
 	public static final String STATE_BEFOREMINECRAFT = "beforeminecraft";
 	public static final String STATE_PREINIT = "preinit";
 	public static final String STATE_INIT = "init";
 	public static final String STATE_POSTINIT = "postinit";
 	
 	public static void loadMods() {
+		debug("loadMods()");
 		registerLibs();
 		luaLibs = AnnotationDiscoverer.findLibs();
 		if (!luamodDir.exists()) {
@@ -53,6 +55,7 @@ public class Luaforge {
 	}
 	
 	public static void callBefore() {
+		debug("callBefore()");
 		loadMods(STATE_BEFOREMINECRAFT);
 	}
 	@Mod.Instance(Luaforge.MODID)
@@ -113,8 +116,10 @@ public class Luaforge {
 	}
 	
 	public static void loadMods(String loadstate) {
+		debug("loadMods(String)");
 		try {
 			for (LuaEnvironment env : mods) {
+				debug("Loading luamod "+env.modid);
 				if (env.loadstate.equals(loadstate)) {
 //					ModContainer oldContainer;
 //					LoadController controller;
@@ -125,12 +130,19 @@ public class Luaforge {
 //					acf.setAccessible(true);
 //					oldContainer = (ModContainer)acf.get(controller);
 //					acf.set(controller, containers.get(env.modid));
+					debug("Calling its loadstate");
 					env.callMain();
 //					acf.set(controller, oldContainer);
 				}
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
+		}
+	}
+	
+	public static void debug(Object msg) {
+		if (debug) {
+			System.out.println("[DEBUG] "+msg.toString());
 		}
 	}
 }

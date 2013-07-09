@@ -332,7 +332,7 @@ public class Loader
         	LuaModContainer lmc = new LuaModContainer(env);
         	InjectedModContainer imc = new InjectedModContainer(lmc, coremod);
         	lmc.wrapped = imc;
-        	Luaforge.containers.put(lmc.getModId(), lmc);
+//        	Luaforge.containers.put(lmc.getModId(), lmc);
         	mods.add(imc);
         }
         Luaforge.callBefore();
