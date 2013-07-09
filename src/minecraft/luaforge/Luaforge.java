@@ -1,6 +1,7 @@
 package luaforge;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,10 @@ import luaforge.lua.lib.LibCreativeTabs;
 import luaforge.lua.lib.LibGame;
 import luaforge.lua.lib.LibMaterials;
 import tiin57.lib.luaj.vm2.LuaValue;
+import cpw.mods.fml.common.LoadController;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -29,8 +33,9 @@ public class Luaforge {
 	public static HashMap<String, LuaValue> luaLibs = new HashMap<String, LuaValue>();
 	public static File luamodDir = new File("luamods");
 	public static List<String> rawlibnames = new ArrayList<String>();
+	public static HashMap<String, ModContainer> containers = new HashMap<String, ModContainer>();
 	
-	public static final String STATE_BEFOREMC = "beforeminecraft";
+	public static final String STATE_BEFOREMINECRAFT = "beforeminecraft";
 	public static final String STATE_PREINIT = "preinit";
 	public static final String STATE_INIT = "init";
 	public static final String STATE_POSTINIT = "postinit";
@@ -45,42 +50,27 @@ public class Luaforge {
 		for (File i : dirs) {
 			mods.add(new LuaEnvironment(i));
 		}
-		for (LuaEnvironment env : mods) {
-			if (env.loadstate.equals(STATE_BEFOREMC)) {
-				env.callMain();
-			}
-		}
 	}
 	
+	public static void callBefore() {
+		loadMods(STATE_BEFOREMINECRAFT);
+	}
 	@Mod.Instance(Luaforge.MODID)
 	public static Luaforge instance;
 	
 	@Mod.EventHandler
 	public void preinit(FMLPreInitializationEvent evt) {
-		for (LuaEnvironment env : mods) {
-			if (env.loadstate.equals(STATE_PREINIT)) {
-				env.callMain();
-			}
-		}
-		
+		loadMods(STATE_PREINIT);
 	}
 	
 	@Mod.EventHandler
 	public void init(FMLInitializationEvent evt) {
-		for (LuaEnvironment env : mods) {
-			if (env.loadstate.equals(STATE_INIT)) {
-				env.callMain();
-			}
-		}
+		loadMods(STATE_INIT);
 	}
 	
 	@Mod.EventHandler
 	public void postinit(FMLPostInitializationEvent evt) {
-		for (LuaEnvironment env : mods) {
-			if (env.loadstate.equals(STATE_POSTINIT)) {
-				env.callMain();
-			}
-		}
+		loadMods(STATE_POSTINIT);
 	}
 	
 	public static void registerLibs() {
@@ -120,5 +110,27 @@ public class Luaforge {
 	 */
 	public static void registerLib(Class<? extends LuaValue> libClass) {
 		rawlibnames.add(libClass.getName());
+	}
+	
+	public static void loadMods(String loadstate) {
+		try {
+			for (LuaEnvironment env : mods) {
+				if (env.loadstate.equals(loadstate)) {
+//					ModContainer oldContainer;
+//					LoadController controller;
+//					Field lcf = Loader.class.getDeclaredField("modController");
+//					lcf.setAccessible(true);
+//					controller = (LoadController)lcf.get(Loader.instance());
+//					Field acf = LoadController.class.getDeclaredField("activeContainer");
+//					acf.setAccessible(true);
+//					oldContainer = (ModContainer)acf.get(controller);
+//					acf.set(controller, containers.get(env.modid));
+					env.callMain();
+//					acf.set(controller, oldContainer);
+				}
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 	}
 }

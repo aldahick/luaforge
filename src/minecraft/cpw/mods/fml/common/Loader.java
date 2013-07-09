@@ -332,8 +332,10 @@ public class Loader
         	LuaModContainer lmc = new LuaModContainer(env);
         	InjectedModContainer imc = new InjectedModContainer(lmc, coremod);
         	lmc.wrapped = imc;
+        	Luaforge.containers.put(lmc.getModId(), lmc);
         	mods.add(imc);
         }
+        Luaforge.callBefore();
         ModDiscoverer discoverer = new ModDiscoverer();
         FMLLog.fine("Attempting to load mods contained in the minecraft jar file and associated classes");
         discoverer.findClasspathMods(modClassLoader);

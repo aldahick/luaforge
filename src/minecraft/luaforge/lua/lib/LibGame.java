@@ -17,7 +17,7 @@ public class LibGame extends LuaTable {
 					Object b = block.checkuserdata();
 					if (b instanceof Block) {
 						Block bl = (Block)b;
-						GameRegistry.registerBlock(bl, ItemBlock.class, name.tojstring(), "Luaforge");
+						GameRegistry.registerBlock(bl, bl.getUnlocalizedName());
 					}
 				}
 				return LuaValue.NIL;

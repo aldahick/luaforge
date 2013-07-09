@@ -15,8 +15,8 @@ public class LuaforgeModContainer extends DummyModContainer {
 	public LuaforgeModContainer() {
 		super(new ModMetadata());
 		ModMetadata meta = getMetadata();
-		meta.modId = "Luaforge";
-		meta.name = "Luaforge";
+		meta.modId = Luaforge.MODID;
+		meta.name = Luaforge.NAME;
 		meta.authorList = Arrays.asList(new String[] { "tiin57", "samrg472"});
 		meta.description = "Luaforge: Create Minecraft mods in Lua!";
 		meta.version = Luaforge.VERSION;
