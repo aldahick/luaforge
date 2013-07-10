@@ -14,6 +14,7 @@ import luaforge.lua.lib.LibCreativeTabs;
 import luaforge.lua.lib.LibGame;
 import luaforge.lua.lib.LibMaterials;
 import luaforge.network.ClientPacketHandler;
+import luaforge.network.ConnectionHandler;
 import luaforge.network.ServerPacketHandler;
 import tiin57.lib.luaj.vm2.LuaValue;
 import cpw.mods.fml.common.LoadController;
@@ -25,6 +26,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 
 @NetworkMod(clientSideRequired=true, serverSideRequired=false,
 clientPacketHandlerSpec = @SidedPacketHandler(channels={"luaforge"}, packetHandler=ClientPacketHandler.class),
@@ -56,6 +58,7 @@ public class Luaforge {
 	public static final String STATE_POSTINIT = "postinit";
 	
 	public static void loadMods() {
+		
 		debug("loadMods()");
 		registerLibs();
 		luaLibs = AnnotationDiscoverer.findLibs();
@@ -71,6 +74,7 @@ public class Luaforge {
 	public static void callBefore() {
 		debug("callBefore()");
 		loadMods(STATE_BEFOREMINECRAFT);
+		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
 	}
 	@Mod.Instance(Luaforge.MODID)
 	public static Luaforge instance;
