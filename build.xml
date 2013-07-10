@@ -55,9 +55,9 @@
 
         <copy todir="reobf-copied/classes/cpw/mods/fml/common"><fileset file="${reobf.dir}/cpw/mods/fml/common/Loader.class" /></copy>
 
-        <jar destfile="${jar.dir}/${jar.name}-build-${build.number}.jar">
+        <zip destfile="${jar.dir}/${jar.name}-build-${build.number}.jar">
             <fileset dir="reobf-copied" />
-        </jar>
+        </zip>
     </target>
 
 </project>
