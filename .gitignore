@@ -42,5 +42,6 @@ src/minecraft/luaforge/core/lua/.DS_Store
 !src/minecraft/tiin57/lib/*/*/*/*/*
 src/minecraft/tiin57/lib/beanshell
 
+!build.xml
 !.gitignore
 !README.md

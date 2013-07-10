@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Luaforge" default="jar-obfuscated" basedir=".">
+	<property environment="env" />
+
+	<property name="loader.class" value="luaforge.asm.LuaforgeLoader" />
+
+	<property name="build.dir" value="bin/minecraft" />
+	<property name="reobf.dir" value="reobf/minecraft" />
+	<property name="jar.name" value="luaforge" />
+	<property name="jar.dir" value="dist" />
+
+	<target name="build">
+		<exec executable="sh" osfamily="unix">
+			<arg line="recompile.sh"/>
+		</exec>
+	</target>
+
+	<target name="clean">
+		<delete dir="bin/minecraft" />
+	</target>
+
+	<target name="run">
+        <exec executable="sh" osfamily="unix">
+            <arg line="startclient.sh"/>
+        </exec>
+    </target>
+    
+    <target name="run-build" depends="build">
+        <exec executable="sh" osfamily="unix">
+            <arg line="startclient.sh"/>
+        </exec>
+    </target>
+
+	<target name="obfuscate">
+        <exec executable="sh" osfamily="unix">
+            <arg line="reobfuscate.sh"/>
+        </exec>
+        <copy file="resources/luaforge/luaforge/asm/luaforge_at.cfg" todir="${reobf.dir}/luaforge/asm/" />
+    </target>
+
+    <target name="jar-obfuscated">
+        <fail unless="env.BUILD_NUMBER" message="Build number isn't set, possibly not in Jenkins"/>
+        <property name="build.number" value="${env.BUILD_NUMBER}" />
+        <antcall target="build" />
+        <antcall target="obfuscate" />
+        <mkdir dir="${reobf.dir}/classes" />
+        <delete dir="reobf-copied" />
+
+        <copy todir="reobf-copied/luaforge"><fileset dir="${reobf.dir}/luaforge" /></copy>
+        <copy todir="reobf-copied"><fileset dir="resources/luaforge/" /></copy>
+
+        <mkdir dir="reobf-copied/classes/cpw/mods/fml/common/" />
+        <copy todir="reobf-copied/tiin57/lib/luaj"><fileset dir="${reobf.dir}/tiin57/lib/luaj" /></copy>
+        <copy todir="reobf-copied/tiin57/lib/bcel"><fileset dir="${reobf.dir}/tiin57/lib/bcel" /></copy>
+
+        <copy todir="reobf-copied/classes/cpw/mods/fml/common"><fileset file="${reobf.dir}/cpw/mods/fml/common/Loader.class" /></copy>
+
+        <jar destfile="${jar.dir}/${jar.name}-build-${build.number}.jar" manifest="resources/luaforge/META-INF/MANIFEST.MF">
+            <fileset dir="reobf-copied" />
+        </jar>
+    </target>
+
+</project>
