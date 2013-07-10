@@ -13,6 +13,7 @@
 		<exec executable="sh" osfamily="unix">
 			<arg line="recompile.sh"/>
 		</exec>
+        <exec executable="recompile.bat" osfamily="windows"></exec>
 	</target>
 
 	<target name="clean">
@@ -23,6 +24,7 @@
         <exec executable="sh" osfamily="unix">
             <arg line="startclient.sh"/>
         </exec>
+
     </target>
     
     <target name="run-build" depends="build">
@@ -35,6 +37,7 @@
         <exec executable="sh" osfamily="unix">
             <arg line="reobfuscate.sh"/>
         </exec>
+        <exec executable="reobfuscate.bat" osfamily="windows"></exec>
         <copy file="resources/luaforge/luaforge/asm/luaforge_at.cfg" todir="${reobf.dir}/luaforge/asm/" />
     </target>
 
