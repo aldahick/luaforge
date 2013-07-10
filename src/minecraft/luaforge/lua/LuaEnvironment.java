@@ -8,6 +8,7 @@ import luaforge.Luaforge;
 import luaforge.utils.InfoParser;
 import tiin57.lib.luaj.vm2.Globals;
 import tiin57.lib.luaj.vm2.LuaError;
+import tiin57.lib.luaj.vm2.LuaTable;
 import tiin57.lib.luaj.vm2.LuaValue;
 import tiin57.lib.luaj.vm2.compiler.LuaC;
 import tiin57.lib.luaj.vm2.lib.Bit32Lib;
@@ -66,7 +67,7 @@ public class LuaEnvironment {
 			ex.printStackTrace();
 			throw new RuntimeException();
 		}
-		
+		_G.get("luaforge").set("modid", modid);
 	}
 	
 	public void callMain() {

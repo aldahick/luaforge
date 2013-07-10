@@ -8,6 +8,8 @@ import tiin57.lib.luaj.vm2.lib.jse.CoerceJavaToLua;
 @LuaLib(name="creativetabs")
 public class LibCreativeTabs extends LuaTable {
 	public LibCreativeTabs() {
-		set("tabRedstone", CoerceJavaToLua.coerce(CreativeTabs.tabRedstone));
+		for (CreativeTabs i : CreativeTabs.creativeTabArray) {
+			set(i.getTranslatedTabLabel().substring(10), CoerceJavaToLua.coerce(i));
+		}
 	}
 }

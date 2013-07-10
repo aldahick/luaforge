@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+FMLCorePlugin: luaforge.asm.LuaforgeLoader
+-Dfml.coreMods.load=luaforge.asm.LuaforgeLoader

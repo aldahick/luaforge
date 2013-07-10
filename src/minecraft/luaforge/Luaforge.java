@@ -13,6 +13,8 @@ import luaforge.lua.lib.LibCore;
 import luaforge.lua.lib.LibCreativeTabs;
 import luaforge.lua.lib.LibGame;
 import luaforge.lua.lib.LibMaterials;
+import luaforge.network.ClientPacketHandler;
+import luaforge.network.ServerPacketHandler;
 import tiin57.lib.luaj.vm2.LuaValue;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.Loader;
@@ -22,8 +24,11 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
 
-@NetworkMod(clientSideRequired=true, serverSideRequired=false)
+@NetworkMod(clientSideRequired=true, serverSideRequired=false,
+clientPacketHandlerSpec = @SidedPacketHandler(channels={"luaforge"}, packetHandler=ClientPacketHandler.class),
+serverPacketHandlerSpec = @SidedPacketHandler(channels={"luaforge"}, packetHandler=ServerPacketHandler.class))
 //@Mod(modid=Luaforge.MODID, name=Luaforge.NAME, version=Luaforge.VERSION)
 public class Luaforge {
 	public static final String MODID = "Luaforge";
@@ -36,6 +41,15 @@ public class Luaforge {
 	public static HashMap<String, ModContainer> containers = new HashMap<String, ModContainer>();
 	
 	public static final boolean debug = true;
+	
+	
+	public static final int NET_TYPE_IDENTIFYREQUEST = 0;
+	public static final int NET_TYPE_MODIDENTIFY = 1;
+	public static final int NET_TYPE_MODLISTREQUESTSTART = 2;
+	public static final int NET_TYPE_MODLISTEND = 3;
+	public static final int NET_TYPE_MODLISTENDCONFIRM = 4;
+	public static final int NET_TYPE_MODLISTREQUESTCLOSE = 5;
+	
 	public static final String STATE_BEFOREMINECRAFT = "beforeminecraft";
 	public static final String STATE_PREINIT = "preinit";
 	public static final String STATE_INIT = "init";
