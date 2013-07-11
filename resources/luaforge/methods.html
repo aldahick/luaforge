@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Luaforge Methods</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</head>
+	<body>
+		<table border="2" width="1" cellpadding="1">
+			<thead>
+				<tr>
+					<th>Method name</th>
+					<th>Parameters</th>
+					<th>Return type</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td nowrap="nowrap" >luaforge.block.new</td>
+					<td nowrap="nowrap" >int blockID, luaforge.materials material</td>
+					<td nowrap="nowrap" >Block</td>
+					<td nowrap="nowrap" >Constructs a new block object and returns it.</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap" >luaforge.block.setCreativeTab</td>
+					<td nowrap="nowrap" >Block block, luaforge.creativetabs tab</td>
+					<td nowrap="nowrap" >nil</td>
+					<td nowrap="nowrap" >Sets the block object's creative tab to [tab]</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap" >luaforge.core.getMinecraftDir</td>
+					<td nowrap="nowrap" ></td>
+					<td nowrap="nowrap" >string</td>
+					<td nowrap="nowrap" >Returns the path of the Minecraft directory</td>
+				</tr>
+				<tr>
+					<td nowrap="nowrap" >luaforge.game.registerBlock</td>
+					<td nowrap="nowrap" >Block block, string name</td>
+					<td nowrap="nowrap" >nil</td>
+					<td nowrap="nowrap" >This registers a Block object for use in the game. (The name parameter is effectively useless to Lua modders)</td>
+				</tr>
+			</tbody>
+		</table>
+	</body>
+</html>

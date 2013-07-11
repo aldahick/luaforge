@@ -5,10 +5,10 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import luaforge.Luaforge;
+import luaforge.api.AnnotationFaker;
 import luaforge.utils.InfoParser;
 import tiin57.lib.luaj.vm2.Globals;
 import tiin57.lib.luaj.vm2.LuaError;
-import tiin57.lib.luaj.vm2.LuaTable;
 import tiin57.lib.luaj.vm2.LuaValue;
 import tiin57.lib.luaj.vm2.compiler.LuaC;
 import tiin57.lib.luaj.vm2.lib.Bit32Lib;
@@ -44,6 +44,7 @@ public class LuaEnvironment {
 	public String url = "";
 	public String updateurl = "";
 	public String logofile = "";
+	public boolean isNetworkMod = true;
 	public String loadstate = Luaforge.STATE_PREINIT;
 	/* * * * */
 	
@@ -63,6 +64,15 @@ public class LuaEnvironment {
 			updateurl = p.get("updateurl");
 			logofile = p.get("logofile");
 			loadstate = p.get("loadstate");
+			isNetworkMod = p.get("networkmod").equals("true");
+			if (isNetworkMod) {
+				boolean client = p.get("clientSideRequired").equals("true");
+				boolean server = p.get("serverSideRequired").equals("true");
+				HashMap<String, Object> map = new HashMap<String, Object>();
+				map.put("clientSideRequired", client);
+				map.put("serverSideRequired", server);
+				networkmod = AnnotationFaker.fake(NetworkMod.class, map);
+			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			throw new RuntimeException();

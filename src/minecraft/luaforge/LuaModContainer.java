@@ -44,11 +44,14 @@ public class LuaModContainer extends DummyModContainer {
 	
 	@Override
 	public boolean isNetworkMod() {
-		return true;
+		return env.isNetworkMod;
 	}
 	
 	@Subscribe
-	public void constructionEvent(FMLConstructionEvent evt) {
-		FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(wrapped, env.networkmod));
+	public void construction(FMLConstructionEvent evt) {
+		if (env.isNetworkMod) {
+			Luaforge.debug("Got to LuaModContainer.construction()");
+			FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(wrapped, env.networkmod));
+		}
 	}
 }

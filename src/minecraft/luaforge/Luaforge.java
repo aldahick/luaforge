@@ -13,9 +13,7 @@ import luaforge.lua.lib.LibCore;
 import luaforge.lua.lib.LibCreativeTabs;
 import luaforge.lua.lib.LibGame;
 import luaforge.lua.lib.LibMaterials;
-import luaforge.network.ClientPacketHandler;
-import luaforge.network.ConnectionHandler;
-import luaforge.network.ServerPacketHandler;
+import net.minecraftforge.common.Configuration;
 import tiin57.lib.luaj.vm2.LuaValue;
 import cpw.mods.fml.common.LoadController;
 import cpw.mods.fml.common.Loader;
@@ -24,13 +22,13 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.network.NetworkMod.SidedPacketHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
 
-@NetworkMod(clientSideRequired=true, serverSideRequired=false,
-clientPacketHandlerSpec = @SidedPacketHandler(channels={"luaforge"}, packetHandler=ClientPacketHandler.class),
-serverPacketHandlerSpec = @SidedPacketHandler(channels={"luaforge"}, packetHandler=ServerPacketHandler.class))
+@NetworkMod(clientSideRequired=true, serverSideRequired=false
+//, clientPacketHandlerSpec = @SidedPacketHandler(channels={"luaforge"}, packetHandler=ClientPacketHandler.class)
+//, serverPacketHandlerSpec = @SidedPacketHandler(channels={"luaforge"}, packetHandler=ServerPacketHandler.class)
+)
 //@Mod(modid=Luaforge.MODID, name=Luaforge.NAME, version=Luaforge.VERSION)
 public class Luaforge {
 	public static final String MODID = "Luaforge";
@@ -42,7 +40,7 @@ public class Luaforge {
 	public static List<String> rawlibnames = new ArrayList<String>();
 	public static HashMap<String, ModContainer> containers = new HashMap<String, ModContainer>();
 	
-	public static final boolean debug = true;
+	public static boolean debug = true;
 	
 	
 	public static final int NET_TYPE_IDENTIFYREQUEST = 0;
@@ -74,13 +72,16 @@ public class Luaforge {
 	public static void callBefore() {
 		debug("callBefore()");
 		loadMods(STATE_BEFOREMINECRAFT);
-		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
+//		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
 	}
 	@Mod.Instance(Luaforge.MODID)
 	public static Luaforge instance;
 	
 	@Mod.EventHandler
 	public void preinit(FMLPreInitializationEvent evt) {
+		Configuration cfg = new Configuration(evt.getSuggestedConfigurationFile());
+		cfg.load();
+		debug = cfg.get("Debugging", "Enabled", false).getBoolean(false);
 		loadMods(STATE_PREINIT);
 	}
 	
