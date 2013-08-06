@@ -14,6 +14,8 @@ import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLConstructionEvent;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.common.network.NetworkModHandler;
+import cpw.mods.fml.common.versioning.VersionParser;
+import cpw.mods.fml.common.versioning.VersionRange;
 
 public class LuaModContainer extends DummyModContainer {
 	public LuaEnvironment env;
@@ -39,6 +41,7 @@ public class LuaModContainer extends DummyModContainer {
 	@Override
 	public boolean registerBus(EventBus bus, LoadController controller) {
 		bus.register(this);
+		FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(wrapped, env.networkmod));
 		return true;
 	}
 	
@@ -48,10 +51,8 @@ public class LuaModContainer extends DummyModContainer {
 	}
 	
 	@Subscribe
-	public void construction(FMLConstructionEvent evt) {
-		if (env.isNetworkMod) {
-			Luaforge.debug("Got to LuaModContainer.construction()");
-			FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(wrapped, env.networkmod));
-		}
+	public void constructionEvent(FMLConstructionEvent evt) {
+		System.out.println("Registered networkmod.");
+		
 	}
 }

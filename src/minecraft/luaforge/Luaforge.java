@@ -24,6 +24,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.FMLNetworkHandler;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkModHandler;
 
 @NetworkMod(clientSideRequired=true, serverSideRequired=false
 //, clientPacketHandlerSpec = @SidedPacketHandler(channels={"luaforge"}, packetHandler=ClientPacketHandler.class)
@@ -38,7 +39,7 @@ public class Luaforge {
 	public static HashMap<String, LuaValue> luaLibs = new HashMap<String, LuaValue>();
 	public static File luamodDir = new File("luamods");
 	public static List<String> rawlibnames = new ArrayList<String>();
-	public static HashMap<String, ModContainer> containers = new HashMap<String, ModContainer>();
+	public static HashMap<String, LuaModContainer> containers = new HashMap<String, LuaModContainer>();
 	
 	public static boolean debug = true;
 	
@@ -71,6 +72,11 @@ public class Luaforge {
 	
 	public static void callBefore() {
 		debug("callBefore()");
+		for (LuaModContainer container : containers.values()) {
+			if (container.env.isNetworkMod) {
+				FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(container.wrapped, container.env.networkmod));
+			}
+		}
 		loadMods(STATE_BEFOREMINECRAFT);
 //		NetworkRegistry.instance().registerConnectionHandler(new ConnectionHandler());
 	}
@@ -82,6 +88,7 @@ public class Luaforge {
 		Configuration cfg = new Configuration(evt.getSuggestedConfigurationFile());
 		cfg.load();
 		debug = cfg.get("Debugging", "Enabled", false).getBoolean(false);
+		cfg.save();
 		loadMods(STATE_PREINIT);
 	}
 	
