@@ -24,6 +24,9 @@ src/minecraft/luaforge/core/lua/.DS_Store
 !src/minecraft/cpw/mods/fml
 !src/minecraft/cpw/mods/fml/common
 !src/minecraft/cpw/mods/fml/common/Loader.java
+!src/minecraft/cpw/mods/fml/common/network
+!src/minecraft/cpw/mods/fml/common/network/ModListRequestPacket.java
+!src/minecraft/cpw/mods/fml/common/network/ModListResponsePacket.java
 
 !src/minecraft/luaforge/
 !src/minecraft/luaforge/*

@@ -69,11 +69,9 @@ public class LuaEnvironment {
 			if (isNetworkMod) {
 				boolean client = p.get("clientSideRequired").equals("true");
 				boolean server = p.get("serverSideRequired").equals("true");
-				String versionBounds = "["+version+"]";
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("clientSideRequired", client);
 				map.put("serverSideRequired", server);
-				map.put("versionBounds", versionBounds);
 				networkmod = AnnotationFaker.fake(NetworkMod.class, map);
 			}
 		} catch (IOException ex) {

@@ -21,7 +21,6 @@ public class TransformerB implements IClassTransformer {
 		if (bleh.equals(ObfuscationMappings.getClassName("cpw.mods.fml.common.Loader"))) {
 			return getModifications(bytes, bleh, "identifyMods");
 		}
-		
 		return bytes;
 	}
 

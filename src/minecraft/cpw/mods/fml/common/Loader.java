@@ -330,9 +330,11 @@ public class Loader
         Luaforge.loadMods();
         for (LuaEnvironment env : Luaforge.mods) {
         	LuaModContainer lmc = new LuaModContainer(env);
-        	InjectedModContainer imc = new InjectedModContainer(lmc, coremod);
-        	lmc.wrapped = imc;
+        	InjectedModContainer imc = new InjectedModContainer(lmc, new File(minecraftDir, "mods"));
+        	lmc.wrapped=imc;
         	Luaforge.containers.put(lmc.getModId(), lmc);
+        	if (lmc.isNetworkMod())
+        		lmc.registerNetworkMod();
         	mods.add(imc);
         }
         Luaforge.callBefore();

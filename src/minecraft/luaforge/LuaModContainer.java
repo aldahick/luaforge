@@ -41,18 +41,16 @@ public class LuaModContainer extends DummyModContainer {
 	@Override
 	public boolean registerBus(EventBus bus, LoadController controller) {
 		bus.register(this);
-		FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(wrapped, env.networkmod));
 		return true;
 	}
 	
+	public void registerNetworkMod() {
+		if (wrapped != null) {
+			FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(this, env.networkmod));
+		}
+	}
 	@Override
 	public boolean isNetworkMod() {
 		return env.isNetworkMod;
-	}
-	
-	@Subscribe
-	public void constructionEvent(FMLConstructionEvent evt) {
-		System.out.println("Registered networkmod.");
-		
 	}
 }
