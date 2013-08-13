@@ -34,6 +34,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.InjectedModContainer;
 import cpw.mods.fml.common.Loader;
@@ -113,7 +114,6 @@ public class ModListResponsePacket extends FMLPacket
         for (Entry<String,String> modVersion : modVersions.entrySet())
         {
             ModContainer mc = indexedModList.get(modVersion.getKey());
-            System.out.println(mc.getModId()+" "+(mc instanceof InjectedModContainer));
             NetworkModHandler networkMod = handler.findNetworkModHandler(mc);
             if (!networkMod.acceptVersion(modVersion.getValue()))
             {

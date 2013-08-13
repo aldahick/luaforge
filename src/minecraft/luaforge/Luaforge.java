@@ -31,7 +31,7 @@ import cpw.mods.fml.common.network.NetworkModHandler;
 public class Luaforge {
 	public static final String MODID = "Luaforge";
 	public static final String NAME = "Luaforge";
-	public static final String VERSION = "1.0.0";
+	public static final String VERSION = "pre2";
 	public static List<LuaEnvironment> mods = new ArrayList<LuaEnvironment>();
 	public static HashMap<String, LuaValue> luaLibs = new HashMap<String, LuaValue>();
 	public static File luamodDir = new File("luamods");
@@ -61,11 +61,11 @@ public class Luaforge {
 	
 	public static void callBefore() {
 		debug("callBefore()");
-		for (LuaModContainer container : containers.values()) {
-			if (container.env.isNetworkMod) {
-				FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(container.wrapped, container.env.networkmod));
-			}
-		}
+//		for (LuaModContainer container : containers.values()) {
+//			if (container.env.isNetworkMod) {
+//				FMLNetworkHandler.instance().registerNetworkMod(new NetworkModHandler(container.wrapped, container.env.networkmod));
+//			}
+//		}
 		loadMods(STATE_BEFOREMINECRAFT);
 	}
 	@Mod.Instance(Luaforge.MODID)

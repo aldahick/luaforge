@@ -95,6 +95,7 @@ public class ModListRequestPacket extends FMLPacket
 
         for (String m : sentModList)
         {
+        	System.out.println("m: "+m);
             ModContainer mc = indexedModList.get(m);
             if (mc == null)
             {
