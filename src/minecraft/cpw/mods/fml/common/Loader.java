@@ -23,10 +23,10 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
-import luaforge.LuaModContainer;
-import luaforge.Luaforge;
-import luaforge.lua.LuaEnvironment;
 import net.minecraft.crash.CallableMinecraftVersion;
+import scriptforge.ScriptModContainer;
+import scriptforge.Scriptforge;
+import scriptforge.api.IScriptEnvironment;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Function;
@@ -327,17 +327,17 @@ public class Loader
             }
             mods.add(new InjectedModContainer(mc,coremod));
         }
-        Luaforge.loadMods();
-        for (LuaEnvironment env : Luaforge.mods) {
-        	LuaModContainer lmc = new LuaModContainer(env);
+        Scriptforge.loadMods();
+        for (IScriptEnvironment env : Scriptforge.mods) {
+        	ScriptModContainer lmc = new ScriptModContainer(env);
         	InjectedModContainer imc = new InjectedModContainer(lmc, coremod);
         	lmc.wrapped=imc;
-        	Luaforge.containers.put(lmc.getModId(), lmc);
+        	Scriptforge.containers.put(lmc.getModId(), lmc);
         	if (lmc.isNetworkMod())
         		lmc.registerNetworkMod();
         	mods.add(imc);
         }
-        Luaforge.callBefore();
+        Scriptforge.callBefore();
         ModDiscoverer discoverer = new ModDiscoverer();
         FMLLog.fine("Attempting to load mods contained in the minecraft jar file and associated classes");
         discoverer.findClasspathMods(modClassLoader);

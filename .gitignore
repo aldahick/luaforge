@@ -3,11 +3,11 @@
 
 # Include only necessary files
 !resources
-!resources/luaforge
-!resources/luaforge/*
-!resources/luaforge/*/*
-!resources/luaforge/*/*/*
-!resources/luaforge/*/*/*/*
+!resources/scriptforge
+!resources/scriptforge/*
+!resources/scriptforge/*/*
+!resources/scriptforge/*/*/*
+!resources/scriptforge/*/*/*/*
 
 !src
 !src/minecraft
@@ -18,13 +18,13 @@
 !src/minecraft/cpw/mods/fml/common
 !src/minecraft/cpw/mods/fml/common/Loader.java
 
-!src/minecraft/luaforge/
-!src/minecraft/luaforge/*
-!src/minecraft/luaforge/*/*
-!src/minecraft/luaforge/*/*/*
-!src/minecraft/luaforge/*/*/*/*
-!src/minecraft/luaforge/*/*/*/*/*
-!src/minecraft/luaforge/*/*/*/*/*/*
+!src/minecraft/scriptforge/
+!src/minecraft/scriptforge/*
+!src/minecraft/scriptforge/*/*
+!src/minecraft/scriptforge/*/*/*
+!src/minecraft/scriptforge/*/*/*/*
+!src/minecraft/scriptforge/*/*/*/*/*
+!src/minecraft/scriptforge/*/*/*/*/*/*
 
 !src/minecraft/tiin57
 !src/minecraft/tiin57/lib

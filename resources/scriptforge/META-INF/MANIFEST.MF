@@ -1,0 +1,3 @@
+Manifest-Version: 1.0
+FMLCorePlugin: scriptforge.asm.ScriptforgeLoader
+-Dfml.coreMods.load=scriptforge.asm.ScriptforgeLoader

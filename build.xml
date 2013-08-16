@@ -2,7 +2,7 @@
 <project name="Luaforge" default="jar-obfuscated" basedir=".">
 	<property environment="env" />
 
-	<property name="loader.class" value="luaforge.asm.LuaforgeLoader" />
+	<property name="loader.class" value="scriptforge.asm.ScriptforgeLoader" />
 
 	<property name="build.dir" value="bin/minecraft" />
 	<property name="reobf.dir" value="reobf/minecraft" />
@@ -38,7 +38,7 @@
             <arg line="reobfuscate.sh"/>
         </exec>
         <exec executable="reobfuscate.bat" osfamily="windows"></exec>
-        <copy file="resources/luaforge/luaforge/asm/luaforge_at.cfg" todir="${reobf.dir}/luaforge/asm/" />
+        <copy file="resources/scriptforge/scriptforge/asm/scriptforge_at.cfg" todir="${reobf.dir}/luaforge/asm/" />
     </target>
 
     <target name="jar-obfuscated">
@@ -49,8 +49,8 @@
         <mkdir dir="${reobf.dir}/classes" />
         <delete dir="reobf-copied" />
 
-        <copy todir="reobf-copied/luaforge"><fileset dir="${reobf.dir}/luaforge" /></copy>
-        <copy todir="reobf-copied"><fileset dir="resources/luaforge/" /></copy>
+        <copy todir="reobf-copied/scriptforge"><fileset dir="${reobf.dir}/scriptforge" /></copy>
+        <copy todir="reobf-copied"><fileset dir="resources/scriptforge/" /></copy>
 
         <mkdir dir="reobf-copied/classes/cpw/mods/fml/common/" />
         <copy todir="reobf-copied/tiin57/lib/luaj"><fileset dir="${reobf.dir}/tiin57/lib/luaj" /></copy>
