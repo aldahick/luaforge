@@ -1,8 +1,6 @@
-Luaforge
+Scriptforge
 ========
 
-Minecraft Forge in Lua
+Minecraft Forge in Python and Lua
 
-We're rewriting Luaforge for 1.6!
-
-Computercraft Forums post: http://www.computercraft.info/forums2/index.php?/topic/5488-lua-java-luaforge-make-forge-mods-in-lua/
+Computercraft Forums post: http://www.computercraft.info/forums2/index.php?/topic/5488-/

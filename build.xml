@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Luaforge" default="jar-obfuscated" basedir=".">
+<project name="Scriptforge" default="jar-obfuscated" basedir=".">
 	<property environment="env" />
 
 	<property name="loader.class" value="scriptforge.asm.ScriptforgeLoader" />
 
 	<property name="build.dir" value="bin/minecraft" />
 	<property name="reobf.dir" value="reobf/minecraft" />
-	<property name="jar.name" value="luaforge" />
+	<property name="jar.name" value="scriptforge" />
 	<property name="jar.dir" value="dist" />
 
 	<target name="build">
